@@ -4,6 +4,9 @@ import org.apache.log4j.Logger;
 import org.neo4j.helpers.collection.IteratorUtil;
 import ru.mremne.executor.CypherExecutor;
 import ru.mremne.executor.JdbcCypherExecutor;
+import ru.mremne.model.Labels;
+import ru.mremne.model.Relationships;
+import ru.mremne.model.Result;
 import ru.mremne.model.ResultPoints;
 
 import javax.ws.rs.core.Response;
@@ -40,20 +43,13 @@ public class FidService {
         }
     }
 
-    public Map findCase(String title) {
-        if (title==null) return Collections.emptyMap();
-        return IteratorUtil.singleOrNull(cypher.query(
-                "MATCH (movie:Movie {title: \""+title+"\"})" +
-                 "RETURN movie",
-                map("1", title)));
-    }
     public boolean addAngles(double[] angles){
        log.info("add angles..");
         if(angles.length!=0){
             int level=0;
             for(int i=0;i<angles.length-1;i++){
-                cypher.query("MATCH (n:Intervals{value: "+angles[i]+" }),(m:Intervals{value: "+angles[i+1]+"}) " +
-                             "CREATE UNIQUE (n)-[:LEVEL{level: "+level+" }]->(m) return m",map("1",null));
+                cypher.query("MATCH (n:"+ Labels.INTERVALS+"{value: "+angles[i]+" }),(m:"+Labels.INTERVALS+"{value: "+angles[i+1]+"}) " +
+                             "CREATE UNIQUE (n)-[:"+ Relationships.LEVEL+"{level: "+level+" }]->(m) return m",map("1",null));
                 level++;
             }
           return true;
@@ -70,7 +66,7 @@ public class FidService {
         if(angles.length!=0){
             for(int i=0;i<angles.length-1;i++){
                 identityList.add(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
-                        "MATCH n-[r:LEVEL]->c\n" +
+                        "MATCH n-[r:"+Relationships.LEVEL+"]->c\n" +
                         "WHERE HAS(n.value) AND HAS(c.value) " +
                         "AND n.value>(" + (angles[i] - CONSTR) + ") AND n.value<(" + (angles[i] + CONSTR) + ")\n" +
                         "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
@@ -94,35 +90,25 @@ public class FidService {
             return Response.ok().build();
         }
         return Response.noContent().build();
-
     }
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> graph(int limit) {
-        //query
-        Iterator<Map<String,Object>> result = cypher.query(
-                "MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) " +
-                " RETURN m.title as movie, collect(a.name) as cast " +
-                " LIMIT {1}", map("1",limit));
-        //add nodes
-        List nodes = new ArrayList();
-        //add rellationships
-        List rels= new ArrayList();
-        int i=0;
-        while (result.hasNext()) {
-            Map<String, Object> row = result.next();
-            nodes.add(map("title",row.get("movie"),"label","movie"));
-            int target=i;
-            i++;
-            for (Object name : (Collection) row.get("cast")) {
-                Map<String, Object> actor = map("title", name,"label","actor");
-                int source = nodes.indexOf(actor);
-                if (source == -1) {
-                    nodes.add(actor);
-                    source = i++;
-                }
-                rels.add(map("source",source,"target",target));
-            }
+    @SuppressWarnings("unused")
+    public void saveStatus(Result result){
+        log.info("Saving status info...");
+        if(result!=null) {
+            cypher.query("CREATE (result: " + Labels.STATUS + "{" + result.toString() + "}) return result", map("1", null));
+            log.info("ok!");
+        }else{
+            log.warn("no results to save!");
         }
-        return map("nodes", nodes, "links", rels);
+    }
+    @SuppressWarnings("unused")
+    public String getStatus(String id){
+        log.info("Get results by id..");
+        String test="";
+        if(id!=null){
+             test=cypher.query("MATCH (result: "+Labels.STATUS+"{id: \""+id+"\"}) return result",map("1",null)).next().toString();
+            log.info("ok");
+        }
+        return test;
     }
 }

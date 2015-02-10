@@ -5,10 +5,10 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import ru.mremne.model.*;
+import ru.mremne.model.IdResult;
+import ru.mremne.model.Result;
+import ru.mremne.model.ResultPoints;
 import ru.mremne.model.Status;
-import ru.mremne.service.FidService;
-import ru.mremne.util.Util;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,7 +16,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.*;
 
-import static javax.ws.rs.core.Response.*;
+import static javax.ws.rs.core.Response.ok;
+import static javax.ws.rs.core.Response.status;
+import static ru.mremne.service.ServiceConnection.getService;
 
 /**
  * autor:maksim
@@ -27,7 +29,6 @@ import static javax.ws.rs.core.Response.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
     private static final Logger log=Logger.getLogger(IndexResources.class);
-    final FidService service = new FidService(Util.getNeo4jUrl());
     private static Map<String,Result> resultMap=new HashMap<>();
     @POST
     @Path("/identifier/identify")
@@ -57,16 +58,20 @@ public class IdentifyResource {
                 i++;
             }
             Result identiResult=new Result();
-            if(service.checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
+            if(getService().checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
+                identiResult.setId(idJson.toString());
                 identiResult.setStatus(Status.READY);
                 identiResult.setResult(IdResult.ORIGIN);
                 resultMap.put(idJson.toString(),identiResult);
+               // getService().saveStatus(identiResult);
             }else{
+                identiResult.setId(idJson.toString());
                 identiResult.setStatus(Status.READY);
                 identiResult.setResult(IdResult.UNKNOWN);
+              //  getService().saveStatus(identiResult);
                 resultMap.put(idJson.toString(),identiResult);
             }
-            return service.checkAngles(ang);
+            return getService().checkAngles(ang);
         } catch (JsonMappingException e) {
             e.printStackTrace();
             return status(Response.Status.BAD_REQUEST).build();
@@ -82,8 +87,9 @@ public class IdentifyResource {
     @GET
     @Path("/identifier/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response statusToResponse(@PathParam("id") String id,Object page){
+    public Response statusToResponse(@PathParam("id") String id){
+       // log.info("status info: "+getService().getStatus(id));
+        log.info("id: "+id);
         log.info("resultMap size: "+resultMap.size());
         List<Object> list=Arrays.asList(resultMap.values().toArray());
         log.info("result list- "+list);
@@ -97,9 +103,8 @@ public class IdentifyResource {
                 e.printStackTrace();
             }
             System.out.println(output);
-
-            return Response.ok("{\"results\":" + output + "}").build();
+            resultMap.clear();
         }
-        return Response.ok().build();
+        return Response.ok("{\"results\":" + output + "}").build();
     }
 }

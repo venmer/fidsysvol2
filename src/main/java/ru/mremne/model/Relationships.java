@@ -1,4 +1,4 @@
-package ru.mremne.service;
+package ru.mremne.model;
 
 /**
  * autor:maksim

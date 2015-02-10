@@ -4,6 +4,11 @@ import java.util.Date;
 
 public class Result  {
 
+    private String id;
+    private Status status;
+    private IdResult result;
+    private long timestamp;
+
     public long getTimestamp() {
         return timestamp;
     }
@@ -11,8 +16,6 @@ public class Result  {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
-
-    private long timestamp;
 
     public Status getStatus() {
         return status;
@@ -30,13 +33,23 @@ public class Result  {
         this.result = result;
     }
 
-    private Status status;
-    private IdResult result;
-
     public Result() {
         timestamp = (new Date()).getTime();
         status = Status.RUNNING;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    @Override
+    public String toString() {
+        return "id: "+id+", status: \""+status+"\", idresult: \""+result+"\"";
+    }
+
 
 
 }
