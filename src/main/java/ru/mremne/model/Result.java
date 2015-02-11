@@ -47,7 +47,7 @@ public class Result  {
     }
     @Override
     public String toString() {
-        return "id: "+id+", status: \""+status+"\", idresult: \""+result+"\"";
+        return "id: "+id+", status: \""+status+"\", result: \""+result+"\"";
     }
 
 

@@ -41,7 +41,7 @@ public class CodifyResource {
             JsonNode inputJson=mapper.readTree(input);
             JsonNode pointsJSON=inputJson.path("points");
             mapper.writeValue(new File("/home/maksim/test1.json"),input);
-            System.out.println("points: " + pointsJSON.toString());
+            log.info("points: " + pointsJSON.toString());
             int k = -1;
             ArrayList<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
             ResultPoints resultPoints=new ResultPoints();

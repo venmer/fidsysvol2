@@ -91,24 +91,28 @@ public class FidService {
         }
         return Response.noContent().build();
     }
-    @SuppressWarnings("unused")
     public void saveStatus(Result result){
         log.info("Saving status info...");
         if(result!=null) {
-            cypher.query("CREATE (result: " + Labels.STATUS + "{" + result.toString() + "}) return result", map("1", null));
+            cypher.query("CREATE (r: " + Labels.STATUS + "{" + result.toString() + "}) return r", map("1", null));
             log.info("ok!");
         }else{
             log.warn("no results to save!");
         }
     }
-    @SuppressWarnings("unused")
-    public String getStatus(String id){
+    public Map<String,Object> getStatus(String id){
         log.info("Get results by id..");
+        Map<String, Object> params = new HashMap<>();
         String test="";
         if(id!=null){
-             test=cypher.query("MATCH (result: "+Labels.STATUS+"{id: \""+id+"\"}) return result",map("1",null)).next().toString();
+             params=cypher.query("MATCH (r: "+Labels.STATUS+"{id: \""+id+"\"}) return r.id AS id, r.status AS status, r.result AS result  "
+                                ,map("1",null)).next();
             log.info("ok");
         }
-        return test;
+        return params;
+    }
+
+    public void deleteCurrentStatus(String id){
+        cypher.query("MATCH (r: "+Labels.STATUS+"{id: \""+id+"\"}) DELETE r",map(null,null));
     }
 }

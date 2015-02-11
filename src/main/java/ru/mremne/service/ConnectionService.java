@@ -7,7 +7,7 @@ import ru.mremne.util.Util;
  * date: 10.02.15
  * time: 17:16.
  */
-public class ServiceConnection {
+public class ConnectionService {
     public static FidService getService() {
         return service;
     }
