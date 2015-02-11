@@ -1,9 +1,10 @@
+package ru.mremne.resources;
+
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.mremne.resources.IdentifyResource;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -43,7 +44,7 @@ public class IdentifyResourceTest extends JerseyTest {
     }
     @Test
     public void testIdentifyMethod() throws IOException {
-        String testJson=Utils.readFile(requestJson);
+        String testJson= Utils.readFile(requestJson);
         testJson=testJson.replace("\\","");
         javax.ws.rs.client.Entity<String> request=
                 javax.ws.rs.client.Entity.entity(testJson, MediaType.APPLICATION_JSON);
