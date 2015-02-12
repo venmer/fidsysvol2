@@ -58,19 +58,15 @@ public class IdentifyResource {
                 i++;
             }
             Result identiResult=new Result();
+            identiResult.setId(idJson.toString());
+            identiResult.setStatus(Status.READY);
             if(getService().checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
-                identiResult.setId(idJson.toString());
-                identiResult.setStatus(Status.READY);
                 identiResult.setResult(IdResult.ORIGIN);
-                resultMap.put(idJson.toString(),identiResult);
-                getService().saveStatus(identiResult);
             }else{
-                identiResult.setId(idJson.toString());
-                identiResult.setStatus(Status.READY);
                 identiResult.setResult(IdResult.UNKNOWN);
-                getService().saveStatus(identiResult);
-                resultMap.put(idJson.toString(),identiResult);
             }
+            resultMap.put(idJson.toString(),identiResult);
+            getService().saveStatus(identiResult);
             return getService().checkAngles(ang);
         } catch (JsonMappingException e) {
             e.printStackTrace();
@@ -90,7 +86,7 @@ public class IdentifyResource {
         log.info("----------------------------in status-------------------------------");
         ObjectMapper mapper=new ObjectMapper();
         log.info("test");
-        String output = "test";
+        String output = "";
             try {
                 output=mapper.writeValueAsString(getService().getStatus(id));
             } catch (IOException e) {

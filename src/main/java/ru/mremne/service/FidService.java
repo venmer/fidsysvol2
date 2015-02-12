@@ -105,7 +105,6 @@ public class FidService {
     public Map<String,Object> getStatus(String id){
         log.info("Get results by id..");
         Map<String, Object> params = new HashMap<>();
-        String test="";
         if(id!=null){
              params=cypher.query("MATCH (r: "+Labels.Status+"{id: \""+id+"\"}) return r.id AS id, r.status AS status, r.result AS result  "
                                 ,map("1",null)).next();
