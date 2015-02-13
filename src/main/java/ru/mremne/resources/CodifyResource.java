@@ -1,6 +1,5 @@
 package ru.mremne.resources;
 
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -15,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -30,7 +28,6 @@ import static javax.ws.rs.core.Response.*;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class CodifyResource {
-    private static final Logger log=Logger.getLogger(IndexResources.class);
     final FidService service = new FidService(Util.getNeo4jUrl());
     @POST
     @Path("/coder/codify")
@@ -40,8 +37,6 @@ public class CodifyResource {
         try{
             JsonNode inputJson=mapper.readTree(input);
             JsonNode pointsJSON=inputJson.path("points");
-            mapper.writeValue(new File("/home/maksim/test1.json"),input);
-            log.info("points: " + pointsJSON.toString());
             int k = -1;
             ArrayList<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
             ResultPoints resultPoints=new ResultPoints();
@@ -50,7 +45,6 @@ public class CodifyResource {
                 dotsY.add(point.get("y").asInt());
                 ++k;
                 resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
-
             }
             TreeSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
             double[] ang=new double[angles.size()];

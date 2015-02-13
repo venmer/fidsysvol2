@@ -85,7 +85,6 @@ public class IdentifyResource {
     public Response statusToResponse(@PathParam("id") String id){
         log.info("----------------------------in status-------------------------------");
         ObjectMapper mapper=new ObjectMapper();
-        log.info("test");
         String output = "";
             try {
                 output=mapper.writeValueAsString(getService().getStatus(id));
