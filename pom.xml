@@ -19,10 +19,7 @@
         <neo4j.version>2.0.0-M06</neo4j.version>
         <allure.version>1.4.3</allure.version>
         <aspectj.version>1.7.4</aspectj.version>
-        <compiler.version>1.7</compiler.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <environment>test</environment>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <environment>dev</environment>
     </properties>
     <repositories>
         <repository>
