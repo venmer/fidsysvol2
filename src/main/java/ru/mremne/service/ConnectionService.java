@@ -9,8 +9,8 @@ import ru.mremne.util.Util;
  */
 public class ConnectionService {
     public static FidService getService() {
-        return service;
+        return SERVICE;
     }
 
-    private static final FidService service=new FidService(Util.getNeo4jUrl());
+    private static final FidService SERVICE =new FidService(Util.getNeo4jUrl());
 }

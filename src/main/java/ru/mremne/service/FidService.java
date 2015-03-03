@@ -24,11 +24,12 @@ import static org.neo4j.helpers.collection.MapUtil.map;
 public class FidService {
 
     private final CypherExecutor cypher;
-    private static final Logger log=Logger.getLogger(FidService.class);
+    private static final Logger LOG =Logger.getLogger(FidService.class);
+    public static final int CONSTR=3;
     public FidService(String uri) {
         cypher = createCypherExecutor(uri);
     }
-    public static final int CONSTR=3;
+
 
     private CypherExecutor createCypherExecutor(String uri) {
         try {
@@ -44,7 +45,7 @@ public class FidService {
     }
 
     public boolean addAngles(double[] angles){
-       log.info("add angles..");
+       LOG.info("add angles..");
         if(angles.length!=0){
             int level=0;
             for(int i=0;i<angles.length-1;i++){
@@ -56,15 +57,15 @@ public class FidService {
             }
           return true;
         }else{
-            log.error("nothing to add!");
+            LOG.error("nothing to add!");
             return false;
         }
     }
     public Response checkAngles(double[] angles){
         int levelExpected=angles.length-1;
         int levelActual=0;
-        log.info("checking angles...");
-        TreeSet<String> identityList=new TreeSet<>();
+        LOG.info("checking angles...");
+        SortedSet<String> identityList=new TreeSet<>();
         if(angles.length!=0){
             for(int i=0;i<angles.length-1;i++){
                 identityList.add(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
@@ -74,41 +75,41 @@ public class FidService {
                         "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
                         "RETURN n, r,c", map("1", i))).toString());
             }
-            log.info("map.size =" + identityList.size());
+            LOG.info("map.size =" + identityList.size());
             for(String m:identityList){
                 int tmp=ResultPoints.extractMaxLevel(m);
                 if(tmp>levelActual) {
-                    log.info("founded angles: " + m);
+                    LOG.info("founded angles: " + m);
                     levelActual=tmp;
                 }
             }
         }else{
-            log.error("nothing to search!!");
+            LOG.error("nothing to search!!");
             return Response.noContent().build();
         }
-        log.info("expected level was : "+levelExpected+" ,but actual is : "+levelActual);
+        LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
         if(Math.abs(levelExpected-levelActual)<=levelActual) {
-            log.info("everything is ok!!");
+            LOG.info("everything is ok!!");
             return Response.ok().build();
         }
         return Response.noContent().build();
     }
     public void saveStatus(Result result){
-        log.info("Saving status info...");
+        LOG.info("Saving status info...");
         if(result!=null) {
             cypher.query("CREATE (r: " + Labels.STATUS + "{" + result.toString() + "}) return r", map("1", null));
-            log.info("ok!");
+            LOG.info("ok!");
         }else{
-            log.warn("no results to save!");
+            LOG.warn("no results to save!");
         }
     }
     public Map<String,Object> getStatus(String id){
-        log.info("Get results by id..");
+        LOG.info("Get results by id..");
         Map<String, Object> params = new HashMap<>();
         if(id!=null){
              params=cypher.query("MATCH (r: "+Labels.STATUS +"{id: \""+id+"\"}) return r.id AS id, r.status AS status, r.result AS result  "
                                 ,map("1",null)).next();
-            log.info("ok");
+            LOG.info("ok");
         }
         return params;
     }
