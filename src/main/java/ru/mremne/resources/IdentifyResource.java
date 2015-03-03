@@ -28,7 +28,7 @@ import static ru.mremne.service.ConnectionService.getService;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
-    private static final Logger log=Logger.getLogger(IndexResources.class);
+    private static final Logger LOG =Logger.getLogger(IndexResources.class);
     private static Map<String,Result> resultMap=new HashMap<>();
     @POST
     @Path("/identifier/identify")
@@ -40,9 +40,9 @@ public class IdentifyResource {
             JsonNode inputJson=mapper.readTree(input);
             JsonNode idJson=inputJson.path("id");
             JsonNode pointsJSON=inputJson.path("points");
-            log.info("points: "+pointsJSON.toString());
+            LOG.info("points: " + pointsJSON.toString());
             int k = -1;
-            ArrayList<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
+            List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
             ResultPoints resultPoints=new ResultPoints();
             for (JsonNode point : pointsJSON) {
                 dotsX.add(point.get("x").asInt());
@@ -50,7 +50,7 @@ public class IdentifyResource {
                 ++k;
                 resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
             }
-            TreeSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
+            SortedSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
             double[] ang=new double[angles.size()];
             int i=0;
             for(Double d:angles){
@@ -69,13 +69,13 @@ public class IdentifyResource {
             getService().saveStatus(identiResult);
             return getService().checkAngles(ang);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            LOG.error("json mapping problem");
             return status(Response.Status.BAD_REQUEST).build();
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+            LOG.error("json generation problem");
             return status(Response.Status.BAD_REQUEST).build();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("IO exception");
         }
         return ok().build();
     }
@@ -83,15 +83,15 @@ public class IdentifyResource {
     @Path("/identifier/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response statusToResponse(@PathParam("id") String id){
-        log.info("----------------------------in status-------------------------------");
+        LOG.info("----------------------------in status-------------------------------");
         ObjectMapper mapper=new ObjectMapper();
         String output = "";
             try {
                 output=mapper.writeValueAsString(getService().getStatus(id));
             } catch (IOException e) {
-                log.info("no elements");
+                LOG.error("no elements");
             }
-            System.out.println("map output"+output);
+            LOG.info("map output"+output);
         return Response.ok("{\"results\": [" + output + "]}").build();
     }
 }

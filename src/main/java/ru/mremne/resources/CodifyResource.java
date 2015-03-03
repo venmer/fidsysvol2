@@ -1,5 +1,6 @@
 package ru.mremne.resources;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -16,7 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.List;
+import java.util.SortedSet;
 
 import static javax.ws.rs.core.Response.*;
 
@@ -28,6 +30,7 @@ import static javax.ws.rs.core.Response.*;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class CodifyResource {
+    private static final Logger LOG =Logger.getLogger(CodifyResource.class);
     final FidService service = new FidService(Util.getNeo4jUrl());
     @POST
     @Path("/coder/codify")
@@ -38,7 +41,7 @@ public class CodifyResource {
             JsonNode inputJson=mapper.readTree(input);
             JsonNode pointsJSON=inputJson.path("points");
             int k = -1;
-            ArrayList<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
+            List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
             ResultPoints resultPoints=new ResultPoints();
             for (JsonNode point : pointsJSON) {
                 dotsX.add(point.get("x").asInt());
@@ -46,7 +49,7 @@ public class CodifyResource {
                 ++k;
                 resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
             }
-            TreeSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
+            SortedSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
             double[] ang=new double[angles.size()];
             int i=0;
             for(Double d:angles){
@@ -56,13 +59,13 @@ public class CodifyResource {
              return service.addAngles(ang) ? ok().build() : noContent().build();
 
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            LOG.error("json mapping exception");
             return status(Status.BAD_REQUEST).build();
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+            LOG.error("json generation exception");
             return status(Status.BAD_REQUEST).build();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("IO exception");
         }
         return ok().build();
     }
