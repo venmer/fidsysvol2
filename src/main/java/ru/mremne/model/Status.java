@@ -6,4 +6,6 @@ package ru.mremne.model;
  * time: 22:13.
  */
 
-public enum Status {RUNNING, READY}
+public enum Status {
+    RUNNING, READY
+}

@@ -61,9 +61,9 @@ public class IdentifyResource {
             identiResult.setId(idJson.toString());
             identiResult.setStatus(Status.READY);
             if(getService().checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
-                identiResult.setResult(IdResult.ORIGIN);
+                identiResult.setIdResult(IdResult.ORIGIN);
             }else{
-                identiResult.setResult(IdResult.UNKNOWN);
+                identiResult.setIdResult(IdResult.UNKNOWN);
             }
             resultMap.put(idJson.toString(),identiResult);
             getService().saveStatus(identiResult);

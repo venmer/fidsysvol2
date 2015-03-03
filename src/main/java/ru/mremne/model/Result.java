@@ -6,8 +6,12 @@ public class Result  {
 
     private String id;
     private Status status;
-    private IdResult result;
+    private IdResult idResult;
     private long timestamp;
+    public Result() {
+        timestamp = (new Date()).getTime();
+        status = Status.RUNNING;
+    }
 
     public long getTimestamp() {
         return timestamp;
@@ -25,17 +29,12 @@ public class Result  {
         this.status = status;
     }
 
-    public IdResult getResult() {
-        return result;
+    public IdResult getIdResult() {
+        return idResult;
     }
 
-    public void setResult(IdResult result) {
-        this.result = result;
-    }
-
-    public Result() {
-        timestamp = (new Date()).getTime();
-        status = Status.RUNNING;
+    public void setIdResult(IdResult idResult) {
+        this.idResult = idResult;
     }
 
     public String getId() {
@@ -47,7 +46,7 @@ public class Result  {
     }
     @Override
     public String toString() {
-        return "id: "+id+", status: \""+status+"\", result: \""+result+"\"";
+        return "id: "+id+", status: \""+status+"\", result: \""+ idResult +"\"";
     }
 
 

@@ -6,4 +6,6 @@ package ru.mremne.model;
  * time: 21:21.
  */
 
-public enum IdResult {ORIGIN, UNKNOWN, PART}
+public enum IdResult {
+    ORIGIN, UNKNOWN, PART
+}

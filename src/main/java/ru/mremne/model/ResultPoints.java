@@ -3,6 +3,8 @@ package ru.mremne.model;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,44 +15,46 @@ import java.util.regex.Pattern;
  * time: 1:42.
  */
 public class ResultPoints {
+    private static final Logger LOG =Logger.getLogger(ResultPoints.class);
     public static final int ERROR=60;
-    public int x;
-    public int y;
+    private int x;
+    private int y;
 
-    private static final Logger log=Logger.getLogger(ResultPoints.class);
-    private  ArrayList<int[]> pointList=new ArrayList<>();
-    public ResultPoints() {}
+    private List<int[]> pointList=new ArrayList<>();
+    public ResultPoints() {
+
+    }
     public void putInResultPoints(int x,int y){
         boolean check=true;
-        if(pointList.size()!=0){
+        if(!pointList.isEmpty()){
         for(int i=0;i<pointList.size();i++){
             if((pointList.get(i)[0]>x-ERROR)&&(pointList.get(i)[0]<x+ERROR)
                && (pointList.get(i)[1]>y-ERROR)&&(pointList.get(i)[1]<y+ERROR)){
-                log.error("equals error: [" + pointList.get(i)[0] + ":" + pointList.get(i)[1] + "]");
+                LOG.error("equals error: [" + pointList.get(i)[0] + ":" + pointList.get(i)[1] + "]");
                 check=false;
             }
         }
-            if(check==true){
+            if(check){
                 pointList.add(new int[]{x,y});
             }
         }else{
             pointList.add(new int[]{x,y});
         }
     }
-    public ArrayList<int[]> getPointList() {
+    public List<int[]> getPointList() {
         return pointList;
     }
 
 
-    public static TreeSet<Double> getAngleValue(ArrayList<int[]> points){
-      ArrayList<int[]> vectors=new ArrayList<>();
+    public static SortedSet<Double> getAngleValue(ArrayList<int[]> points){
+      List<int[]> vectors=new ArrayList<>();
       for(int i=0;i<points.size()-1;i++){
           for(int j=1;j<points.size();j++){
               vectors.add(new int[]{points.get(i)[0] - points.get(j)[0],
                                     points.get(i)[1] - points.get(j)[1]});
           }
       }
-     TreeSet<Double> angles=new TreeSet<>();
+     SortedSet<Double> angles=new TreeSet<>();
      Double d;
      int[] vectorA=new int[2];
      int[] vectorB=new int[2];
@@ -82,5 +86,20 @@ public class ResultPoints {
     }
     public static double roundDouble(double d, int n) {
         return java.lang.Math.round(d * java.lang.Math.pow(10, (double) n)) / java.lang.Math.pow(10, (double) n);
+    }
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }

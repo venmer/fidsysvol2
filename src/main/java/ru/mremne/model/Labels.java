@@ -6,5 +6,5 @@ package ru.mremne.model;
  * time: 18:04.
  */
 public enum Labels {
-    Intervals, Status
+    INTERVALS, STATUS
 }

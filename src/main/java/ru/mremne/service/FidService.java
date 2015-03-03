@@ -48,8 +48,8 @@ public class FidService {
         if(angles.length!=0){
             int level=0;
             for(int i=0;i<angles.length-1;i++){
-                cypher.query("MATCH (n:"+ Labels.Intervals+"{value: "+angles[i]+" })," +
-                        "(m:"+Labels.Intervals+"{value: "+angles[i+1]+"}) " +
+                cypher.query("MATCH (n:"+ Labels.INTERVALS +"{value: "+angles[i]+" })," +
+                        "(m:"+Labels.INTERVALS +"{value: "+angles[i+1]+"}) " +
                         "CREATE UNIQUE (n)-[:"+ Relationships.LEVEL+"{level: "+level+" }]->(m) " +
                         "return m",map("1",null));
                 level++;
@@ -96,7 +96,7 @@ public class FidService {
     public void saveStatus(Result result){
         log.info("Saving status info...");
         if(result!=null) {
-            cypher.query("CREATE (r: " + Labels.Status + "{" + result.toString() + "}) return r", map("1", null));
+            cypher.query("CREATE (r: " + Labels.STATUS + "{" + result.toString() + "}) return r", map("1", null));
             log.info("ok!");
         }else{
             log.warn("no results to save!");
@@ -106,7 +106,7 @@ public class FidService {
         log.info("Get results by id..");
         Map<String, Object> params = new HashMap<>();
         if(id!=null){
-             params=cypher.query("MATCH (r: "+Labels.Status+"{id: \""+id+"\"}) return r.id AS id, r.status AS status, r.result AS result  "
+             params=cypher.query("MATCH (r: "+Labels.STATUS +"{id: \""+id+"\"}) return r.id AS id, r.status AS status, r.result AS result  "
                                 ,map("1",null)).next();
             log.info("ok");
         }
@@ -114,6 +114,6 @@ public class FidService {
     }
 
     public void deleteCurrentStatus(String id){
-        cypher.query("MATCH (r: "+Labels.Status+"{id: \""+id+"\"}) DELETE r",map(null,null));
+        cypher.query("MATCH (r: "+Labels.STATUS +"{id: \""+id+"\"}) DELETE r",map(null,null));
     }
 }
