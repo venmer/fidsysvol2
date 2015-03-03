@@ -46,7 +46,7 @@ public class ResultPoints {
     }
 
 
-    public static SortedSet<Double> getAngleValue(ArrayList<int[]> points){
+    public static SortedSet<Double> getAngleValue(List<int[]> points){
       List<int[]> vectors=new ArrayList<>();
       for(int i=0;i<points.size()-1;i++){
           for(int j=1;j<points.size();j++){
