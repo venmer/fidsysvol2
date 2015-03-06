@@ -9,7 +9,10 @@ import ru.mremne.model.IdResult;
 import ru.mremne.model.Result;
 import ru.mremne.model.ResultPoints;
 import ru.mremne.model.Status;
+import ru.mremne.service.FidService;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,16 +21,18 @@ import java.util.*;
 
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
-import static ru.mremne.service.ConnectionService.getService;
 
 /**
  * autor:maksim
  * date: 14.01.15
  * time: 20:31.
  */
+@ManagedBean
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
+    @Inject
+    private FidService service;
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
     private static Map<String,Result> resultMap=new HashMap<>();
     @POST
@@ -60,14 +65,14 @@ public class IdentifyResource {
             Result identiResult=new Result();
             identiResult.setId(idJson.toString());
             identiResult.setStatus(Status.READY);
-            if(getService().checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
+            if(service.checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
                 identiResult.setIdResult(IdResult.ORIGIN);
             }else{
                 identiResult.setIdResult(IdResult.UNKNOWN);
             }
             resultMap.put(idJson.toString(),identiResult);
-            getService().saveStatus(identiResult);
-            return getService().checkAngles(ang);
+            service.saveStatus(identiResult);
+            return service.checkAngles(ang);
         } catch (JsonMappingException e) {
             LOG.error("json mapping problem");
             return status(Response.Status.BAD_REQUEST).build();
@@ -87,7 +92,7 @@ public class IdentifyResource {
         ObjectMapper mapper=new ObjectMapper();
         String output = "";
             try {
-                output=mapper.writeValueAsString(getService().getStatus(id));
+                output=mapper.writeValueAsString(service.getStatus(id));
             } catch (IOException e) {
                 LOG.error("no elements");
             }

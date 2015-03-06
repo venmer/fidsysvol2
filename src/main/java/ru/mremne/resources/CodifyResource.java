@@ -7,8 +7,9 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.mremne.model.ResultPoints;
 import ru.mremne.service.FidService;
-import ru.mremne.util.Util;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,11 +28,13 @@ import static javax.ws.rs.core.Response.*;
  * date: 06.01.15
  * time: 23:30.
  */
+@ManagedBean
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class CodifyResource {
     private static final Logger LOG =Logger.getLogger(CodifyResource.class);
-    final FidService service = new FidService(Util.getNeo4jUrl());
+    @Inject
+    private FidService service;
     @POST
     @Path("/coder/codify")
     @Consumes(MediaType.APPLICATION_JSON)

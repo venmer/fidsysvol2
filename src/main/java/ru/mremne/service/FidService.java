@@ -8,11 +8,17 @@ import ru.mremne.model.Labels;
 import ru.mremne.model.Relationships;
 import ru.mremne.model.Result;
 import ru.mremne.model.ResultPoints;
+import ru.mremne.util.Util;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.neo4j.helpers.collection.MapUtil.map;
 
@@ -21,16 +27,13 @@ import static org.neo4j.helpers.collection.MapUtil.map;
  * date: 20.12.14
  * time: 21:30.
  */
+@Resource
+@ManagedBean
 public class FidService {
 
-    private final CypherExecutor cypher;
+    private final CypherExecutor cypher=createCypherExecutor(Util.getNeo4jUrl());
     private static final Logger LOG =Logger.getLogger(FidService.class);
     public static final int CONSTR=3;
-    public FidService(String uri) {
-        cypher = createCypherExecutor(uri);
-    }
-
-
     private CypherExecutor createCypherExecutor(String uri) {
         try {
             String auth = new URL(uri).getUserInfo();

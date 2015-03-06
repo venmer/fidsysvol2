@@ -35,6 +35,17 @@
             <url>http://mandubian-mvn.googlecode.com/svn/trunk/mandubian-mvn/repository</url>
         </repository>
     </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!-- tag::jdbc-dependency[] -->
         <dependency>

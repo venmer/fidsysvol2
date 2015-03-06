@@ -11,6 +11,7 @@ import org.glassfish.jersey.server.mvc.freemarker.FreemarkerMvcFeature;
  */
 public class Server extends ResourceConfig {
     public Server(){
+        register(new ApplicationBinder());
         register(FreemarkerMvcFeature.class);
         register(JacksonFeature.class);
         packages(Server.class.getPackage().getName());
