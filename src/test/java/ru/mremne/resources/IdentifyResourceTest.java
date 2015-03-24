@@ -2,6 +2,7 @@ package ru.mremne.resources;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertThat;
  * date: 16.01.15
  * time: 2:26.
  */
+@Ignore
 @RunWith(Parameterized.class)
 public class IdentifyResourceTest extends JerseyTest {
     private File requestJson;
