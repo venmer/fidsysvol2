@@ -72,14 +72,14 @@
           <element id="library" level="project" name="Maven: junit:junit:4.11" />
           <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-all:1.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.14" />
-          <element id="library" level="project" name="Maven: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.14" />
+          <element id="library" level="project" name="Maven: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.13" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.0.1" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm-debug-all:5.0.2" />
-          <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.14" />
+          <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.3.16" />
           <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-http:2.3.16" />
           <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-framework:2.3.16" />
-          <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.14" />
+          <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-http-servlet:2.3.16" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.2" />
           <element id="library" level="project" name="Maven: org.apache.maven.plugins:maven-surefire-report-plugin:maven-plugin:2.5" />

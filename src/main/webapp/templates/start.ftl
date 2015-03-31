@@ -1,6 +1,6 @@
 <#import "/templates/mainlayout.ftl" as layout />
 <@layout.layout title="Get photo">
-<div class="row">
+<!--<div class="row">
     <div class="col-md-12   ">
     <div class="page-header">
         <h2>FIDsys</h2>
@@ -17,6 +17,29 @@
     <p>This demo requires Chrome 30 or later.</p>
 </div>
     </div>
+</div>-->
+<video id="webcam" width="640" height="480" style="display:none;"></video>
+<div style=" width:640px;height:480px;margin: 10px auto;">
+    <canvas id="canvas" width="640" height="480"></canvas>
+    <div id="no_rtc" class="alert alert-error" style="display:none;"></div>
+    <div id="log" class="alert alert-info"></div>
 </div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
+<script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>
+<script type="text/javascript" src="/public/js/jsfeat/profiler.js"></script>
+<script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
+<script type="text/javascript" src="/public/js/jsfeat/fun.js"
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36419199-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
 
 </@layout.layout>
