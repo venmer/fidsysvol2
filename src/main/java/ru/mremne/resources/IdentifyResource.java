@@ -9,7 +9,7 @@ import ru.mremne.model.IdResult;
 import ru.mremne.model.Result;
 import ru.mremne.model.ResultPoints;
 import ru.mremne.model.Status;
-import ru.mremne.service.FidService;
+import ru.mremne.service.FidServiceImpl;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ import static javax.ws.rs.core.Response.status;
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
     @Inject
-    private FidService service;
+    private FidServiceImpl service;
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
     private static Map<String,Result> resultMap=new HashMap<>();
     @POST

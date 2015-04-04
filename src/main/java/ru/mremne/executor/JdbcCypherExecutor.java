@@ -63,7 +63,6 @@ public class JdbcCypherExecutor implements CypherExecutor {
                         throw new RuntimeException(e);
                     }
                 }
-
                 @Override
                 public void remove() {
                 }

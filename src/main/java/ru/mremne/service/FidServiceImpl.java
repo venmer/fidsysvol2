@@ -29,10 +29,9 @@ import static org.neo4j.helpers.collection.MapUtil.map;
  */
 @Resource
 @ManagedBean
-public class FidService {
-
+public class FidServiceImpl implements FidServicce {
     private final CypherExecutor cypher=createCypherExecutor(Util.getNeo4jUrl());
-    private static final Logger LOG =Logger.getLogger(FidService.class);
+    private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
     public static final int CONSTR=3;
     private CypherExecutor createCypherExecutor(String uri) {
         try {
@@ -47,7 +46,8 @@ public class FidService {
         }
     }
 
-    public boolean addAngles(double[] angles){
+    @Override
+    public Response addAngles(double[] angles){
        LOG.info("add angles..");
         if(angles.length!=0){
             int level=0;
@@ -58,12 +58,13 @@ public class FidService {
                         "return m",map("1",null));
                 level++;
             }
-          return true;
+          return Response.ok().build();
         }else{
             LOG.error("nothing to add!");
-            return false;
+            return Response.noContent().build();
         }
     }
+    @Override
     public Response checkAngles(double[] angles){
         int levelExpected=angles.length-1;
         int levelActual=0;
@@ -97,6 +98,7 @@ public class FidService {
         }
         return Response.noContent().build();
     }
+    @Override
     public void saveStatus(Result result){
         LOG.info("Saving status info...");
         if(result!=null) {
@@ -106,6 +108,7 @@ public class FidService {
             LOG.warn("no results to save!");
         }
     }
+    @Override
     public Map<String,Object> getStatus(String id){
         LOG.info("Get results by id..");
         Map<String, Object> params = new HashMap<>();

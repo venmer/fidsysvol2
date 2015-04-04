@@ -6,7 +6,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.mremne.model.ResultPoints;
-import ru.mremne.service.FidService;
+import ru.mremne.service.FidServiceImpl;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -34,7 +34,7 @@ import static javax.ws.rs.core.Response.*;
 public class CodifyResource {
     private static final Logger LOG =Logger.getLogger(CodifyResource.class);
     @Inject
-    private FidService service;
+    private FidServiceImpl service;
     @POST
     @Path("/coder/codify")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class CodifyResource {
                 ang[i]=d;
                 i++;
             }
-             return service.addAngles(ang) ? ok().build() : noContent().build();
+             return service.addAngles(ang);
 
         } catch (JsonMappingException e) {
             LOG.error("json mapping exception");

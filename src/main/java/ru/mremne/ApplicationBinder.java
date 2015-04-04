@@ -1,7 +1,8 @@
 package ru.mremne;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import ru.mremne.service.FidService;
+import ru.mremne.service.FidServicce;
+import ru.mremne.service.FidServiceImpl;
 
 /**
  * autor:maksim
@@ -11,6 +12,6 @@ import ru.mremne.service.FidService;
 public class ApplicationBinder extends AbstractBinder {
     @Override
     protected void configure() {
-        bind(FidService.class).to(FidService.class);
+        bind(FidServiceImpl.class).to(FidServicce.class);
     }
 }
