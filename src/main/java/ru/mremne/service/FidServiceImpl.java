@@ -29,7 +29,7 @@ import static org.neo4j.helpers.collection.MapUtil.map;
  */
 @Resource
 @ManagedBean
-public class FidServiceImpl implements FidServicce {
+public class FidServiceImpl implements FidService {
     private final CypherExecutor cypher=createCypherExecutor(Util.getNeo4jUrl());
     private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
     public static final int CONSTR=3;

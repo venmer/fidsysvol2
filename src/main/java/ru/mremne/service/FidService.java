@@ -10,7 +10,7 @@ import java.util.Map;
  * date: 01.04.15
  * time: 17:02.
  */
-public interface FidServicce {
+public interface FidService {
     public Response addAngles(double[] angles);
     public Response checkAngles(double[] angles);
     public void saveStatus(Result result);
