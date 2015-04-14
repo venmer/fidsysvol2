@@ -24,22 +24,14 @@
     <div id="no_rtc" class="alert alert-error" style="display:none;"></div>
     <div id="log" class="alert alert-info"></div>
 </div>
-
+<form id="testform" align="center">
+    <input type="text" id="text_area"/>
+    <input type="button" value="Submit" onclick="test_this()"/>
+</form>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/profiler.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
-<script type="text/javascript" src="/public/js/jsfeat/fun.js"
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36419199-1']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
+<script type="text/javascript" src="/public/js/jsfeat/fun.js"></script>
 </@layout.layout>

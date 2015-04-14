@@ -1,9 +1,7 @@
-$(window).load(function() {
-    "use strict";
 
-    // lets do some fun
     var video = document.getElementById('webcam');
     var canvas = document.getElementById('canvas');
+    var text=document.getElementById('text_area');
     try {
         var attempts = 0;
         var readyListener = function(event) {
@@ -131,11 +129,10 @@ $(window).load(function() {
             img[off+1] = pix;
             img[off-step] = pix;
             img[off+step] = pix;
+            text.value = 'x: '+x+ ' y: '+y+ ' count: '+count;
         }
     }
-
-    $(window).unload(function() {
-        video.pause();
-        video.src=null;
-    });
-});
+var text=document.getElementById("text_area");
+function test_this(){
+    text.value=corners.toString();
+}
