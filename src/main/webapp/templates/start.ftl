@@ -24,14 +24,34 @@
     <div id="no_rtc" class="alert alert-error" style="display:none;"></div>
     <div id="log" class="alert alert-info"></div>
 </div>
-<form id="testform" align="center">
+<form id="video_form" align="center">
     <input type="text" id="text_area"/>
-    <input type="button" value="Submit" onclick="test_this()"/>
+    <input type="button" value="take photo" onclick="take_photo()"/>
+    <input type="button" value="continue" onclick="continue_video()"/>
 </form>
+
+    <div style="height:100px;overflow: auto;">
+    <table class="table table-bordered" id="testTable1" align="center">
+        <thead>
+        <tr>
+            <th>n</th>
+            <th>x</th>
+            <th>y</th>
+        </tr>
+        </thead>
+        <tr id="tr1">
+
+        </tr>
+
+    </table>
+    </div>
+    <input type="button" value="Fill Cell" onclick="fillCell('testTable1','tr1')" />
+
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/profiler.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/fun.js"></script>
+<script type="text/javascript" src="/public/js/main.js"></script>
 </@layout.layout>

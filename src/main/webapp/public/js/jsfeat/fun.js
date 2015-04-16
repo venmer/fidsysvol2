@@ -1,7 +1,7 @@
 
     var video = document.getElementById('webcam');
     var canvas = document.getElementById('canvas');
-    var text=document.getElementById('text_area');
+    var flag=false;
     try {
         var attempts = 0;
         var readyListener = function(event) {
@@ -10,7 +10,7 @@
         var findVideoSize = function() {
             if(video.videoWidth > 0 && video.videoHeight > 0) {
                 video.removeEventListener('loadeddata', readyListener);
-                onDimensionsReady(video.videoWidth, video.videoHeight);
+                onDimensionsReady(640, 480);
             } else {
                 if(attempts < 10) {
                     attempts++;
@@ -55,7 +55,7 @@
     var img_u8, corners, threshold;
 
     var demo_opt = function(){
-        this.threshold = 20;
+        this.threshold = 10;
     }
 
     function demo_app(videoWidth, videoHeight) {
@@ -90,7 +90,7 @@
     function tick() {
         compatibility.requestAnimationFrame(tick);
         stat.new_frame();
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        if (video.readyState === video.HAVE_ENOUGH_DATA && !flag) {
             ctx.drawImage(video, 0, 0, 640, 480);
             var imageData = ctx.getImageData(0, 0, 640, 480);
 
@@ -133,6 +133,20 @@
         }
     }
 var text=document.getElementById("text_area");
-function test_this(){
-    text.value=corners.toString();
+function take_photo(){
+    flag=true;
 }
+function continue_video(){
+    flag=false;
+}
+    function fillCell(table, tr) {
+        var tr11 = document.getElementById(tr); //берем первую строку
+        var table = document.getElementById(table);
+        var tr31 = document.createElement('tr'); //создаем еще строку
+        var td31 = document.createElement('td'); td31.innerHTML = '31'; //создаем столбец
+        var td32 = document.createElement('td'); td32.innerHTML = '32'; //создаем еще столбец
+        // tr11.appendChild(td31); так можно добавить в первую строку столбец
+        tr31.appendChild(td31); //кладем в новосозданную строку первый новосозданный столбец
+        tr31.appendChild(td32); //кладем в новосозданную строку второй новосозданный столбец
+        table.appendChild(tr31); //кладем в таблицу новосозданную строку (последней)
+    }
