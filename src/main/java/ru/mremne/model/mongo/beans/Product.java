@@ -1,0 +1,42 @@
+package ru.mremne.model.mongo.beans;
+
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
+/**
+ * autor:maksim
+ * date: 22.04.15
+ * time: 22:19.
+ */
+@Entity
+public class Product {
+
+    @Id private ObjectId id;
+    private String type;
+    private String description;
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+}

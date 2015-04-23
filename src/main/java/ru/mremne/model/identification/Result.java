@@ -1,4 +1,4 @@
-package ru.mremne.model;
+package ru.mremne.model.identification;
 
 import java.util.Date;
 

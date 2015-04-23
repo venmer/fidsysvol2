@@ -1,7 +1,7 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.mremne.model.ResultPoints;
+import ru.mremne.model.identification.ResultPoints;
 
 import java.util.Arrays;
 import java.util.Collection;

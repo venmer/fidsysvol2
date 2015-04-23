@@ -1,6 +1,6 @@
 package ru.mremne.service;
 
-import ru.mremne.model.Result;
+import ru.mremne.model.identification.Result;
 
 import javax.ws.rs.core.Response;
 import java.util.Map;

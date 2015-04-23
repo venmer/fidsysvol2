@@ -5,8 +5,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import ru.mremne.model.ResultPoints;
-import ru.mremne.service.FidServiceImpl;
+import ru.mremne.model.identification.ResultPoints;
+import ru.mremne.service.FidService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -34,7 +34,7 @@ import static javax.ws.rs.core.Response.*;
 public class CodifyResource {
     private static final Logger LOG =Logger.getLogger(CodifyResource.class);
     @Inject
-    private FidServiceImpl service;
+    private FidService service;
     @POST
     @Path("/coder/codify")
     @Consumes(MediaType.APPLICATION_JSON)

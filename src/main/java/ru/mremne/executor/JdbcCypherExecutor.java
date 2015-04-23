@@ -1,5 +1,7 @@
 package ru.mremne.executor;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.*;
 
@@ -7,16 +9,15 @@ import java.util.*;
  * @author Michael Hunger @since 22.10.13
  */
 public class JdbcCypherExecutor implements CypherExecutor {
-
+    private static final Logger LOG =Logger.getLogger(JdbcCypherExecutor.class);
     private final Connection conn;
 
-    public JdbcCypherExecutor(String url) {
-        this(url,null,null);
-    }
-    public JdbcCypherExecutor(String url,String username, String password) {
+    public JdbcCypherExecutor(String neo4jHost,Integer neo4jPort) {
+        LOG.info("http://"+neo4jHost+":"+neo4jPort.toString());
         try {
-            conn = DriverManager.getConnection(url.replace("http://", "jdbc:neo4j://"), username, password);
+            conn = DriverManager.getConnection(String.format("jdbc:neo4j://%s:%s",neo4jHost,neo4jPort));
         } catch (SQLException e) {
+            LOG.error("can't connect to neo4j");
             throw new RuntimeException(e);
         }
     }

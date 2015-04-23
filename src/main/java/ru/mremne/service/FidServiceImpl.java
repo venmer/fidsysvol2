@@ -2,19 +2,17 @@ package ru.mremne.service;
 
 import org.apache.log4j.Logger;
 import org.neo4j.helpers.collection.IteratorUtil;
+import ru.mremne.config.ServerConfig;
 import ru.mremne.executor.CypherExecutor;
 import ru.mremne.executor.JdbcCypherExecutor;
-import ru.mremne.model.Labels;
-import ru.mremne.model.Relationships;
-import ru.mremne.model.Result;
-import ru.mremne.model.ResultPoints;
-import ru.mremne.util.Util;
+import ru.mremne.model.identification.Labels;
+import ru.mremne.model.identification.Relationships;
+import ru.mremne.model.identification.Result;
+import ru.mremne.model.identification.ResultPoints;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -30,20 +28,12 @@ import static org.neo4j.helpers.collection.MapUtil.map;
 @Resource
 @ManagedBean
 public class FidServiceImpl implements FidService {
-    private final CypherExecutor cypher=createCypherExecutor(Util.getNeo4jUrl());
+    private final CypherExecutor cypher=createCypherExecutor();
     private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
     public static final int CONSTR=3;
-    private CypherExecutor createCypherExecutor(String uri) {
-        try {
-            String auth = new URL(uri).getUserInfo();
-            if (auth != null) {
-                String[] parts = auth.split(":");
-                return new JdbcCypherExecutor(uri,parts[0],parts[1]);
-            }
-            return new JdbcCypherExecutor(uri);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Invalid Neo4j-ServerURL " + uri);
-        }
+    private CypherExecutor createCypherExecutor(){
+    ServerConfig serverConfig=ServerConfig.newInstance();
+        return new JdbcCypherExecutor(serverConfig.getNeo4jHost(),serverConfig.getNeo4jPort());
     }
 
     @Override

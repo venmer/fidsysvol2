@@ -5,11 +5,11 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import ru.mremne.model.IdResult;
-import ru.mremne.model.Result;
-import ru.mremne.model.ResultPoints;
-import ru.mremne.model.Status;
-import ru.mremne.service.FidServiceImpl;
+import ru.mremne.model.identification.IdResult;
+import ru.mremne.model.identification.Result;
+import ru.mremne.model.identification.ResultPoints;
+import ru.mremne.model.identification.Status;
+import ru.mremne.service.FidService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ import static javax.ws.rs.core.Response.status;
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
     @Inject
-    private FidServiceImpl service;
+    private FidService service;
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
     private static Map<String,Result> resultMap=new HashMap<>();
     @POST

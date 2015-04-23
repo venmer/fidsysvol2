@@ -17,6 +17,8 @@
         <sl4j.version>1.7.7</sl4j.version>
         <jetty.port>9998</jetty.port>
         <neo4j.version>2.0.0-M06</neo4j.version>
+        <mongo.version>2.11.3</mongo.version>
+        <morphia.version>0.110</morphia.version>
         <allure.version>1.4.3</allure.version>
         <aspectj.version>1.7.4</aspectj.version>
         <environment>dev</environment>
@@ -66,6 +68,16 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>2.11.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>0.110</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>9.0.5.v20130815</version>
@@ -75,7 +87,11 @@
             <artifactId>jetty-webapp</artifactId>
             <version>9.0.5.v20130815</version>
         </dependency>
-
+        <dependency>
+            <groupId>ru.yandex.qatools.properties</groupId>
+            <artifactId>properties-loader</artifactId>
+            <version>1.5</version>
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -107,12 +123,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-junit-adaptor</artifactId>
-            <version>${allure.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -191,7 +201,7 @@
                     <systemProperties>
                         <systemProperty>
                             <name>environment</name>
-                            <value>prod</value>
+                            <value>dev</value>
                         </systemProperty>
                     </systemProperties>
                     <webApp>
