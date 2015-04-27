@@ -1,4 +1,4 @@
-<#import "/templates/mainlayout.ftl" as layout />
+<#import "/layout/mainlayout.ftl" as layout />
 <@layout.layout title="Get photo">
 <!--<div class="row">
     <div class="col-md-12   ">

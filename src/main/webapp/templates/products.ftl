@@ -1,9 +1,10 @@
-
-<#import "/templates/mainlayout.ftl" as layout/>
+<#-- @ftlvariable name="model" type="ru.mremne.view.ViewData" -->
+<#assign products = model>
+<#import "/layout/mainlayout.ftl" as layout/>
 <@layout.layout title="Products">
     <article class="product">
         <header class="entry-header">
-            <table class="table table-striped" id="products" cellspacing="0" cellpadding="0" border="0" align="center">
+            <table class="table table-striped header-fixed" id="products" align="center">
                 <thead>
                 <th>ID</th>
                 <th>Type</th>

@@ -1,5 +1,4 @@
-<#-- @ftlvariable name="model" type="ru.mremne.view.ViewData" -->
-<#global products = model>
+
 <#macro layout title="Fidsys">
 <html>
 <head>
@@ -39,7 +38,7 @@
                             <a href="/products/all" id="allproducts">All products</a>
                         </li>
                         <li>
-                            <a href="#" id="allusers">All users</a>
+                            <a href="/users/all" id="allusers">All users</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

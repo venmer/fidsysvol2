@@ -1,5 +1,4 @@
-
-<#import "/templates/mainlayout.ftl" as layout />
+<#import "/layout/mainlayout.ftl" as layout />
 <@layout.layout title="Registration Page">
 
 <div class="row">
