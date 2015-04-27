@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class JdbcCypherExecutor implements CypherExecutor {
     private static final Logger LOG =Logger.getLogger(JdbcCypherExecutor.class);
-    private final Connection conn;
+    private Connection conn;
 
     public JdbcCypherExecutor(String neo4jHost,Integer neo4jPort) {
         LOG.info("http://"+neo4jHost+":"+neo4jPort.toString());
@@ -18,7 +18,6 @@ public class JdbcCypherExecutor implements CypherExecutor {
             conn = DriverManager.getConnection(String.format("jdbc:neo4j://%s:%s",neo4jHost,neo4jPort));
         } catch (SQLException e) {
             LOG.error("can't connect to neo4j");
-            throw new RuntimeException(e);
         }
     }
 

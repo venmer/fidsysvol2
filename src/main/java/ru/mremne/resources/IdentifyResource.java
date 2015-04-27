@@ -28,7 +28,7 @@ import static javax.ws.rs.core.Response.status;
  * time: 20:31.
  */
 @ManagedBean
-@Path("/")
+@Path("/identifier")
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
     @Inject
@@ -36,7 +36,7 @@ public class IdentifyResource {
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
     private static Map<String,Result> resultMap=new HashMap<>();
     @POST
-    @Path("/identifier/identify")
+    @Path("/identify")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response identify(String input) {
         resultMap.clear();
@@ -85,7 +85,7 @@ public class IdentifyResource {
         return ok().build();
     }
     @GET
-    @Path("/identifier/status/{id}")
+    @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response statusToResponse(@PathParam("id") String id){
         LOG.info("----------------------------in status-------------------------------");

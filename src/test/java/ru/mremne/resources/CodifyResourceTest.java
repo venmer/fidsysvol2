@@ -3,10 +3,10 @@ package ru.mremne.resources;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.mremne.service.FidService;
 import ru.mremne.service.FidServiceImpl;
 
 import javax.ws.rs.core.Application;
@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThat;
  * date: 14.01.15
  * time: 23:19.
  */
-@Ignore
 @RunWith(Parameterized.class)
 public class CodifyResourceTest extends JerseyTest {
     private File requestJson;
@@ -48,7 +47,7 @@ public class CodifyResourceTest extends JerseyTest {
         AbstractBinder binder=new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(FidServiceImpl.class).to(FidServiceImpl.class);
+                bind(FidService.class).to(FidServiceImpl.class);
             }
         };
         ResourceConfig rc=new ResourceConfig(CodifyResource.class);

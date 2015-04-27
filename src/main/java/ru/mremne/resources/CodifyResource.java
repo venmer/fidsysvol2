@@ -29,14 +29,14 @@ import static javax.ws.rs.core.Response.*;
  * time: 23:30.
  */
 @ManagedBean
-@Path("/")
+@Path("/coder")
 @Produces(MediaType.APPLICATION_JSON)
 public class CodifyResource {
     private static final Logger LOG =Logger.getLogger(CodifyResource.class);
     @Inject
     private FidService service;
     @POST
-    @Path("/coder/codify")
+    @Path("/codify")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response codify(String input) {
         ObjectMapper mapper = new ObjectMapper();

@@ -1,11 +1,11 @@
 package ru.mremne.service;
 
 import org.bson.types.ObjectId;
-import ru.mremne.model.mongo.beans.Product;
+import org.mongodb.morphia.query.Query;
+import ru.mremne.model.mongo.dao.Product;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
-import java.util.Map;
 
 import static ru.mremne.model.mongo.dao.ProductDAO.getProductDAO;
 
@@ -25,11 +25,13 @@ public class MongoServiceImpl implements MongoService {
 
     @Override
     public Product getProductById(ObjectId id) {
+
         return null;
     }
 
     @Override
-    public Map<ObjectId, Product> getAllProducts() {
-        return null;
+    public Query<Product> getAllProducts() {
+        Query<Product> products=getProductDAO().getDs().find(Product.class);
+        return products;
     }
 }

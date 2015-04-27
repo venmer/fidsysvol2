@@ -5,7 +5,7 @@ import com.mongodb.MongoClientURI;
 import org.apache.log4j.Logger;
 import org.mongodb.morphia.Morphia;
 import ru.mremne.config.ServerConfig;
-import ru.mremne.model.mongo.beans.Product;
+import ru.mremne.model.mongo.dao.Product;
 
 import java.net.UnknownHostException;
 

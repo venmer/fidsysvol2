@@ -1,4 +1,4 @@
-package ru.mremne.model.mongo.beans;
+package ru.mremne.model.mongo.dao;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
@@ -12,9 +12,9 @@ import org.mongodb.morphia.annotations.Id;
 @Entity
 public class Product {
 
-    @Id private ObjectId id;
-    private String type;
-    private String description;
+    @Id public ObjectId id;
+    public String type;
+    public String description;
 
     public ObjectId getId() {
         return id;
@@ -38,5 +38,10 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "id: "+id+"type: "+type+"description"+description;
     }
 }

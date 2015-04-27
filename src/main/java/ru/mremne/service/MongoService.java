@@ -1,9 +1,8 @@
 package ru.mremne.service;
 
 import org.bson.types.ObjectId;
-import ru.mremne.model.mongo.beans.Product;
-
-import java.util.Map;
+import org.mongodb.morphia.query.Query;
+import ru.mremne.model.mongo.dao.Product;
 
 /**
  * autor:maksim
@@ -13,5 +12,5 @@ import java.util.Map;
 public interface MongoService {
     public void addProduct(Product product);
     public Product getProductById(ObjectId id);
-    public Map<ObjectId,Product> getAllProducts();
+    public Query<Product> getAllProducts();
 }
