@@ -3,6 +3,7 @@ package ru.mremne.service;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
+import ru.mremne.model.mongo.dao.User;
 
 /**
  * autor:maksim
@@ -13,4 +14,6 @@ public interface MongoService {
     public void addProduct(Product product);
     public Product getProductById(ObjectId id);
     public Query<Product> getAllProducts();
+    public void addUser(User user);
+    public Query<User> getAllUsers();
 }

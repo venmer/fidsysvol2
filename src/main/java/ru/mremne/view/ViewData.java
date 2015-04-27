@@ -1,6 +1,7 @@
 package ru.mremne.view;
 
 import ru.mremne.model.mongo.dao.Product;
+import ru.mremne.model.mongo.dao.User;
 
 import java.util.List;
 
@@ -10,9 +11,10 @@ import java.util.List;
  * time: 17:06.
  */
 public class ViewData {
-    public Product singleProduct;
-    public List<Product> allProducts;
-
+    private Product singleProduct;
+    private List<Product> allProducts;
+    private User user;
+    private List<User> users;
     public Product getSingleProduct() {
         return singleProduct;
     }
@@ -27,5 +29,21 @@ public class ViewData {
 
     public void setAllProducts(List<Product> allProducts) {
         this.allProducts = allProducts;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

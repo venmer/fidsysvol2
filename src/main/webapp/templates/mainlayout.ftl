@@ -1,4 +1,5 @@
 <#-- @ftlvariable name="model" type="ru.mremne.view.ViewData" -->
+<#global products = model>
 <#macro layout title="Fidsys">
 <html>
 <head>
@@ -35,47 +36,24 @@
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="/products/" id="allproducts">All products</a>
+                            <a href="/products/all" id="allproducts">All products</a>
                         </li>
                         <li>
                             <a href="#" id="allusers">All users</a>
                         </li>
                     </ul>
-
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/about">About</a></li>
-
+                        <li><a href="#">About</a></li>
+                        <li><a href="/users/new">Register</a></li>
             </div>
         </nav>
-
     </div>
-    <div class="container" id="table" style="padding-top: 50px" overflow="auto">
-    <table class="table table-striped" id="products" cellspacing="0" cellpadding="0" border="0" align="center">
-        <thead>
-        <th>ID</th>
-        <th>Type</th>
-        <th>Description</th>
-        </thead>
-        <tbody>
-        <#list model.allProducts as products>
-            <tr>
-                <td>${products.id}</td>
-                <td>${products.type}</td>
-                 <td>${products.description}</td>
-        </tr>
-        </#list>
-        </tbody>
-    </table>
-        </div>
-
-
-    <div class="container" id="content">
+    <div class="container" id="content" style="padding-top: 50px">
         <#nested />
     </div>
 
     <div id="push"></div>
 </div>
-
     <div class="navbar navbar-inverse navbar-fixed-bottom">
         <div class="container">
     <span class="navbar-text">
@@ -83,7 +61,6 @@
     </span>
         </div>
     </div>
-
 <div id="back-to-top" >
     <a href="#" style=""><i class="fa fa-angle-up"></i></a>
 </div>

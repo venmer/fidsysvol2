@@ -3,11 +3,13 @@ package ru.mremne.service;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
+import ru.mremne.model.mongo.dao.User;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 
 import static ru.mremne.model.mongo.dao.ProductDAO.getProductDAO;
+import static ru.mremne.model.mongo.dao.UserDAO.getUserDAO;
 
 /**
  * autor:maksim
@@ -33,5 +35,17 @@ public class MongoServiceImpl implements MongoService {
     public Query<Product> getAllProducts() {
         Query<Product> products=getProductDAO().getDs().find(Product.class);
         return products;
+    }
+
+    @Override
+    public Query<User> getAllUsers() {
+        Query<User> users=getUserDAO().getDs().find(User.class);
+        return users;
+    }
+
+    @Override
+    public void addUser(User user) {
+        getUserDAO().save(user);
+
     }
 }

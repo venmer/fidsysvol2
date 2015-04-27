@@ -13,8 +13,8 @@ import org.mongodb.morphia.annotations.Id;
 public class Product {
 
     @Id public ObjectId id;
-    public String type;
-    public String description;
+    private String type;
+    private String description;
 
     public ObjectId getId() {
         return id;
