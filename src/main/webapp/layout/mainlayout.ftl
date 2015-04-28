@@ -21,7 +21,12 @@
         <![endif]-->
     </head>
     <body>
+    <!-- Wrap all page content here -->
     <div id="wrap">
+
+        <!-- Begin page content -->
+        <div class="container">
+    <div>
         <nav class="navbar navbar-inverse navbar-fixed-top padding" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -40,6 +45,7 @@
                         <li>
                             <a href="/users/all" id="allusers">All users</a>
                         </li>
+                        <li><a href="/try">Try FidSys!</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">About</a></li>
@@ -47,22 +53,26 @@
             </div>
         </nav>
     </div>
-    <div class="container" id="content" style="padding-top: 50px">
+    <div class="container" align="center" id="content" style="padding-top: 50px">
         <#nested />
     </div>
 
-    <div id="push"></div>
-</div>
-    <div class="navbar navbar-inverse navbar-fixed-bottom">
-        <div class="container">
-    <span class="navbar-text">
-      SPTICAD
-    </span>
+
         </div>
     </div>
-<div id="back-to-top" >
-    <a href="#" style=""><i class="fa fa-angle-up"></i></a>
+
+    <div id="footer">
+        <div class="container">
+            <div class="col-lg-12">
+                <br>
+                <p>SPBGTI 2015</p>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script src="/public/js/main.js"></script>

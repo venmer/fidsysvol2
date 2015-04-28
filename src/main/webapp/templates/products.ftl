@@ -2,18 +2,18 @@
 <#assign products = model>
 <#import "/layout/mainlayout.ftl" as layout/>
 <@layout.layout title="Products">
-    <article class="product">
+<div class="col-md-offset-4 col-md-4" style="overflow-y: auto">
+    <h2>All Products</h2>
+    <br>
         <header class="entry-header">
-            <table class="table table-striped header-fixed" id="products" align="center">
+            <table class="table table-bordered" id="products">
                 <thead>
-                <th>ID</th>
                 <th>Type</th>
                 <th>Description</th>
                 </thead>
                 <tbody>
                     <#list products.allProducts as products>
                     <tr>
-                        <td>${products.id}</td>
                         <td>${products.type}</td>
                         <td>${products.description}</td>
                     </tr>
@@ -21,5 +21,5 @@
                 </tbody>
             </table>
         </header>
-    </article>
+  </div>
 </@layout.layout>

@@ -2,9 +2,11 @@
 <#assign users = model>
 <#import "/layout/mainlayout.ftl" as layout/>
 <@layout.layout title="Users">
-<article class="product">
+<div class="col-md-offset-4 col-md-4">
+    <h2>All Users</h2>
+    <br>
     <header class="entry-header">
-        <table class="table table-striped header-fixed" id="products" cellspacing="0" cellpadding="0" border="0" align="center">
+        <table class="table table-bordered header-fixed" id="products" cellspacing="0" cellpadding="0" border="0">
             <thead>
             <th>Name</th>
             <th>Surname</th>
@@ -19,5 +21,5 @@
             </tbody>
         </table>
     </header>
-</article>
+</div>
 </@layout.layout>

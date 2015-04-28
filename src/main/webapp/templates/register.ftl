@@ -2,6 +2,8 @@
 <@layout.layout title="Registration Page">
 
 <div class="row">
+    <h2>Registration</h2>
+    <br>
     <div class="col-md-offset-4 col-md-4">
         <form class="form" role="form" action="/users/register" method="post" id="register-form">
             <div class="page-header">

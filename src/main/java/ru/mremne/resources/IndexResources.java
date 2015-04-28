@@ -14,10 +14,15 @@ import javax.ws.rs.Path;
 public class IndexResources {
     @GET
     @Template(name = "/templates/welcome.ftl")
-    public String welcomePage(){
+    public String welcomePage() {
         return "welcome";
     }
-
+    @GET
+    @Path("/try")
+    @Template(name="/templates/start.ftl")
+    public String tryIt(){
+        return "try it";
+    }
 
 
 }
