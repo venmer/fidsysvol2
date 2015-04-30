@@ -1,11 +1,9 @@
 'use strict';
 
-var videoElement = document.querySelector('video');
+var videoElement = document.querySelector('webcam');
 var videoSelect = document.querySelector('select#videoSource');
-
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
 function gotSources(sourceInfos) {
     for (var i = 0; i !== sourceInfos.length; ++i) {
         var sourceInfo = sourceInfos[i];
@@ -19,24 +17,19 @@ function gotSources(sourceInfos) {
         }
     }
 }
-
 if (typeof MediaStreamTrack === 'undefined'){
     alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
 } else {
     MediaStreamTrack.getSources(gotSources);
 }
-
-
 function successCallback(stream) {
     window.stream = stream; // make stream available to console
     videoElement.src = window.URL.createObjectURL(stream);
     videoElement.play();
 }
-
 function errorCallback(error){
     console.log('navigator.getUserMedia error: ', error);
 }
-
 function start(){
     if (!!window.stream) {
         videoElement.src = null;
@@ -51,7 +44,5 @@ function start(){
     };
     navigator.getUserMedia(constraints, successCallback, errorCallback);
 }
-
 videoSelect.onchange = start;
-
 start();

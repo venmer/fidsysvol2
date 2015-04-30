@@ -29,6 +29,13 @@
 <h2>FidSYS demo.</h2>
 <br>
 <h3>Step 1</h3>
+<div class="panel-body" id="container"  >
+    <div class="select">
+        <label for="audioSource">Audio source: </label><select id="audioSource"></select>
+    </div>
+    <div class="select">
+        <label for="videoSource">Video source: </label><select id="videoSource"></select>
+    </div>
     <video id="webcam" width="640" height="480"  style="display:none;"></video>
     <div>
         <canvas id="canvas" width="640" height="480"></canvas>
@@ -56,8 +63,7 @@
         </table>
     </div>
     <input type="button" value="Fill Cell" onclick="fillCell('testTable1','tr1')" />
-
-
+</div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>
@@ -65,4 +71,5 @@
 <script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/fun.js"></script>
 <script type="text/javascript" src="/public/js/main.js"></script>
+<script src="/public/js/main.js"></script>
 </@layout.layout>

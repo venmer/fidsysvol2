@@ -1,6 +1,7 @@
 
     var video = document.getElementById('webcam');
     var canvas = document.getElementById('canvas');
+    var count_corners;
     var flag=false;
     try {
         var attempts = 0;
@@ -105,6 +106,7 @@
 
             stat.start("fast corners");
             var count = jsfeat.fast_corners.detect(img_u8, corners, 5);
+            count_corners=count;
             stat.stop("fast corners");
 
             // render result back to canvas
@@ -142,11 +144,16 @@ function continue_video(){
     function fillCell(table, tr) {
         var tr11 = document.getElementById(tr); //берем первую строку
         var table = document.getElementById(table);
-        var tr31 = document.createElement('tr'); //создаем еще строку
-        var td31 = document.createElement('td'); td31.innerHTML = '31'; //создаем столбец
-        var td32 = document.createElement('td'); td32.innerHTML = '32'; //создаем еще столбец
-        // tr11.appendChild(td31); так можно добавить в первую строку столбец
-        tr31.appendChild(td31); //кладем в новосозданную строку первый новосозданный столбец
-        tr31.appendChild(td32); //кладем в новосозданную строку второй новосозданный столбец
-        table.appendChild(tr31); //кладем в таблицу новосозданную строку (последней)
+        for(var i=0;i<count_corners;++i){
+            var x = corners[i].x;
+            var y = corners[i].y;
+            var tr31 = document.createElement('tr'); //создаем еще строку
+            var td31 = document.createElement('td'); td31.innerHTML = x; //создаем столбец
+            var td32 = document.createElement('td'); td32.innerHTML = y; //создаем еще столбец
+            // tr11.appendChild(td31); так можно добавить в первую строку столбец
+            tr31.appendChild(td31); //кладем в новосозданную строку первый новосозданный столбец
+            tr31.appendChild(td32); //кладем в новосозданную строку второй новосозданный столбец
+            table.appendChild(tr31); //кладем в таблицу новосозданную строку (последней)
+        }
+
     }
