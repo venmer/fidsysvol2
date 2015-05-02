@@ -2,10 +2,8 @@
 <@layout.layout title="Get photo">
 <style>
     canvas{
-        min-width: 50%;
-        min-height: 50%;
-        width: auto;
-        height: auto;
+        width: 100%;
+        height: 100%;
         margin: 0px;
     }
 </style>
@@ -47,23 +45,8 @@
         <input type="button" class="btn btn-success" value="take photo" onclick="take_photo()"/>
         <input type="button" class="btn btn-primary"value="continue" onclick="continue_video()"/>
     </div>
-    <div style="height:100px;overflow: auto;">
-        <table class="table table-bordered" id="testTable1" align="center">
-            <thead>
-            <tr>
-                <th>n</th>
-                <th>x</th>
-                <th>y</th>
-            </tr>
-            </thead>
-            <tr id="tr1">
-
-            </tr>
-
-        </table>
+    <input type="button" class="btn btn-primary"value="continue" onclick="send()"/>
     </div>
-    <input type="button" value="Fill Cell" onclick="fillCell('testTable1','tr1')" />
-</div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
 <script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>

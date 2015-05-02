@@ -157,3 +157,21 @@ function continue_video(){
         }
 
     }
+    function Point(x,y){
+        this.x=x;
+        this.y=y;
+    }
+    function send(){
+        var points=[];
+        for(var i=0;i<count_corners;++i){
+            points[i]=new Point(corners[i].x,corners[i].y);
+        }
+        var pointsJson = JSON.stringify(points);
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "POST", "/try/steptwo", false );
+        xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlHttp.setRequestHeader("Content-length", corners.length);
+        xmlHttp.send(pointsJson);
+        return xmlHttp.responseText;
+    }
