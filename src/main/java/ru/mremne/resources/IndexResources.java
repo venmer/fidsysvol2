@@ -4,11 +4,10 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.server.mvc.Template;
 import ru.mremne.model.identification.ResultPoints;
+import ru.mremne.service.FidService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -25,6 +24,8 @@ import java.util.SortedSet;
 @Path("/")
 @Produces("text/html")
 public class IndexResources {
+    @Inject
+    private FidService service;
 
     @GET
     @Template(name = "/templates/welcome.ftl")
@@ -48,7 +49,7 @@ public class IndexResources {
     @Path("/try/steptwo")
     @Template(name="/templates/fidsysdemo/step_two.ftl")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response stepTwo(@Context HttpServletRequest req, @Context HttpServletResponse resp,String o){
+    public Response stepTwo(String o){
         ObjectMapper mapper = new ObjectMapper();
         System.out.println("points: "+o.toString());
         JsonNode inputJson= null;
@@ -76,10 +77,11 @@ public class IndexResources {
             angleSet+=d+"|";
             i++;
         }
-
+        service.addAngles(ang);
         URI uri=URI.create("/");
         return Response.ok("everithing is ok").header("header", "test header").
                 header("angle_set",angleSet).build();
+
     }
 
 

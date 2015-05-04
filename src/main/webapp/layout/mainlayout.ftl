@@ -1,4 +1,3 @@
-
 <#macro layout title="Fidsys">
 <html>
 <head>
@@ -21,13 +20,9 @@
 
         <![endif]-->
     </head>
-
-
     <body>
     <!-- Wrap all page content here -->
-
     <div id="wrap">
-
         <!-- Begin page content -->
         <div class="container">
     <div>
@@ -62,14 +57,14 @@
     </div>
         </div>
     </div>
-    <div id="footer">
+    <nav  class="navbar navbar-inverse" id="footer" >
         <div class="container">
             <div class="col-lg-12">
                 <br>
                 <p>SPBGTI 2015</p>
             </div>
         </div>
-    </div>
+    </nav>
 </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -79,7 +74,6 @@
     <script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
     <script type="text/javascript" src="/public/js/jsfeat/fun.js"></script>
     <script type="text/javascript" src="/public/js/main.js"></script>
-    <script src="/public/js/main.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 

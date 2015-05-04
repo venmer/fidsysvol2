@@ -1,3 +1,4 @@
+
 <#import "/layout/mainlayout.ftl" as layout />
 <@layout.layout title="Get photo">
 <style>
@@ -49,5 +50,23 @@
     <input type="button" id="nextstep" class="btn btn-primary"value="next step" style="display: none"/>
         </div>
     </div>
-
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Success!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to add some description?&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <form method="get" action="/try/two">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add description</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
 </@layout.layout>

@@ -179,7 +179,12 @@ function continue_video(){
                 sessionStorage.setItem("angles",angles);
                 document.getElementById("myDiv").innerHTML=sessionStorage.getItem("angles");
                 document.getElementById("nextstep").style.display='block';
-                window.location="/try/two";
+               // window.location="/try/two";
+                $(function ()
+                { $("#myModal").modal({
+                    backdrop: false
+                });
+                });
                 console.log(document.getElementById("description").innerHTML);
                 document.getElementById("description").innerHTML="test items";
 
