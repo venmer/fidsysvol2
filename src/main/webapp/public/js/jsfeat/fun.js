@@ -167,11 +167,28 @@ function continue_video(){
             points[i]=new Point(corners[i].x,corners[i].y);
         }
         var pointsJson = JSON.stringify(points);
-
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/try/steptwo", false );
+        xmlHttp.open( "POST", "/try/steptwo", true );
         xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xmlHttp.setRequestHeader("Content-length", corners.length);
         xmlHttp.send(pointsJson);
+        xmlHttp.onreadystatechange=function()
+        {
+            if (xmlHttp.readyState==4 && xmlHttp.status==200)
+            {
+                var angles=xmlHttp.getResponseHeader("angle_set");
+                sessionStorage.setItem("angles",angles);
+                document.getElementById("myDiv").innerHTML=sessionStorage.getItem("angles");
+                document.getElementById("nextstep").style.display='block';
+                window.location="/try/two";
+                console.log(document.getElementById("description").innerHTML);
+                document.getElementById("description").innerHTML="test items";
+
+            }else{
+                document.getElementById("myDiv").innerHTML='something goes wrong';
+            }
+        }
         return xmlHttp.responseText;
+    }
+    function init_desc(){
+        document.getElementById("description").value=sessionStorage.getItem("angles");
     }

@@ -18,10 +18,14 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
         <![endif]-->
     </head>
+
+
     <body>
     <!-- Wrap all page content here -->
+
     <div id="wrap">
 
         <!-- Begin page content -->
@@ -53,14 +57,11 @@
             </div>
         </nav>
     </div>
-    <div class="container" align="center" id="content" style="padding-top: 50px">
+    <div class="container" align="left" id="content" style="padding-top: 50px">
         <#nested />
     </div>
-
-
         </div>
     </div>
-
     <div id="footer">
         <div class="container">
             <div class="col-lg-12">
@@ -68,14 +69,20 @@
                 <p>SPBGTI 2015</p>
             </div>
         </div>
-
     </div>
 </div>
 
-
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
+    <script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>
+    <script type="text/javascript" src="/public/js/jsfeat/profiler.js"></script>
+    <script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
+    <script type="text/javascript" src="/public/js/jsfeat/fun.js"></script>
+    <script type="text/javascript" src="/public/js/main.js"></script>
+    <script src="/public/js/main.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<script src="/public/js/main.js"></script>
+
 </body>
 </html>
 </#macro>

@@ -1,7 +1,7 @@
 'use strict';
 
 var videoElement = document.querySelector('webcam');
-var videoSelect = document.querySelector('select#videoSource');
+var videoSelect = document.querySelector('videoSource');
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 function gotSources(sourceInfos) {
