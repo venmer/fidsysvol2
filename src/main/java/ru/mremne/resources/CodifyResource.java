@@ -59,7 +59,7 @@ public class CodifyResource {
                 ang[i]=d;
                 i++;
             }
-             return service.addAngles(ang);
+             return (service.addAngles(ang)? ok().build(): noContent().build());
 
         } catch (JsonMappingException e) {
             LOG.error("json mapping exception");

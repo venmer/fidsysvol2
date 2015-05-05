@@ -12,7 +12,6 @@ import ru.mremne.model.identification.ResultPoints;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -30,14 +29,14 @@ import static org.neo4j.helpers.collection.MapUtil.map;
 public class FidServiceImpl implements FidService {
     private final CypherExecutor cypher=createCypherExecutor();
     private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
-    public static final int CONSTR=3;
+    public static final int CONSTR=5;
     private CypherExecutor createCypherExecutor(){
     ServerConfig serverConfig=ServerConfig.newInstance();
         return new JdbcCypherExecutor(serverConfig.getNeo4jHost(),serverConfig.getNeo4jPort());
     }
 
     @Override
-    public Response addAngles(double[] angles){
+    public boolean addAngles(double[] angles){
        LOG.info("add angles..");
         if(angles.length!=0){
             int level=0;
@@ -48,14 +47,14 @@ public class FidServiceImpl implements FidService {
                         "return m",map("1",null));
                 level++;
             }
-          return Response.ok().build();
+          return true;
         }else{
             LOG.error("nothing to add!");
-            return Response.noContent().build();
+            return false;
         }
     }
     @Override
-    public Response checkAngles(double[] angles){
+    public boolean checkAngles(double[] angles){
         int levelExpected=angles.length-1;
         int levelActual=0;
         LOG.info("checking angles...");
@@ -79,14 +78,14 @@ public class FidServiceImpl implements FidService {
             }
         }else{
             LOG.error("nothing to search!!");
-            return Response.noContent().build();
+            return false;
         }
         LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
         if(Math.abs(levelExpected-levelActual)<=levelActual) {
             LOG.info("everything is ok!!");
-            return Response.ok().build();
+            return true;
         }
-        return Response.noContent().build();
+        return false;
     }
     @Override
     public void saveStatus(Result result){

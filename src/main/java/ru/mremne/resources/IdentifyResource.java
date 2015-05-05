@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.*;
 
+import static javax.ws.rs.core.Response.*;
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
 
@@ -59,20 +60,21 @@ public class IdentifyResource {
             double[] ang=new double[angles.size()];
             int i=0;
             for(Double d:angles){
+                System.out.println("angle to identify: "+d);
                 ang[i]=d;
                 i++;
             }
             Result identiResult=new Result();
             identiResult.setId(idJson.toString());
             identiResult.setStatus(Status.READY);
-            if(service.checkAngles(ang).getStatus()==Response.ok().build().getStatus()){
+            if(service.checkAngles(ang)){
                 identiResult.setIdResult(IdResult.ORIGIN);
             }else{
                 identiResult.setIdResult(IdResult.UNKNOWN);
             }
             resultMap.put(idJson.toString(),identiResult);
             service.saveStatus(identiResult);
-            return service.checkAngles(ang);
+            return (service.checkAngles(ang)? ok().build(): noContent().build());
         } catch (JsonMappingException e) {
             LOG.error("json mapping problem");
             return status(Response.Status.BAD_REQUEST).build();
@@ -97,6 +99,6 @@ public class IdentifyResource {
                 LOG.error("no elements");
             }
             LOG.info("map output"+output);
-        return Response.ok("{\"results\": [" + output + "]}").build();
+        return ok("{\"results\": [" + output + "]}").build();
     }
 }

@@ -39,18 +39,22 @@
         <div id="no_rtc" class="alert alert-error" style="display:none;"></div>
         <div id="log" class="alert alert-info"></div>
     </div>
+
     <div class="form-inline" role="form">
         <input type="text"  id="text_area"/>
-        <input type="button" class="btn btn-success" value="take photo" onclick="take_photo()"/>
-        <input type="button" class="btn btn-primary"value="continue" onclick="continue_video()"/>
-    </div>
-    <div  id="myDiv"><h2>Test text</h2></div>
-    <div class="form-inline" role="form">
-    <input type="button" class="btn btn-primary"value="continue" onclick="send()"/>
-    <input type="button" id="nextstep" class="btn btn-primary"value="next step" style="display: none"/>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="take_photo()">Take a photo</button>
+            <button type="button" class="btn btn-primary" onclick="continue_video()">Continue</button>
         </div>
     </div>
-<div class="modal fade" id="myModal">
+    <div  id="myDiv"><h2></h2></div>
+    <div class="form-inline" role="form">
+    <input type="button" class="btn btn-primary"value="Codify" onclick="codify()"/>
+    <input type="button" class="btn btn-primary"value="Identify" onclick="identify()"/>
+        </div>
+    </div>
+<!-- Modal then codify is ok -->
+<div class="modal fade" id="succsessModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -58,10 +62,10 @@
                 <h4 class="modal-title">Success!</h4>
             </div>
             <div class="modal-body">
-                <p>Do you want to add some description?&hellip;</p>
+                <p>Do you want to add some description?</p>
             </div>
             <div class="modal-footer">
-                <form method="get" action="/try/two">
+                <form method="get" action="/try/desc">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Add description</button>
                 </form>
@@ -69,4 +73,64 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+<!--Modal then something goes wrong -->
+<div class="modal fade" id="errorModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Error!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to try again?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="get" action="/try">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Try again</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--Modal then identify is ok -->
+<div class="modal fade" id="identifyOk">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">This product is original</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to see more info?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="get" action="/try">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">See more</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- Modal then identify is not pass -->
+<div class="modal fade" id="identifyNot">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">This product is fake</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to try again?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="get" action="/try">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Try again</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div>
 </@layout.layout>

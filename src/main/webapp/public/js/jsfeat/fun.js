@@ -161,19 +161,19 @@ function continue_video(){
         this.x=x;
         this.y=y;
     }
-    function send(){
+    function codify(){
         var points=[];
         for(var i=0;i<count_corners;++i){
             points[i]=new Point(corners[i].x,corners[i].y);
         }
         var pointsJson = JSON.stringify(points);
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/try/steptwo", true );
+        xmlHttp.open( "POST", "/try/codify", true );
         xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xmlHttp.send(pointsJson);
         xmlHttp.onreadystatechange=function()
         {
-            if (xmlHttp.readyState==4 && xmlHttp.status==200)
+            if (xmlHttp.readyState==4 && xmlHttp.status==200 && xmlHttp.getResponseHeader("header"))
             {
                 var angles=xmlHttp.getResponseHeader("angle_set");
                 sessionStorage.setItem("angles",angles);
@@ -181,7 +181,7 @@ function continue_video(){
                 document.getElementById("nextstep").style.display='block';
                // window.location="/try/two";
                 $(function ()
-                { $("#myModal").modal({
+                { $("#succsessModal").modal({
                     backdrop: false
                 });
                 });
@@ -189,6 +189,11 @@ function continue_video(){
                 document.getElementById("description").innerHTML="test items";
 
             }else{
+                $(function ()
+                { $("#errorModal").modal({
+                    backdrop: false
+                });
+                });
                 document.getElementById("myDiv").innerHTML='something goes wrong';
             }
         }
