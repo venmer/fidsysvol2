@@ -12,7 +12,7 @@ import org.mongodb.morphia.annotations.Id;
 @Entity
 public class User {
     @Id
-    ObjectId objectId;
+    private ObjectId objectId;
     private String login;
     private String name;
     private String surname;

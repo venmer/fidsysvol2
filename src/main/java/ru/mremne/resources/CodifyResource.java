@@ -5,6 +5,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import ru.mremne.model.identification.Area;
+import ru.mremne.model.identification.Point;
 import ru.mremne.model.identification.ResultPoints;
 import ru.mremne.service.FidService;
 
@@ -52,7 +54,13 @@ public class CodifyResource {
                 ++k;
                 resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
             }
-            SortedSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
+            List<Point> poin=new ArrayList<>();
+            for(Area a:resultPoints.getPointList()){
+                System.out.println("Is this right? : "+a.getResultPoint() );
+                poin.add(a.getResultPoint());
+
+            }
+            SortedSet<Double> angles=ResultPoints.getAngleValue(poin);
             double[] ang=new double[angles.size()];
             int i=0;
             for(Double d:angles){

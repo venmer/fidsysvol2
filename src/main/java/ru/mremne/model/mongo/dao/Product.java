@@ -11,8 +11,8 @@ import org.mongodb.morphia.annotations.Id;
  */
 @Entity
 public class Product {
-
-    @Id public ObjectId id;
+    @Id
+    private ObjectId id;
     private String type;
     private String description;
 

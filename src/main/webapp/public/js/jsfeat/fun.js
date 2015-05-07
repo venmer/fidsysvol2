@@ -141,22 +141,6 @@ function take_photo(){
 function continue_video(){
     flag=false;
 }
-    function fillCell(table, tr) {
-        var tr11 = document.getElementById(tr); //берем первую строку
-        var table = document.getElementById(table);
-        for(var i=0;i<count_corners;++i){
-            var x = corners[i].x;
-            var y = corners[i].y;
-            var tr31 = document.createElement('tr'); //создаем еще строку
-            var td31 = document.createElement('td'); td31.innerHTML = x; //создаем столбец
-            var td32 = document.createElement('td'); td32.innerHTML = y; //создаем еще столбец
-            // tr11.appendChild(td31); так можно добавить в первую строку столбец
-            tr31.appendChild(td31); //кладем в новосозданную строку первый новосозданный столбец
-            tr31.appendChild(td32); //кладем в новосозданную строку второй новосозданный столбец
-            table.appendChild(tr31); //кладем в таблицу новосозданную строку (последней)
-        }
-
-    }
     function Point(x,y){
         this.x=x;
         this.y=y;

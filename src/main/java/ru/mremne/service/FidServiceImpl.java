@@ -7,13 +7,10 @@ import ru.mremne.executor.CypherExecutor;
 import ru.mremne.executor.JdbcCypherExecutor;
 import ru.mremne.model.identification.Labels;
 import ru.mremne.model.identification.Relationships;
-import ru.mremne.model.identification.Result;
 import ru.mremne.model.identification.ResultPoints;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -86,30 +83,5 @@ public class FidServiceImpl implements FidService {
             return true;
         }
         return false;
-    }
-    @Override
-    public void saveStatus(Result result){
-        LOG.info("Saving status info...");
-        if(result!=null) {
-            cypher.query("CREATE (r: " + Labels.STATUS + "{" + result.toString() + "}) return r", map("1", null));
-            LOG.info("ok!");
-        }else{
-            LOG.warn("no results to save!");
-        }
-    }
-    @Override
-    public Map<String,Object> getStatus(String id){
-        LOG.info("Get results by id..");
-        Map<String, Object> params = new HashMap<>();
-        if(id!=null){
-             params=cypher.query("MATCH (r: "+Labels.STATUS +"{id: \""+id+"\"}) return r.id AS id, r.status AS status, r.result AS result  "
-                                ,map("1",null)).next();
-            LOG.info("ok");
-        }
-        return params;
-    }
-
-    public void deleteCurrentStatus(String id){
-        cypher.query("MATCH (r: "+Labels.STATUS +"{id: \""+id+"\"}) DELETE r",map(null,null));
     }
 }

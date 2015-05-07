@@ -20,7 +20,7 @@ public class ResultPoints {
     private int x;
     private int y;
 
-    private List<int[]> pointList=new ArrayList<>();
+    private List<Area> pointList=new ArrayList<>();
     public ResultPoints() {
 
     }
@@ -28,36 +28,38 @@ public class ResultPoints {
         boolean check=true;
         if(!pointList.isEmpty()){
         for(int i=0;i<pointList.size();i++){
-            if((pointList.get(i)[0]>x-ERROR)&&(pointList.get(i)[0]<x+ERROR)
-               && (pointList.get(i)[1]>y-ERROR)&&(pointList.get(i)[1]<y+ERROR)){
-                LOG.error("equals error: [" + pointList.get(i)[0] + ":" + pointList.get(i)[1] + "]");
+            if((pointList.get(i).getComparablePoint().getX()>x-ERROR)
+                    &&(pointList.get(i).getComparablePoint().getX()<x+ERROR)
+               && (pointList.get(i).getComparablePoint().getY()>y-ERROR)&&(pointList.get(i).getComparablePoint().getY()<y+ERROR)){
+                LOG.error("equals error: [" + pointList.get(i).getComparablePoint().getX() + ":" + pointList.get(i).getComparablePoint().getY() + "]");
+                pointList.get(i).getPoints().add(new Point(x,y));
                 check=false;
             }
         }
             if(check){
-                pointList.add(new int[]{x,y});
+                pointList.add(new Area(new Point(x,y)));
             }
         }else{
-            pointList.add(new int[]{x,y});
+            pointList.add(new Area(new Point(x,y)));
         }
     }
-    public List<int[]> getPointList() {
+    public List<Area> getPointList() {
         return pointList;
     }
 
 
-    public static SortedSet<Double> getAngleValue(List<int[]> points){
-      List<int[]> vectors=new ArrayList<>();
+    public static SortedSet<Double> getAngleValue(List<Point> points){
+      List<double[]> vectors=new ArrayList<>();
       for(int i=0;i<points.size()-1;i++){
           for(int j=1;j<points.size();j++){
-              vectors.add(new int[]{points.get(i)[0] - points.get(j)[0],
-                                    points.get(i)[1] - points.get(j)[1]});
+              vectors.add(new double[]{points.get(i).getX() - points.get(j).getX(),
+                                    points.get(i).getY() - points.get(j).getY()});
           }
       }
      SortedSet<Double> angles=new TreeSet<>();
      Double d;
-     int[] vectorA=new int[2];
-     int[] vectorB=new int[2];
+     double[] vectorA=new double[2];
+     double[] vectorB=new double[2];
      for(int i=0;i<vectors.size()-1;i++) {
          for (int j = 1; j < vectors.size(); j++) {
              vectorA[0] = vectors.get(i)[0];

@@ -1,27 +1,29 @@
 package ru.mremne.resources;
 
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import ru.mremne.model.identification.IdResult;
-import ru.mremne.model.identification.Result;
-import ru.mremne.model.identification.ResultPoints;
+import ru.mremne.model.identification.*;
 import ru.mremne.model.identification.Status;
+import ru.mremne.model.mongo.dao.Result;
 import ru.mremne.service.FidService;
+import ru.mremne.service.MongoService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
 
 import static javax.ws.rs.core.Response.*;
-import static javax.ws.rs.core.Response.ok;
-import static javax.ws.rs.core.Response.status;
 
 /**
  * autor:maksim
@@ -34,13 +36,13 @@ import static javax.ws.rs.core.Response.status;
 public class IdentifyResource {
     @Inject
     private FidService service;
+    @Inject
+    private MongoService mongoService;
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
-    private static Map<String,Result> resultMap=new HashMap<>();
     @POST
     @Path("/identify")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response identify(String input) {
-        resultMap.clear();
         ObjectMapper mapper = new ObjectMapper();
         try{
             JsonNode inputJson=mapper.readTree(input);
@@ -56,7 +58,13 @@ public class IdentifyResource {
                 ++k;
                 resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
             }
-            SortedSet<Double> angles=ResultPoints.getAngleValue(resultPoints.getPointList());
+            List<Point> poin=new ArrayList<>();
+            for(Area a:resultPoints.getPointList()){
+                System.out.println("Is this right? : "+a.getResultPoint() );
+                poin.add(a.getResultPoint());
+
+            }
+            SortedSet<Double> angles=ResultPoints.getAngleValue(poin);
             double[] ang=new double[angles.size()];
             int i=0;
             for(Double d:angles){
@@ -65,16 +73,18 @@ public class IdentifyResource {
                 i++;
             }
             Result identiResult=new Result();
-            identiResult.setId(idJson.toString());
+            identiResult.setFakeId(idJson.toString());
             identiResult.setStatus(Status.READY);
-            if(service.checkAngles(ang)){
+            boolean check=service.checkAngles(ang);
+            if(check){
                 identiResult.setIdResult(IdResult.ORIGIN);
             }else{
                 identiResult.setIdResult(IdResult.UNKNOWN);
             }
-            resultMap.put(idJson.toString(),identiResult);
-            service.saveStatus(identiResult);
-            return (service.checkAngles(ang)? ok().build(): noContent().build());
+            LOG.info("saving status... ");
+            mongoService.saveResult(identiResult);
+            LOG.info("status is save! ");
+            return (check? ok().build(): noContent().build());
         } catch (JsonMappingException e) {
             LOG.error("json mapping problem");
             return status(Response.Status.BAD_REQUEST).build();
@@ -89,16 +99,18 @@ public class IdentifyResource {
     @GET
     @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response statusToResponse(@PathParam("id") String id){
+    public Response statusToResponse(@PathParam("id") @NotNull String id){
         LOG.info("----------------------------in status-------------------------------");
+        LOG.info("status id: "+id);
+        LOG.info("valid id: " + ObjectId.isValid(id));
         ObjectMapper mapper=new ObjectMapper();
         String output = "";
             try {
-                output=mapper.writeValueAsString(service.getStatus(id));
+                output = mapper.writeValueAsString(mongoService.getResult(id));
             } catch (IOException e) {
                 LOG.error("no elements");
             }
-            LOG.info("map output"+output);
+            LOG.info("map output" + output);
         return ok("{\"results\": [" + output + "]}").build();
     }
 }

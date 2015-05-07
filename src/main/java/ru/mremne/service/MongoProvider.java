@@ -41,8 +41,6 @@ public class MongoProvider {
             } catch (Exception e) {
                 LOG.info("Mongo on localhost");
                 mongo=new MongoClient(serverConfig.getMongoHost(),serverConfig.getMongoPort());
-              /*  mongo = new MongoClient(Play.application().configuration().getString("mongo.host"),
-                        Play.application().configuration().getInt("mongo.port"));*/
             }
         }
         return mongo;
@@ -58,7 +56,6 @@ public class MongoProvider {
             } catch (Exception e) {
                 LOG.info("MongoDB on localhost");
                 database=serverConfig.getMongoDataBase();
-               // database = Play.application().configuration().getString("mongo.database");
             }
         }
         return database;
