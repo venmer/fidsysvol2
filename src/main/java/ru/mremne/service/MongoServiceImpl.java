@@ -53,12 +53,18 @@ public class MongoServiceImpl implements MongoService {
 
     @Override
     public Result getResult(String id) {
-         Result result=getResultDAO().findOne("fakeId",id);
+         Result result=getResultDAO().findOne("_id","\""+id+"\"");
         return result;
     }
 
     @Override
     public void saveResult(Result result) {
         getResultDAO().save(result);
+    }
+
+    @Override
+    public void removeOldResult(String id) {
+        Result result=getResultDAO().findOne("_id","\""+id+"\"");
+        if(result!=null)getResultDAO().delete(result);
     }
 }

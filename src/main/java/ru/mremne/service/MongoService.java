@@ -19,4 +19,5 @@ public interface MongoService {
     public Query<User> getAllUsers();
     public void saveResult(Result result);
     public Result getResult(String id);
+    public void removeOldResult(String id);
 }

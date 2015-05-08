@@ -1,6 +1,5 @@
 package ru.mremne.model.mongo.dao;
 
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import ru.mremne.model.identification.IdResult;
@@ -16,8 +15,7 @@ import java.util.Date;
 @Entity
 public class Result {
     @Id
-    private ObjectId id;
-    private String fakeId;
+    private String id;
     private Status status;
     private IdResult idResult;
     private long timestamp;
@@ -26,20 +24,12 @@ public class Result {
         status = Status.RUNNING;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getFakeId() {
-        return fakeId;
-    }
-
-    public void setFakeId(String fakeId) {
-        this.fakeId = fakeId;
     }
 
     public IdResult getIdResult() {
@@ -67,6 +57,6 @@ public class Result {
     }
     @Override
     public String toString() {
-        return "id: "+id+", status: \""+status+"\", result: \""+ idResult +"\"";
+        return "{\"id\": "+id+", \"status\": \""+status+"\", \"result\": \""+ idResult +"\"}";
     }
 }

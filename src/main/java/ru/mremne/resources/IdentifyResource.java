@@ -73,7 +73,7 @@ public class IdentifyResource {
                 i++;
             }
             Result identiResult=new Result();
-            identiResult.setFakeId(idJson.toString());
+            identiResult.setId(idJson.toString());
             identiResult.setStatus(Status.READY);
             boolean check=service.checkAngles(ang);
             if(check){
@@ -103,14 +103,14 @@ public class IdentifyResource {
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
-        ObjectMapper mapper=new ObjectMapper();
-        String output = "";
-            try {
-                output = mapper.writeValueAsString(mongoService.getResult(id));
-            } catch (IOException e) {
-                LOG.error("no elements");
-            }
+        String output = mongoService.getResult(id).toString();
+        if(output!=null) {
             LOG.info("map output" + output);
-        return ok("{\"results\": [" + output + "]}").build();
+            String resultStr = "{\"results\": [" + output + "]}";
+            LOG.info(resultStr);
+            return ok(resultStr).build();
+        }else{
+            return ok().build();
+        }
     }
 }
