@@ -2,11 +2,14 @@
 <#import "/layout/mainlayout.ftl" as layout />
 <@layout.layout title="Get photo">
 <style>
-
-    canvas{
+    #container{
         width: 100%;
         height: 100%;
         margin: 0px;
+    }
+    canvas{
+        width: 80%;
+        height: 50%;
     }
 </style>
     <!--
@@ -27,8 +30,6 @@
 </div>
     </div>-->
 <h2>FidSYS demo.</h2>
-<br>
-<h3>Step 1</h3>
 <div class="panel-body" align="center" id="container"  >
     <!--<div class="select">
         <label for="videoSource">Video source: </label><select id="videoSource"></select>
@@ -59,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Success!</h4>
+                <h4 class="modal-title">  <img src="/public/img/tick_64.gif" >Success!</h4></img>
             </div>
             <div class="modal-body">
                 <p>Do you want to add some description?</p>
@@ -76,10 +77,12 @@
 <!--Modal then something goes wrong -->
 <div class="modal fade" id="errorModal">
     <div class="modal-dialog">
+
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Error!</h4>
+                <h4 class="modal-title">  <img src="/public/img/delete_64.gif" >Error!</h4></img>
+
             </div>
             <div class="modal-body">
                 <p>Do you want to try again?</p>

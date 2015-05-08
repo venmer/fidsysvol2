@@ -21,6 +21,7 @@ import java.util.List;
 
 import static javax.ws.rs.core.Response.noContent;
 import static javax.ws.rs.core.Response.ok;
+import static javax.ws.rs.core.Response.status;
 import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
@@ -85,7 +86,7 @@ public class IndexResources {
             return Response.ok().header("header", true).
                     header("angle_set", Arrays.asList(angles)).build();
         }else{
-            return  Response.ok().header("header",true).build();
+            return  Response.status(503).build();
         }
     }
     @POST
@@ -114,11 +115,11 @@ public class IndexResources {
             Double[] angles=getAngleValue(poin);
             return (service.checkAngles(angles)? ok().header("header",true).build(): noContent().build());
         } catch (JsonMappingException e) {
-            return ok().header("header",false).build();
+            return status(503).build();
         } catch (JsonGenerationException e) {
-            return ok().header("header",false).build();
+            return status(503).build();
         } catch (IOException e) {
         }
-        return ok().header("header",true).build();
+        return status(503).build();
     }
 }

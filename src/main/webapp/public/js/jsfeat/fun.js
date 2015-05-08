@@ -157,12 +157,12 @@ function continue_video(){
         xmlHttp.send(pointsJson);
         xmlHttp.onreadystatechange=function()
         {
+            console.log("readyState: "+xmlHttp.readyState+" status: "+xmlHttp.status+" header: "+xmlHttp.getResponseHeader("header"));
             if (xmlHttp.readyState==4 && xmlHttp.status==200 && xmlHttp.getResponseHeader("header"))
             {
                 var angles=xmlHttp.getResponseHeader("angle_set");
                 sessionStorage.setItem("angles",angles);
                 document.getElementById("myDiv").innerHTML=sessionStorage.getItem("angles");
-                document.getElementById("nextstep").style.display='block';
                // window.location="/try/two";
                 $(function ()
                 { $("#succsessModal").modal({
@@ -172,17 +172,46 @@ function continue_video(){
                 console.log(document.getElementById("description").innerHTML);
                 document.getElementById("description").innerHTML="test items";
 
-            }else{
+            }else if(xmlHttp.readyState==4 && xmlHttp.status!=200){
                 $(function ()
                 { $("#errorModal").modal({
                     backdrop: false
                 });
                 });
-                document.getElementById("myDiv").innerHTML='something goes wrong';
             }
         }
         return xmlHttp.responseText;
     }
     function init_desc(){
         document.getElementById("description").value=sessionStorage.getItem("angles");
+    }
+    function identify(){
+        var points=[];
+        for(var i=0;i<count_corners;++i){
+            points[i]=new Point(corners[i].x,corners[i].y);
+        }
+        var pointsJson = JSON.stringify(points);
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "POST", "/try/identify", true );
+        xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlHttp.send(pointsJson);
+        xmlHttp.onreadystatechange=function()
+        {
+            if (xmlHttp.readyState==4 && xmlHttp.status==200 && xmlHttp.getResponseHeader("header"))
+            {
+                console.log("readyState: "+xmlHttp.readyState+" status: "+xmlHttp.status+" header: "+xmlHttp.getResponseHeader("header"));
+                $(function ()
+                { $("#succsessModal").modal({
+                    backdrop: false
+                });
+                });
+            }else if(xmlHttp.readyState==4 && xmlHttp.status!=200){
+                $(function ()
+                { $("#errorModal").modal({
+                    backdrop: false
+                });
+                });
+            }
+        }
+        return xmlHttp.responseText;
     }

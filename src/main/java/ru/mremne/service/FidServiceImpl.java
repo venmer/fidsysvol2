@@ -26,7 +26,7 @@ import static ru.mremne.model.identification.FidUtils.extractMaxLevel;
 public class FidServiceImpl implements FidService {
     private final CypherExecutor cypher=createCypherExecutor();
     private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
-    public static final int CONSTR=5;
+    public static final int CONSTR=5;             // angles error +-5 grad
     private CypherExecutor createCypherExecutor(){
     ServerConfig serverConfig=ServerConfig.newInstance();
         return new JdbcCypherExecutor(serverConfig.getNeo4jHost(),serverConfig.getNeo4jPort());
