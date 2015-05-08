@@ -21,9 +21,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 import static javax.ws.rs.core.Response.*;
+import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
  * autor:maksim
@@ -62,20 +62,12 @@ public class IdentifyResource {
             for(Area a:resultPoints.getPointList()){
                 System.out.println("Is this right? : "+a.getResultPoint() );
                 poin.add(a.getResultPoint());
-
             }
-            SortedSet<Double> angles=ResultPoints.getAngleValue(poin);
-            double[] ang=new double[angles.size()];
-            int i=0;
-            for(Double d:angles){
-                System.out.println("angle to identify: "+d);
-                ang[i]=d;
-                i++;
-            }
+            Double[] angles=getAngleValue(poin);
             Result identiResult=new Result();
             identiResult.setId(idJson.toString());
             identiResult.setStatus(Status.READY);
-            boolean check=service.checkAngles(ang);
+            boolean check=service.checkAngles(angles);
             if(check){
                 identiResult.setIdResult(IdResult.ORIGIN);
             }else{

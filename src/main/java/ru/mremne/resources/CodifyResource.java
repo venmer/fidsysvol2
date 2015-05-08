@@ -21,9 +21,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 import static javax.ws.rs.core.Response.*;
+import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
  * autor:maksim
@@ -60,15 +60,8 @@ public class CodifyResource {
                 poin.add(a.getResultPoint());
 
             }
-            SortedSet<Double> angles=ResultPoints.getAngleValue(poin);
-            double[] ang=new double[angles.size()];
-            int i=0;
-            for(Double d:angles){
-                ang[i]=d;
-                i++;
-            }
-             return (service.addAngles(ang)? ok().build(): noContent().build());
-
+            Double[] angles=getAngleValue(poin);
+             return (service.addAngles(angles)? ok().build(): noContent().build());
         } catch (JsonMappingException e) {
             LOG.error("json mapping exception");
             return status(Status.BAD_REQUEST).build();

@@ -1,13 +1,13 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.mremne.model.identification.ResultPoints;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static ru.mremne.model.identification.FidUtils.extractMaxLevel;
 
 /**
  * autor:maksim
@@ -32,7 +32,7 @@ public class MaxLevelTest {
     }
     @Test
     public void shouldGetMaxLevelFromString(){
-        assertThat(expectedLevel,is(ResultPoints.extractMaxLevel(testString)));
+        assertThat(expectedLevel,is(extractMaxLevel(testString)));
 
     }
 

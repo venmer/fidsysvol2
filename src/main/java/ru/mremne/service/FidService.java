@@ -6,7 +6,7 @@ package ru.mremne.service;
  * time: 17:02.
  */
 public interface FidService {
-    public boolean addAngles(double[] angles);
-    public boolean checkAngles(double[] angles);
+    public boolean addAngles(Double[] angles);
+    public boolean checkAngles(Double[] angles);
 
 }

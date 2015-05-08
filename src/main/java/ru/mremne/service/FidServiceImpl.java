@@ -7,7 +7,6 @@ import ru.mremne.executor.CypherExecutor;
 import ru.mremne.executor.JdbcCypherExecutor;
 import ru.mremne.model.identification.Labels;
 import ru.mremne.model.identification.Relationships;
-import ru.mremne.model.identification.ResultPoints;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -15,6 +14,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import static org.neo4j.helpers.collection.MapUtil.map;
+import static ru.mremne.model.identification.FidUtils.extractMaxLevel;
 
 /**
  * @author maksim
@@ -33,7 +33,7 @@ public class FidServiceImpl implements FidService {
     }
 
     @Override
-    public boolean addAngles(double[] angles){
+    public boolean addAngles(Double[] angles){
        LOG.info("add angles..");
         if(angles.length!=0){
             int level=0;
@@ -51,7 +51,7 @@ public class FidServiceImpl implements FidService {
         }
     }
     @Override
-    public boolean checkAngles(double[] angles){
+    public boolean checkAngles(Double[] angles){
         int levelExpected=angles.length-1;
         int levelActual=0;
         LOG.info("checking angles...");
@@ -67,7 +67,7 @@ public class FidServiceImpl implements FidService {
             }
             LOG.info("map.size =" + identityList.size());
             for(String m:identityList){
-                int tmp=ResultPoints.extractMaxLevel(m);
+                int tmp=extractMaxLevel(m);
                 if(tmp>levelActual) {
                     LOG.info("founded angles: " + m);
                     levelActual=tmp;

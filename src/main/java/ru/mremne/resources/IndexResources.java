@@ -16,11 +16,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.SortedSet;
 
 import static javax.ws.rs.core.Response.noContent;
 import static javax.ws.rs.core.Response.ok;
+import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
  * autor:maksim
@@ -79,19 +80,10 @@ public class IndexResources {
             poin.add(a.getResultPoint());
 
         }
-        SortedSet<Double> angles=ResultPoints.getAngleValue(poin);
-        double[] ang=new double[angles.size()];
-        int i=0;
-        String angleSet="";
-        for(Double d:angles){
-            ang[i]=d;
-            System.out.println("angle: "+d);
-            angleSet+=d+"|";
-            i++;
-        }
-        if(service.addAngles(ang)) {
+        Double[] angles=getAngleValue(poin);
+        if(service.addAngles(angles)) {
             return Response.ok().header("header", true).
-                    header("angle_set", angleSet).build();
+                    header("angle_set", Arrays.asList(angles)).build();
         }else{
             return  Response.ok().header("header",true).build();
         }
@@ -119,15 +111,8 @@ public class IndexResources {
                 poin.add(a.getResultPoint());
 
             }
-            SortedSet<Double> angles=ResultPoints.getAngleValue(poin);
-            double[] ang=new double[angles.size()];
-            int i=0;
-            for(Double d:angles){
-                System.out.println("angle: "+d);
-                ang[i]=d;
-                i++;
-            }
-            return (service.checkAngles(ang)? ok().header("header",true).build(): noContent().build());
+            Double[] angles=getAngleValue(poin);
+            return (service.checkAngles(angles)? ok().header("header",true).build(): noContent().build());
         } catch (JsonMappingException e) {
             return ok().header("header",false).build();
         } catch (JsonGenerationException e) {
