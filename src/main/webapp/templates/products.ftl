@@ -2,7 +2,7 @@
 <#assign products = model>
 <#import "/layout/mainlayout.ftl" as layout/>
 <@layout.layout title="Products">
-<div class="col-md-offset-4 col-md-4" style="overflow-y: auto">
+<div class="col-md-8" style="overflow-y: auto">
     <h2>All Products</h2>
     <br>
         <header class="entry-header">

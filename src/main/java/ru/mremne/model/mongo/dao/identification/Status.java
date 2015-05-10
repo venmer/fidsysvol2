@@ -1,4 +1,4 @@
-package ru.mremne.model.identification;
+package ru.mremne.model.mongo.dao.identification;
 
 /**
  * autor:maksim

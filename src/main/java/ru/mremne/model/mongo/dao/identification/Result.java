@@ -1,9 +1,8 @@
-package ru.mremne.model.mongo.dao;
+package ru.mremne.model.mongo.dao.identification;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import ru.mremne.model.identification.IdResult;
-import ru.mremne.model.identification.Status;
 
 import java.util.Date;
 

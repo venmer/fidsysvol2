@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
+import ru.mremne.model.mongo.dao.identification.Result;
 import ru.mremne.service.MongoProvider;
 
 import java.net.UnknownHostException;

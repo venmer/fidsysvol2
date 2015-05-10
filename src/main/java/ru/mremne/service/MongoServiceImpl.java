@@ -3,8 +3,8 @@ package ru.mremne.service;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
-import ru.mremne.model.mongo.dao.Result;
 import ru.mremne.model.mongo.dao.User;
+import ru.mremne.model.mongo.dao.identification.Result;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -66,5 +66,11 @@ public class MongoServiceImpl implements MongoService {
     public void removeOldResult(String id) {
         Result result=getResultDAO().findOne("_id","\""+id+"\"");
         if(result!=null)getResultDAO().delete(result);
+    }
+
+    @Override
+    public Query<Result> getAllResults() {
+        Query<Result> results=getResultDAO().getDs().find(Result.class);
+        return results;
     }
 }

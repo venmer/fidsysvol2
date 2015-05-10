@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.mongodb.morphia.Morphia;
 import ru.mremne.config.ServerConfig;
 import ru.mremne.model.mongo.dao.Product;
+import ru.mremne.model.mongo.dao.identification.Result;
 
 import java.net.UnknownHostException;
 
@@ -27,6 +28,7 @@ public class MongoProvider {
         {
             morphia = new Morphia();
             morphia.mapPackage(Product.class.getPackage().toString());
+            morphia.mapPackage(Result.class.getPackage().toString());
         }
         return morphia;
     }

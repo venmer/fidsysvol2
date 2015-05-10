@@ -26,7 +26,7 @@ import static ru.mremne.model.identification.FidUtils.extractMaxLevel;
 public class FidServiceImpl implements FidService {
     private final CypherExecutor cypher=createCypherExecutor();
     private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
-    public static final int CONSTR=1;             // angles error +-1 grad
+    public static final double CONSTR=0.5;             // angles error +-1 grad
     private CypherExecutor createCypherExecutor(){
     ServerConfig serverConfig=ServerConfig.newInstance();
         return new JdbcCypherExecutor(serverConfig.getNeo4jHost(),serverConfig.getNeo4jPort());
@@ -41,9 +41,10 @@ public class FidServiceImpl implements FidService {
                 cypher.query("MATCH (n:"+ Labels.INTERVALS +"{value: "+angles[i]+" })," +
                         "(m:"+Labels.INTERVALS +"{value: "+angles[i+1]+"}) " +
                         "CREATE UNIQUE (n)-[:"+ Relationships.LEVEL+"{level: "+level+" }]->(m) " +
-                        "return m",map("1",null));
+                        "",map("1",null));
                 level++;
             }
+            LOG.info("all angles is checked");
           return true;
         }else{
             LOG.error("nothing to add!");
@@ -54,22 +55,24 @@ public class FidServiceImpl implements FidService {
     public boolean checkAngles(Double[] angles){
         int levelExpected=angles.length-1;
         int levelActual=0;
+        int tmpLevel=0;
         LOG.info("checking angles...");
         SortedSet<String> identityList=new TreeSet<>();
         if(angles.length!=0){
             for(int i=0;i<angles.length-1;i++){
                 identityList.add(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
-                        "MATCH n-[r:"+Relationships.LEVEL+"]->c\n" +
+                        "MATCH n-[r:"+Relationships.LEVEL+"{level:"+tmpLevel+"}]->c\n" +
                         "WHERE HAS(n.value) AND HAS(c.value) " +
                         "AND n.value>(" + (angles[i] - CONSTR) + ") AND n.value<(" + (angles[i] + CONSTR) + ")\n" +
                         "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
                         "RETURN n, r,c", map("1", i))).toString());
+                tmpLevel++;
             }
             LOG.info("map.size =" + identityList.size());
             for(String m:identityList){
                 int tmp=extractMaxLevel(m);
                 if(tmp>levelActual) {
-                    LOG.info("founded angles: " + m);
+                    LOG.info("actual level: " + tmp);
                     levelActual=tmp;
                 }
             }

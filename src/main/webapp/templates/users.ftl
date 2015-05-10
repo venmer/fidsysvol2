@@ -2,7 +2,7 @@
 <#assign users = model>
 <#import "/layout/mainlayout.ftl" as layout/>
 <@layout.layout title="Users">
-<div class="col-md-offset-4 col-md-4">
+<div class="col-md-8">
     <h2>All Users</h2>
     <br>
     <header class="entry-header">

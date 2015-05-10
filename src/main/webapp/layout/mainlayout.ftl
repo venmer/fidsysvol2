@@ -45,6 +45,9 @@
                         <li>
                             <a href="/users/all" id="allusers">All users</a>
                         </li>
+                        <li>
+                            <a href="/results" id="allusers">Results</a>
+                        </li>
                         <li><a href="/try">Try FidSys!</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

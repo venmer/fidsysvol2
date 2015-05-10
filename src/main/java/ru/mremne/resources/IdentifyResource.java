@@ -7,8 +7,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.mremne.model.identification.*;
-import ru.mremne.model.identification.Status;
-import ru.mremne.model.mongo.dao.Result;
+import ru.mremne.model.mongo.dao.identification.Status;
+import ru.mremne.model.mongo.dao.identification.Result;
 import ru.mremne.service.FidService;
 import ru.mremne.service.MongoService;
 
@@ -39,6 +39,7 @@ public class IdentifyResource {
     @Inject
     private MongoService mongoService;
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
+    private boolean inStatus=true;
     @POST
     @Path("/identify")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -91,15 +92,17 @@ public class IdentifyResource {
     @GET
     @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response statusToResponse(@PathParam("id") @NotNull String id){
+    public Response statusToResponse(@PathParam("id") @NotNull String id, String page){
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
+        LOG.info("Page: " + page);
         String output = mongoService.getResult(id).toString();
-        if(output!=null) {
+        if(output!=null && inStatus) {
             LOG.info("map output" + output);
             String resultStr = "{\"results\": [" + output + "]}";
             LOG.info(resultStr);
+            inStatus=false;
             return ok(resultStr).build();
         }else{
             return ok().build();
