@@ -3,7 +3,6 @@
 <article>
     <header class="entry-header">
         <h3>Welcome to FidSys!</h3>
-        <h4>Latest notes</h4>
         <header class="entry-header">
     </header>
 </article>
