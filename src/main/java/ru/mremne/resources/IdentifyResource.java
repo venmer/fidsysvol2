@@ -6,9 +6,12 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import ru.mremne.model.identification.*;
-import ru.mremne.model.mongo.dao.identification.Status;
+import ru.mremne.model.identification.Area;
+import ru.mremne.model.identification.IdResult;
+import ru.mremne.model.identification.Point;
+import ru.mremne.model.identification.ResultPoints;
 import ru.mremne.model.mongo.dao.identification.Result;
+import ru.mremne.model.mongo.dao.identification.Status;
 import ru.mremne.service.FidService;
 import ru.mremne.service.MongoService;
 
@@ -92,17 +95,16 @@ public class IdentifyResource {
     @GET
     @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response statusToResponse(@PathParam("id") @NotNull String id, String page){
+    public Response statusToResponse(@PathParam("id") @NotNull String id, Integer page){
+       LOG.info("page:" + page);
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
-        LOG.info("Page: " + page);
         String output = mongoService.getResult(id).toString();
-        if(output!=null && inStatus) {
+        if(output!=null && page<5) {
             LOG.info("map output" + output);
             String resultStr = "{\"results\": [" + output + "]}";
             LOG.info(resultStr);
-            inStatus=false;
             return ok(resultStr).build();
         }else{
             return ok().build();

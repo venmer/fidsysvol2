@@ -10,11 +10,9 @@ import ru.mremne.model.identification.Relationships;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.neo4j.helpers.collection.MapUtil.map;
-import static ru.mremne.model.identification.FidUtils.extractMaxLevel;
 
 /**
  * @author maksim
@@ -26,7 +24,7 @@ import static ru.mremne.model.identification.FidUtils.extractMaxLevel;
 public class FidServiceImpl implements FidService {
     private final CypherExecutor cypher=createCypherExecutor();
     private static final Logger LOG =Logger.getLogger(FidServiceImpl.class);
-    public static final double CONSTR=0.5;             // angles error +-1 grad
+    public static final double CONSTR=1;             // angles error +-1 grad
     private CypherExecutor createCypherExecutor(){
     ServerConfig serverConfig=ServerConfig.newInstance();
         return new JdbcCypherExecutor(serverConfig.getNeo4jHost(),serverConfig.getNeo4jPort());
@@ -57,30 +55,36 @@ public class FidServiceImpl implements FidService {
         int levelActual=0;
         int tmpLevel=0;
         LOG.info("checking angles...");
-        SortedSet<String> identityList=new TreeSet<>();
+        List<Integer> identityList=new ArrayList<>();
+        String identyString;
         if(angles.length!=0){
             for(int i=0;i<angles.length-1;i++){
-                identityList.add(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
+                identyString=(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
                         "MATCH n-[r:"+Relationships.LEVEL+"{level:"+tmpLevel+"}]->c\n" +
                         "WHERE HAS(n.value) AND HAS(c.value) " +
                         "AND n.value>(" + (angles[i] - CONSTR) + ") AND n.value<(" + (angles[i] + CONSTR) + ")\n" +
                         "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
                         "RETURN n, r,c", map("1", i))).toString());
+                LOG.info("identy"+identyString);
+                if(!identyString.equals("[]")){
+                     levelActual++;
+                }else{
+                    identityList.add(levelActual);
+                    levelActual=0;
+                }
                 tmpLevel++;
             }
             LOG.info("map.size =" + identityList.size());
-            for(String m:identityList){
-                int tmp=extractMaxLevel(m);
-                if(tmp>levelActual) {
-                    LOG.info("actual level: " + tmp);
-                    levelActual=tmp;
-                }
+            for(Integer i:identityList){
+                LOG.info("levels: "+    i.toString());
             }
         }else{
             LOG.error("nothing to search!!");
             return false;
         }
         LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
+        LOG.info("max: "+Collections.max(identityList));
+        levelActual=Collections.max(identityList);
         if(Math.abs(levelExpected-levelActual)<=levelActual) {
             LOG.info("everything is ok!!");
             return true;

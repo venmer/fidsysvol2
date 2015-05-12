@@ -77,7 +77,6 @@
     <script type="text/javascript" src="/public/js/jsfeat/profiler.js"></script>
     <script type="text/javascript" src="/public/js/jsfeat/dat.gui.min.js"></script>
     <script type="text/javascript" src="/public/js/jsfeat/fun.js"></script>
-    <script type="text/javascript" src="/public/js/main.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
