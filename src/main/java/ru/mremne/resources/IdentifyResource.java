@@ -19,13 +19,15 @@ import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.ws.rs.core.Response.*;
+import static javax.ws.rs.core.Response.ok;
 import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
@@ -42,56 +44,63 @@ public class IdentifyResource {
     @Inject
     private MongoService mongoService;
     private static final Logger LOG =Logger.getLogger(IndexResources.class);
-    private boolean inStatus=true;
     @POST
     @Path("/identify")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response identify(String input) {
-        ObjectMapper mapper = new ObjectMapper();
-        try{
-            JsonNode inputJson=mapper.readTree(input);
-            JsonNode idJson=inputJson.path("id");
-            JsonNode pointsJSON=inputJson.path("points");
-            LOG.info("points: " + pointsJSON.toString());
-            int k = -1;
-            List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
-            ResultPoints resultPoints=new ResultPoints();
-            for (JsonNode point : pointsJSON) {
-                dotsX.add(point.get("x").asInt());
-                dotsY.add(point.get("y").asInt());
-                ++k;
-                resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
+    public void identify(@Suspended final AsyncResponse asyncResponse,final String input) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LOG.info("new identify");
+                ObjectMapper mapper = new ObjectMapper();
+                try{
+                    JsonNode inputJson=mapper.readTree(input);
+                    JsonNode idJson=inputJson.path("id");
+                    JsonNode pointsJSON=inputJson.path("points");
+                    LOG.info("points: " + pointsJSON.toString());
+                    int k = -1;
+                    List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
+                    ResultPoints resultPoints=new ResultPoints();
+                    for (JsonNode point : pointsJSON) {
+                        dotsX.add(point.get("x").asInt());
+                        dotsY.add(point.get("y").asInt());
+                        ++k;
+                        resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
+                    }
+                    List<Point> poin=new ArrayList<>();
+                    for(Area a:resultPoints.getPointList()){
+                        System.out.println("Is this right? : "+a.getResultPoint() );
+                        poin.add(a.getResultPoint());
+                    }
+                    Double[] angles=getAngleValue(poin);
+                    Result identiResult=new Result();
+                    identiResult.setId(idJson.toString());
+                    identiResult.setStatus(Status.READY);
+                    boolean check=service.checkAngles(angles);
+                    if(check){
+                        identiResult.setIdResult(IdResult.ORIGIN);
+                    }else{
+                        identiResult.setIdResult(IdResult.UNKNOWN);
+                    }
+                    LOG.info("saving status... ");
+                    mongoService.saveResult(identiResult);
+                    LOG.info("status is save! ");
+                // (check?  asyncResponse.resume(ok().build()):  asyncResponse.resume(noContent().build()));
+                } catch (JsonMappingException e) {
+                    LOG.error("json mapping problem");
+                    // return status(Response.Status.BAD_REQUEST).build();
+                } catch (JsonGenerationException e) {
+                    LOG.error("json generation problem");
+                    //  return status(Response.Status.BAD_REQUEST).build();
+                } catch (IOException e) {
+                    LOG.error("IO exception");
+                }
+                // return ok().build();
             }
-            List<Point> poin=new ArrayList<>();
-            for(Area a:resultPoints.getPointList()){
-                System.out.println("Is this right? : "+a.getResultPoint() );
-                poin.add(a.getResultPoint());
-            }
-            Double[] angles=getAngleValue(poin);
-            Result identiResult=new Result();
-            identiResult.setId(idJson.toString());
-            identiResult.setStatus(Status.READY);
-            boolean check=service.checkAngles(angles);
-            if(check){
-                identiResult.setIdResult(IdResult.ORIGIN);
-            }else{
-                identiResult.setIdResult(IdResult.UNKNOWN);
-            }
-            LOG.info("saving status... ");
-            mongoService.saveResult(identiResult);
-            LOG.info("status is save! ");
-            return (check? ok().build(): noContent().build());
-        } catch (JsonMappingException e) {
-            LOG.error("json mapping problem");
-            return status(Response.Status.BAD_REQUEST).build();
-        } catch (JsonGenerationException e) {
-            LOG.error("json generation problem");
-            return status(Response.Status.BAD_REQUEST).build();
-        } catch (IOException e) {
-            LOG.error("IO exception");
-        }
-        return ok().build();
+        }).start();
+
     }
+
     @GET
     @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -110,4 +119,5 @@ public class IdentifyResource {
             return ok().build();
         }
     }
+
 }

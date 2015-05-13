@@ -31,7 +31,7 @@ public class FidServiceImpl implements FidService {
     }
 
     @Override
-    public boolean addAngles(Double[] angles){
+    public synchronized boolean addAngles(Double[] angles){
        LOG.info("add angles..");
         if(angles.length!=0){
             int level=0;
@@ -50,7 +50,7 @@ public class FidServiceImpl implements FidService {
         }
     }
     @Override
-    public boolean checkAngles(Double[] angles){
+    public synchronized boolean checkAngles(Double[] angles){
         int levelExpected=angles.length-1;
         int levelActual=0;
         int tmpLevel=0;

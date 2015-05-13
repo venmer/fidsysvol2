@@ -34,5 +34,4 @@ public class IndexResources {
         System.out.println("size of resultsList: "+viewData.getResults().size());
         return viewData;
     }
-
 }
