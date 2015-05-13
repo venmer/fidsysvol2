@@ -95,7 +95,7 @@ public class IdentifyResource {
     @GET
     @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response statusToResponse(@PathParam("id") @NotNull String id, Integer page){
+    public Response statusToResponse(@PathParam("id") @NotNull String id,@QueryParam("page") Integer page){
        LOG.info("page:" + page);
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
