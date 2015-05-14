@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.ws.rs.core.Response.ok;
+import static javax.ws.rs.core.Response.status;
 import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
@@ -85,17 +86,17 @@ public class IdentifyResource {
                     LOG.info("saving status... ");
                     mongoService.saveResult(identiResult);
                     LOG.info("status is save! ");
-                // (check?  asyncResponse.resume(ok().build()):  asyncResponse.resume(noContent().build()));
+                  asyncResponse.resume(ok().build());
                 } catch (JsonMappingException e) {
                     LOG.error("json mapping problem");
-                    // return status(Response.Status.BAD_REQUEST).build();
+                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (JsonGenerationException e) {
                     LOG.error("json generation problem");
-                    //  return status(Response.Status.BAD_REQUEST).build();
+                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (IOException e) {
                     LOG.error("IO exception");
+                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 }
-                // return ok().build();
             }
         }).start();
 

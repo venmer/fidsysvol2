@@ -16,11 +16,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.ok;
+import static javax.ws.rs.core.Response.status;
 import static ru.mremne.model.identification.FidUtils.getAngleValue;
 
 /**
@@ -38,7 +43,7 @@ public class CodifyResource {
     @POST
     @Path("/codify")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void codify(final String input) {
+    public void codify(@Suspended final AsyncResponse asyncResponse,final String input) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -64,16 +69,17 @@ public class CodifyResource {
                     }
                     Double[] angles = getAngleValue(poin);
                     service.addAngles(angles);
+                    asyncResponse.resume(ok().build());
                 } catch (JsonMappingException e) {
                     LOG.error("json mapping exception");
-                    // return status(Status.BAD_REQUEST).build();
+                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (JsonGenerationException e) {
                     LOG.error("json generation exception");
-                    // return status(Status.BAD_REQUEST).build();
+                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (IOException e) {
                     LOG.error("IO exception");
+                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 }
-                //return ok().build();
             }
         }).start();
     }
