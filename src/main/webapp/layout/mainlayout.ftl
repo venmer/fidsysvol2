@@ -11,7 +11,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link href="../public/css/superhero/bootstrap.min.css" rel="stylesheet">
     <!--JsFeat-->
-    <link href="/public/css/jsfeat/jsfeat.css" rel="stylesheet">
     <link href="/public/css/main.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,11 +21,6 @@
         <![endif]-->
     </head>
     <body>
-    <!-- Wrap all page content here -->
-    <div id="wrap">
-        <!-- Begin page content -->
-        <div class="container">
-    <div>
         <nav class="navbar navbar-default  navbar-fixed-top padding" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -68,7 +62,7 @@
     </div>
         </div>
     </div>
-    <nav  class="navbar navbar-default" id="footer" >
+    <nav  class="navbar navbar-default navbar-fixed-bottom" id="footer" >
         <div class="container">
             <div class="col-lg-12">
                 <br>

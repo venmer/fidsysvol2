@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" style="color: #ffffff">Register</h4>
+                <h4 class="modal-title">Register</h4>
             </div>
         <#include "../../templates/register/register.ftl"/>
         </div><!-- /.modal-content -->

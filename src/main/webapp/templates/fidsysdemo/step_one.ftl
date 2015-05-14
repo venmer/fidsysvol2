@@ -38,7 +38,7 @@
     <div>
         <canvas id="canvas" width="640" height="480"></canvas>
         <div id="no_rtc" class="alert alert-error" style="display:none;"></div>
-        <div id="log" class="alert alert-info"></div>
+        <div id="log"></div>
     </div>
 
     <div class="form-inline" role="form">
