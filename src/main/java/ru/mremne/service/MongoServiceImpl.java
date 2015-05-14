@@ -1,6 +1,7 @@
 package ru.mremne.service;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.query.Criteria;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
 import ru.mremne.model.mongo.dao.User;
@@ -72,5 +73,17 @@ public class MongoServiceImpl implements MongoService {
     public Query<Result> getAllResults() {
         Query<Result> results=getResultDAO().getDs().find(Result.class);
         return results;
+    }
+
+    @Override
+    public User getUser(String login,String pass) {
+        Query query= getUserDAO().createQuery();
+        Criteria forLogin= (Criteria) query.criteria("login").equal(login);
+        Criteria forPass= (Criteria) query.criteria("password").equal(pass.hashCode());
+        query.and(forLogin,forPass);
+        System.out.println("query: " + pass);
+        User user=getUserDAO().findOne(query);
+        return user;
+
     }
 }

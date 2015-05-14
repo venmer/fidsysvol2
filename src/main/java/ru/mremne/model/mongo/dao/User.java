@@ -15,9 +15,8 @@ public class User {
     private ObjectId objectId;
     private String login;
     private String name;
-    private String surname;
     private String email;
-    private String password;
+    private int password;
 
     public String getName() {
         return name;
@@ -25,14 +24,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getEmail() {
@@ -59,16 +50,16 @@ public class User {
         this.login = login;
     }
 
-    public String getPassword() {
+    public int getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+       this.password=password.hashCode();
     }
 
     @Override
     public String toString() {
-        return "name: "+name+" surname: "+surname+" email"+email;
+        return "name: "+name+" email"+email;
     }
 }

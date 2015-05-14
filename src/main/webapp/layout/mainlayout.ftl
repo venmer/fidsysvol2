@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="model" type="ru.mremne.view.ViewUserData" -->
 <#macro layout title="Fidsys">
 <html>
 <head>
@@ -8,8 +9,7 @@
     <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
+    <link href="../public/css/superhero/bootstrap.min.css" rel="stylesheet">
     <!--JsFeat-->
     <link href="/public/css/jsfeat/jsfeat.css" rel="stylesheet">
     <link href="/public/css/main.css" rel="stylesheet">
@@ -27,7 +27,7 @@
         <!-- Begin page content -->
         <div class="container">
     <div>
-        <nav class="navbar navbar-inverse navbar-fixed-top padding" role="navigation">
+        <nav class="navbar navbar-default  navbar-fixed-top padding" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <a href="/" class="navbar-brand">FidSys</a>
@@ -50,18 +50,25 @@
                         </li>
                         <li><a href="/try">Try FidSys!</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">About</a></li>
-                        <li><a href="/users/new">Register</a></li>
+                    <ul class="nav navbar-nav navbar-right" >
+                        <li>
+                            <a href="#" id="register-button" data-toggle="modal" data-target=".register-modal" >Register</a>
+                        </li>
+                        <li>
+                            <a href="#" id="signin-button" data-toggle="modal" data-target=".signin-modal" >Sign in</a>
+                        </li>
+                    </ul>
             </div>
         </nav>
     </div>
     <div class="container" align="left" id="content" style="padding-top: 50px">
         <#nested />
+         <#include "/templates/login/modal.ftl">
+        <#include "/templates/register/modal.ftl">
     </div>
         </div>
     </div>
-    <nav  class="navbar navbar-inverse" id="footer" >
+    <nav  class="navbar navbar-default" id="footer" >
         <div class="container">
             <div class="col-lg-12">
                 <br>
@@ -70,8 +77,6 @@
         </div>
     </nav>
 </div>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/jsfeat/jsfeat-min.js"></script>
     <script type="text/javascript" src="/public/js/jsfeat/compatibility.js"></script>
     <script type="text/javascript" src="/public/js/jsfeat/profiler.js"></script>

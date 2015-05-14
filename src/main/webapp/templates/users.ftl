@@ -9,13 +9,13 @@
         <table class="table table-bordered header-fixed" id="products" cellspacing="0" cellpadding="0" border="0">
             <thead>
             <th>Name</th>
-            <th>Surname</th>
+            <th>Pass</th>
             </thead>
             <tbody>
                 <#list users.users as user>
                 <tr>
                     <td>${user.name}</td>
-                    <td>${user.surname}</td>
+                    <td>${user.password}</td>
                 </tr>
                 </#list>
             </tbody>
