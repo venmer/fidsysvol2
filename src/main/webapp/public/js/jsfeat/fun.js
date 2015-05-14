@@ -150,9 +150,9 @@ function continue_video(){
         for(var i=0;i<count_corners;++i){
             points[i]=new Point(corners[i].x,corners[i].y);
         }
-        var pointsJson = JSON.stringify(points);
+        var pointsJson = JSON.stringify({points: points});
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/try/codify", true );
+        xmlHttp.open( "POST", "/coder/codify", true );
         xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xmlHttp.send(pointsJson);
         xmlHttp.onreadystatechange=function()
@@ -190,9 +190,9 @@ function continue_video(){
         for(var i=0;i<count_corners;++i){
             points[i]=new Point(corners[i].x,corners[i].y);
         }
-        var pointsJson = JSON.stringify(points);
+        var pointsJson = JSON.stringify({points: points});
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", "/try/identify", true );
+        xmlHttp.open( "POST", "/identifier/identify", true );
         xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xmlHttp.send(pointsJson);
         xmlHttp.onreadystatechange=function()

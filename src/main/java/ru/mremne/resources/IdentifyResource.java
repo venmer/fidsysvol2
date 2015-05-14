@@ -111,7 +111,7 @@ public class IdentifyResource {
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
         String output = mongoService.getResult(id).toString();
-        if(output!=null && page<5) {
+        if(output!=null && (page!= null && page<5)) {
             LOG.info("map output" + output);
             String resultStr = "{\"results\": [" + output + "]}";
             LOG.info(resultStr);
