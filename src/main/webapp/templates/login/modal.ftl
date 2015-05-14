@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Login</h4>
+                <h4 class="modal-title" style="color: #ffffff">Login</h4>
             </div>
         <#include "../../templates/login/signin.ftl"/>
         </div><!-- /.modal-content -->
