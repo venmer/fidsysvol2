@@ -109,7 +109,6 @@ public class IdentifyResource {
                     }else{
                         identiResult.setIdResult(IdResult.UNKNOWN);
                     }
-
                     LOG.info("saving status... ");
                     for(Result r :user.getResults()){
                         LOG.info("current result: "+r.toString());

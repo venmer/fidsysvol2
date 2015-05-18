@@ -92,7 +92,7 @@
             <th>Time</th>
             </thead>
             <tbody>
-                <#if layout.user.authUser.id??>
+                <#if layout.user.authUser.results??>
                     <#list layout.user.authUser.results as result>
                     <tr>
                         <td>${result.id}</td>
@@ -102,7 +102,7 @@
                     </tr>
                     </#list>
                 <#else >
-                <p>${layout.user.authUser.id}</p>
+                <p>No results yet..</p>
                 </#if>
             </tbody>
         </table
