@@ -1,6 +1,7 @@
 package ru.mremne.view;
 
 import ru.mremne.model.mongo.dao.User;
+import ru.mremne.model.mongo.dao.identification.Result;
 
 import java.util.List;
 
@@ -10,40 +11,31 @@ import java.util.List;
  * time: 0:36.
  */
 public class ViewUserData {
-    private String name;
-    private String surname;
-    private String email;
-    private List<User> users;
+    public User authUser;
+    public List<Result> results;
+    public User profile;
 
-    public String getName() {
-        return name;
+    public User getAuthUser() {
+        return authUser;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAuthUser(User authUser) {
+        this.authUser = authUser;
     }
 
-    public String getEmail() {
-        return email;
+    public List<Result> getResults() {
+        return results;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 
-    public String getSurname() {
-        return surname;
+    public User getProfile() {
+        return profile;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setProfile(User profile) {
+        this.profile = profile;
     }
 }

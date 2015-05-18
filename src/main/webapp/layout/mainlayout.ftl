@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FIDsys demo</title>
+    <title>${title}</title>
     <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -45,12 +45,27 @@
                         <li><a href="/try">Try FidSys!</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" >
+    <#if model.authUser??>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+               id="user-menu" aria-expanded="false">
+            ${model.authUser.login?html}
+                <span class="fa fa-user"></span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a id="user-profile" href="/profile">Profile</a></li>
+                <li><a id="user-signout" href="/auth/signout">Sign out</a></li>
+            </ul>
+        </li>
+    <#else >
                         <li>
                             <a href="#" id="register-button" data-toggle="modal" data-target=".register-modal" >Register</a>
                         </li>
                         <li>
                             <a href="#" id="signin-button" data-toggle="modal" data-target=".signin-modal" >Sign in</a>
                         </li>
+    </#if>
                     </ul>
             </div>
         </nav>

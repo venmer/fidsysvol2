@@ -17,6 +17,7 @@ public interface MongoService {
     public Query<Product> getAllProducts();
     public void addUser(User user);
     public User getUser(String name, String pass);
+    public User getUserById(String id);
     public Query<User> getAllUsers();
     public void saveResult(Result result);
     public Result getResult(String id);

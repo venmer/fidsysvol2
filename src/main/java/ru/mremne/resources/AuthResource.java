@@ -22,9 +22,9 @@ import java.io.IOException;
  * time: 23:12.
  */
 
-@Path("/users")
-public class UserResource {
-    private static final Logger LOG =Logger.getLogger(UserResource.class);
+@Path("/auth")
+public class AuthResource {
+    private static final Logger LOG =Logger.getLogger(AuthResource.class);
     @Inject
     private MongoService mongoService;
     final static String USER_ID_ATTRIBUTE = "userId";
@@ -67,8 +67,10 @@ public class UserResource {
             return "not find";
         }
         HttpSession session = request.getSession(true);
-        session.setAttribute( USER_ID_ATTRIBUTE , user.getName() );
+        session.setAttribute( USER_ID_ATTRIBUTE , user.getId() );
 
+        String referer = request.getHeader( "referer" );
+        response.sendRedirect( referer );
         return "ok!";
     }
     @GET
@@ -77,7 +79,7 @@ public class UserResource {
     @Template(name = "/templates/users.ftl")
     public ViewUserData showProducts() {
         ViewUserData viewData=new ViewUserData();
-        viewData.setUsers(mongoService.getAllUsers().asList());
+       // viewData.setUsers(mongoService.getAllUsers().asList());
         return viewData;
     }
     @GET
@@ -85,6 +87,16 @@ public class UserResource {
     @Template(name = "/templates/login/error.ftl")
     public String showLoginError() {
         return "error in signin";
+    }
+    @GET
+    @Path("/signout")
+    public String processLogout() throws IOException {
+        HttpSession session = request.getSession(true);
+        session.removeAttribute( USER_ID_ATTRIBUTE );
+
+        response.sendRedirect("/");
+
+        return "";
     }
 
 }

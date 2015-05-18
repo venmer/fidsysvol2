@@ -1,4 +1,4 @@
-<form class="form signin-form" role="form" action="/users/signin" method="post">
+<form class="form signin-form" role="form" action="/auth/signin" method="post">
     <div class="modal-body">
         <div class="form-group">
             <input type="text" class="form-control" id="signin-login" name="signin-login"

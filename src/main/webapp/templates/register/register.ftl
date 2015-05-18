@@ -1,4 +1,4 @@
-<form class="form register-form" role="form" action="/users/register" method="post">
+<form class="form register-form" role="form" action="/auth/register" method="post">
     <div class="modal-body">
         <div class="form-group">
             <label for="name">Introduce yourself</label>

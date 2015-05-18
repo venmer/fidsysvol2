@@ -17,7 +17,7 @@ public class AuthUser implements SecurityContext {
     }
     @Override
     public Principal getUserPrincipal() {
-        return null;
+        return this.user;
     }
 
     @Override

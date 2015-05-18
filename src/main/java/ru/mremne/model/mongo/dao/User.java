@@ -1,8 +1,10 @@
 package ru.mremne.model.mongo.dao;
 
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+
+import java.security.Principal;
+import java.util.UUID;
 
 /**
  * autor:maksim
@@ -10,14 +12,17 @@ import org.mongodb.morphia.annotations.Id;
  * time: 22:33.
  */
 @Entity
-public class User {
+public class User implements Principal {
     @Id
-    private ObjectId objectId;
+    private String id;
     private String login;
     private String name;
     private String email;
     private int password;
 
+    public User(){
+        this.id= UUID.randomUUID().toString();
+    }
     public String getName() {
         return name;
     }
@@ -34,12 +39,13 @@ public class User {
         this.email = email;
     }
 
-    public ObjectId getObjectId() {
-        return objectId;
+    public String getId() {
+        return id;
     }
 
-    public void setObjectId(ObjectId objectId) {
-        this.objectId = objectId;
+
+    public void setPassword(int password) {
+        this.password = password;
     }
 
     public String getLogin() {

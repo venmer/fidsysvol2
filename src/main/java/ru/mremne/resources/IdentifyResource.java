@@ -44,7 +44,7 @@ public class IdentifyResource {
     private FidService service;
     @Inject
     private MongoService mongoService;
-    private static final Logger LOG =Logger.getLogger(IndexResources.class);
+    private static final Logger LOG =Logger.getLogger(IndexResource.class);
     @POST
     @Path("/identify")
     @Consumes(MediaType.APPLICATION_JSON)

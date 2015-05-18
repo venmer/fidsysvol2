@@ -84,6 +84,12 @@ public class MongoServiceImpl implements MongoService {
         System.out.println("query: " + pass);
         User user=getUserDAO().findOne(query);
         return user;
+    }
 
+    @Override
+    public User getUserById(String id) {
+        User user=getUserDAO().findOne("_id",id);
+        System.out.println("user: "+user);
+        return user;
     }
 }
