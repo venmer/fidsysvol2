@@ -59,7 +59,6 @@ public class IdentifyResource {
             public void run() {
                 Result identiResult=new Result();
                 long currentResultTimeStamp=identiResult.getTimestamp();
-
                 identiResult.setStatus(Status.RUNNING);
                 identiResult.setIdResult(IdResult.PART);
                 LOG.info("new identify");
@@ -71,7 +70,12 @@ public class IdentifyResource {
                     identiResult.setId(idJson.asText());
                     JsonNode pointsJSON=inputJson.path("points");
                  User user=mongoService.getUserById(idJson.asText());
-                   if(user.getId()==null) user=new User();
+                    LOG.info("user: "+user);
+                   if(user==null) {
+                       LOG.info("user does't exist id: "+user);
+                       user=new User();
+                        user.setId(idJson.asText());
+                   }
                     LOG.info("list: " +user.getResults());
                  if(user.getResults()==null)
                      user.setResults(new ArrayList<Result>());
@@ -140,10 +144,10 @@ public class IdentifyResource {
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
-        String output = mongoService.getResult(id).toString();
+        String output = mongoService.getUserById(id).getResults().toString();
         if(output!=null && (page!= null && page<5)) {
             LOG.info("map output" + output);
-            String resultStr = "{\"results\": [" + output + "]}";
+            String resultStr = "{\"results\": " + output + "}";
             LOG.info(resultStr);
             return ok(resultStr).build();
         }else{

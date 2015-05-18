@@ -5,13 +5,11 @@ import org.mongodb.morphia.query.Criteria;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
 import ru.mremne.model.mongo.dao.User;
-import ru.mremne.model.mongo.dao.identification.Result;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 
 import static ru.mremne.model.mongo.dao.ProductDAO.getProductDAO;
-import static ru.mremne.model.mongo.dao.ResultDAO.getResultDAO;
 import static ru.mremne.model.mongo.dao.UserDAO.getUserDAO;
 
 /**
@@ -50,29 +48,6 @@ public class MongoServiceImpl implements MongoService {
     public void saveUser(User user) {
         getUserDAO().save(user);
 
-    }
-
-    @Override
-    public Result getResult(String id) {
-         Result result=getResultDAO().findOne("_id","\""+id+"\"");
-        return result;
-    }
-
-    @Override
-    public void saveResult(Result result) {
-        getResultDAO().save(result);
-    }
-
-    @Override
-    public void removeOldResult(String id) {
-        Result result=getResultDAO().findOne("_id","\""+id+"\"");
-        if(result!=null)getResultDAO().delete(result);
-    }
-
-    @Override
-    public Query<Result> getAllResults() {
-        Query<Result> results=getResultDAO().getDs().find(Result.class);
-        return results;
     }
 
     @Override

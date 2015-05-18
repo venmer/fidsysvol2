@@ -3,7 +3,6 @@ package ru.mremne.service;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
-import ru.mremne.model.mongo.dao.identification.Result;
 import ru.mremne.model.mongo.dao.User;
 
 /**
@@ -19,8 +18,4 @@ public interface MongoService {
     public User getUser(String name, String pass);
     public User getUserById(String id);
     public Query<User> getAllUsers();
-    public void saveResult(Result result);
-    public Result getResult(String id);
-    public void removeOldResult(String id);
-    public Query<Result> getAllResults();
 }
