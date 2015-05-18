@@ -44,13 +44,14 @@ public class AuthResource {
     public String addUser(@FormParam("login") String login,
                           @FormParam("email") String email,
                           @FormParam("name") String name,
-                          @FormParam("password") String password){
+                          @FormParam("password") String password) throws IOException {
         User user=new User();
         user.setEmail(email);
         user.setLogin(login);
         user.setName(name);
         user.setPassword(password);
         mongoService.saveUser(user);
+        response.sendRedirect("/");
         return "ok";
     }
     @POST
