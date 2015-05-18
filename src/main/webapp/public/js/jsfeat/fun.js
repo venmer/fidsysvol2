@@ -185,12 +185,12 @@ function continue_video(){
     function init_desc(){
         document.getElementById("description").value=sessionStorage.getItem("angles");
     }
-    function identify(){
+    function identify(id){
         var points=[];
         for(var i=0;i<count_corners;++i){
             points[i]=new Point(corners[i].x,corners[i].y);
         }
-        var pointsJson = JSON.stringify({points: points});
+        var pointsJson = JSON.stringify({'id': id, 'points': points});
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "POST", "/identifier/identify", true );
         xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

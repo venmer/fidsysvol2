@@ -51,7 +51,7 @@
     <div  id="myDiv"><h2></h2></div>
     <div class="form-inline" role="form">
     <input type="button" class="btn btn-primary"value="Codify" onclick="codify()"/>
-    <input type="button" class="btn btn-primary"value="Identify" onclick="identify()"/>
+    <input type="button" class="btn btn-primary"value="Identify" onclick="identify('${layout.user.authUser.id}')"/>
         </div>
     </div>
 <!-- Modal then codify is ok -->

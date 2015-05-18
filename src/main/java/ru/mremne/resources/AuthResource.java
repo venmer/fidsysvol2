@@ -93,9 +93,7 @@ public class AuthResource {
     public String processLogout() throws IOException {
         HttpSession session = request.getSession(true);
         session.removeAttribute( USER_ID_ATTRIBUTE );
-
         response.sendRedirect("/");
-
         return "";
     }
 

@@ -2,8 +2,10 @@ package ru.mremne.model.mongo.dao;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import ru.mremne.model.mongo.dao.identification.Result;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,6 +21,7 @@ public class User implements Principal {
     private String name;
     private String email;
     private int password;
+    private List<Result> results;
 
     public User(){
         this.id= UUID.randomUUID().toString();
@@ -62,6 +65,18 @@ public class User implements Principal {
 
     public void setPassword(String password) {
        this.password=password.hashCode();
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 
     @Override

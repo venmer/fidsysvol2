@@ -35,11 +35,7 @@ public class IndexResource {
     @GET
     @Template(name = "/templates/welcome.ftl")
     public ViewUserData welcome(){
-        ViewUserData viewUserData=new ViewUserData();
-        viewUserData.authUser= (ru.mremne.model.mongo.dao.User) securityContext.getUserPrincipal();
-        System.out.println("auth user "+securityContext.getUserPrincipal());
-        viewUserData.results= (java.util.List<ru.mremne.model.mongo.dao.identification.Result>) mongoService.getAllResults().asList();
-        return viewUserData;
+     return getCurrentUserData();
     }
     @GET
     @Path("/results")
@@ -49,5 +45,17 @@ public class IndexResource {
         viewData.setResults(mongoService.getAllResults().asList());
         System.out.println("size of resultsList: "+viewData.getResults().size());
         return viewData;
+    }
+    @GET
+    @Path("/profile")
+    @Template(name="/templates/profile/profile.ftl")
+    public ViewUserData userProfile(){
+        return getCurrentUserData();
+    }
+    private ViewUserData getCurrentUserData(){
+        ViewUserData viewUserData=new ViewUserData();
+        viewUserData.authUser= (ru.mremne.model.mongo.dao.User) securityContext.getUserPrincipal();
+        System.out.println("auth user "+securityContext.getUserPrincipal());
+        return viewUserData;
     }
 }

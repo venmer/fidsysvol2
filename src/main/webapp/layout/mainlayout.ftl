@@ -1,4 +1,5 @@
 <#-- @ftlvariable name="model" type="ru.mremne.view.ViewUserData" -->
+<#assign user=model>
 <#macro layout title="Fidsys">
 <html>
 <head>

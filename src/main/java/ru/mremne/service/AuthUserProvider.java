@@ -27,7 +27,6 @@ public class AuthUserProvider implements ContainerRequestFilter {
 
         HttpSession session = request.getSession(true);
         Object userId = session.getAttribute("userId");
-        System.out.println("user id: "+userId);
 
         User user = null;
         if (userId != null) {

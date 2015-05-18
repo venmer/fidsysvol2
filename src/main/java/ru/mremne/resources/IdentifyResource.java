@@ -21,8 +21,10 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +42,13 @@ import static ru.mremne.model.identification.FidUtils.getAngleValue;
 @Path("/identifier")
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
+    private static final Logger LOG =Logger.getLogger(IndexResource.class);
     @Inject
     private FidService service;
     @Inject
     private MongoService mongoService;
-    private static final Logger LOG =Logger.getLogger(IndexResource.class);
+    @Context
+    SecurityContext securityContext;
     @POST
     @Path("/identify")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -52,6 +56,8 @@ public class IdentifyResource {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Result identiResult=new Result();
+                identiResult.setStatus(Status.RUNNING);
                 LOG.info("new identify");
                 ObjectMapper mapper = new ObjectMapper();
                 try{
@@ -74,7 +80,7 @@ public class IdentifyResource {
                         poin.add(a.getResultPoint());
                     }
                     Double[] angles=getAngleValue(poin);
-                    Result identiResult=new Result();
+
                     identiResult.setId(idJson.toString());
                     identiResult.setStatus(Status.READY);
                     boolean check=service.checkAngles(angles);
