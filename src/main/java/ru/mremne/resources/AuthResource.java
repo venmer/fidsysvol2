@@ -50,7 +50,7 @@ public class AuthResource {
         user.setLogin(login);
         user.setName(name);
         user.setPassword(password);
-        mongoService.addUser(user);
+        mongoService.saveUser(user);
         return "ok";
     }
     @POST

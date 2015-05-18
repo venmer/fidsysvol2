@@ -35,7 +35,6 @@ public class FidSysDemoResource {
         ViewUserData viewUserData=new ViewUserData();
         viewUserData.authUser= (ru.mremne.model.mongo.dao.User) securityContext.getUserPrincipal();
         System.out.println("auth user "+securityContext.getUserPrincipal());
-       // viewUserData.results= (java.util.List<ru.mremne.model.mongo.dao.identification.Result>) mongoService.getAllResults().asList();
         return viewUserData;
     }
     @GET

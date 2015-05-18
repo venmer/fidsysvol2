@@ -43,19 +43,6 @@
                                         data-images-only="true" name="user-profile-avatar"/>
                             </div>
                         </div>
-
-                        <div class="col-xs-6 text-right" >
-                            <button type="button" class="btn btn-success btn-sm details-view"
-                                    onclick="turnToEdit()">Edit</button>
-
-                            <div class="btn-group edit-view hidden" >
-                                <button type="submit" class="btn btn-success btn-sm"
-                                        onsubmit="turnToDetails()">Save</button>
-
-                                <button type="button" class="btn btn-default btn-sm"
-                                        onclick="turnToDetails()">Cancel</button>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -91,50 +78,35 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
-        <div class="user-profile-collapse-button">
-            <a data-toggle="collapse"
-               onclick="if ( $('#user-comments').hasClass('in') ) {$('#user-comments').collapse('hide')}"
-               class="btn btn-success col-xs-12"
-               href="#user-posts" aria-expanded="false" aria-controls="user-posts">
-                <h4>Results</h4>
-            </a>
+<div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Results</h4>
         </div>
+        <div class="panel-body">
+        <table class="table table-bordered" id="products">
+            <thead>
+            <th>Id</th>
+            <th>Result</th>
+            <th>Status</th>
+            <th>Time</th>
+            </thead>
+            <tbody>
+                <#if layout.user.authUser.id??>
+                    <#list layout.user.authUser.results as result>
+                    <tr>
+                        <td>${result.id}</td>
+                        <td>${result.idResult}</td>
+                        <td>${result.status}</td>
+                        <td>${result.timestamp?number_to_date}</td>
+                    </tr>
+                    </#list>
+                <#else >
+                <p>${layout.user.authUser.id}</p>
+                </#if>
+            </tbody>
+        </table
     </div>
-
-    <div class="col-xs-12 col-sm-6">
-        <div class="user-profile-collapse-button">
-            <a data-toggle="collapse"
-               onclick="if ( $('#user-posts').hasClass('in') ) {$('#user-posts').collapse('hide')}"
-               class="btn btn-warning col-xs-12 "
-               href="#user-comments" aria-expanded="false" aria-controls="user-comments" >
-                <h4>Additional result info </h4>
-            </a>
         </div>
-    </div>
-    <script>
-        UPLOADCARE_LOCALE = "en";
-        UPLOADCARE_TABS = "file";
-        UPLOADCARE_AUTOSTORE = true;
-        UPLOADCARE_PUBLIC_KEY = "6840cb6125ff4ccc690f";
-    </script>
-    <script src="//ucarecdn.com/widget/1.5.3/uploadcare/uploadcare.full.min.js"></script>
-
-    <script>
-        setTimeout( function() {
-            $(".uploadcare-widget-button").addClass("btn btn-primary btn-sm");
-        }, 500);
-
-        function turnToEdit() {
-            $(".edit-view").removeClass( "hidden");
-            $(".details-view").addClass( "hidden");
-        }
-
-        function turnToDetails() {
-            $(".edit-view").addClass( "hidden");
-            $(".details-view").removeClass( "hidden");
-        }
-    </script>
 
 </@layout.layout>

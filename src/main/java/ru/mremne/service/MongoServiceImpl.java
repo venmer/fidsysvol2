@@ -47,7 +47,7 @@ public class MongoServiceImpl implements MongoService {
     }
 
     @Override
-    public void addUser(User user) {
+    public void saveUser(User user) {
         getUserDAO().save(user);
 
     }

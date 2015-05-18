@@ -10,6 +10,7 @@ import ru.mremne.model.identification.Area;
 import ru.mremne.model.identification.IdResult;
 import ru.mremne.model.identification.Point;
 import ru.mremne.model.identification.ResultPoints;
+import ru.mremne.model.mongo.dao.User;
 import ru.mremne.model.mongo.dao.identification.Result;
 import ru.mremne.model.mongo.dao.identification.Status;
 import ru.mremne.service.FidService;
@@ -57,13 +58,28 @@ public class IdentifyResource {
             @Override
             public void run() {
                 Result identiResult=new Result();
+                long currentResultTimeStamp=identiResult.getTimestamp();
+
                 identiResult.setStatus(Status.RUNNING);
+                identiResult.setIdResult(IdResult.PART);
                 LOG.info("new identify");
                 ObjectMapper mapper = new ObjectMapper();
                 try{
                     JsonNode inputJson=mapper.readTree(input);
                     JsonNode idJson=inputJson.path("id");
+                    LOG.info("id: "+idJson.asText());
+                    identiResult.setId(idJson.asText());
                     JsonNode pointsJSON=inputJson.path("points");
+                 User user=mongoService.getUserById(idJson.asText());
+                   if(user.getId()==null) user=new User();
+                    LOG.info("list: " +user.getResults());
+                 if(user.getResults()==null)
+                     user.setResults(new ArrayList<Result>());
+                    user.getResults().add(identiResult);
+                    for(Result r:user.getResults())
+                    LOG.info("result data: " +r.toString());
+                    mongoService.saveUser(user);
+                 LOG.info(user);
                     LOG.info("points: " + pointsJSON.toString());
                     int k = -1;
                     List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
@@ -89,8 +105,16 @@ public class IdentifyResource {
                     }else{
                         identiResult.setIdResult(IdResult.UNKNOWN);
                     }
+
                     LOG.info("saving status... ");
-                    mongoService.saveResult(identiResult);
+                    for(Result r :user.getResults()){
+                        LOG.info("current result: "+r.toString());
+                        if(r.getTimestamp()==currentResultTimeStamp) {
+                            user.getResults().remove(r);
+                            user.getResults().add(identiResult);
+                        }
+                    }
+                    mongoService.saveUser(user);
                     LOG.info("status is save! ");
                   asyncResponse.resume(ok().build());
                 } catch (JsonMappingException e) {

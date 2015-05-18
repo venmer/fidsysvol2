@@ -40,13 +40,14 @@
                         <li>
                             <a href="/users/all" id="allusers">All users</a>
                         </li>
+                        <#if model.authUser??>
                         <li>
-                            <a href="/results" id="allusers">Results</a>
+                            <a href="/profile" id="allusers">Profile</a>
                         </li>
                         <li><a href="/try">Try FidSys!</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" >
-    <#if model.authUser??>
+
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                id="user-menu" aria-expanded="false">
@@ -60,6 +61,8 @@
             </ul>
         </li>
     <#else >
+    </ul>
+    <ul class="nav navbar-nav navbar-right" >
                         <li>
                             <a href="#" id="register-button" data-toggle="modal" data-target=".register-modal" >Register</a>
                         </li>

@@ -2,7 +2,6 @@ package ru.mremne.resources;
 
 import org.glassfish.jersey.server.mvc.Template;
 import ru.mremne.service.MongoService;
-import ru.mremne.view.ViewResultData;
 import ru.mremne.view.ViewUserData;
 
 import javax.inject.Inject;
@@ -40,11 +39,8 @@ public class IndexResource {
     @GET
     @Path("/results")
     @Template(name = "/templates/results.ftl")
-    public ViewResultData showProducts() {
-        ViewResultData viewData=new ViewResultData();
-        viewData.setResults(mongoService.getAllResults().asList());
-        System.out.println("size of resultsList: "+viewData.getResults().size());
-        return viewData;
+    public ViewUserData showProducts() {
+        return getCurrentUserData();
     }
     @GET
     @Path("/profile")
