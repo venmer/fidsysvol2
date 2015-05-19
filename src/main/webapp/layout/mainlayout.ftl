@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <link href="../public/css/superhero/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/superhero/bootstrap.min.css" rel="stylesheet">
     <!--JsFeat-->
     <link href="/public/css/main.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

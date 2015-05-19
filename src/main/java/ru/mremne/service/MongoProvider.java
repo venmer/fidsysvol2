@@ -6,8 +6,11 @@ import org.apache.log4j.Logger;
 import org.mongodb.morphia.Morphia;
 import ru.mremne.config.ServerConfig;
 import ru.mremne.model.mongo.dao.Product;
-import ru.mremne.model.mongo.dao.identification.Result;
 
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.ext.Provider;
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 /**
@@ -15,7 +18,8 @@ import java.net.UnknownHostException;
  * date: 23.04.15
  * time: 12:55.
  */
-public class MongoProvider {
+@Provider
+public class MongoProvider implements ContainerRequestFilter {
     private static final Logger LOG =Logger.getLogger(MongoProvider.class);
     private static Morphia morphia = null;
     private static MongoClient mongo = null;
@@ -28,7 +32,6 @@ public class MongoProvider {
         {
             morphia = new Morphia();
             morphia.mapPackage(Product.class.getPackage().toString());
-            morphia.mapPackage(Result.class.getPackage().toString());
         }
         return morphia;
     }
@@ -61,5 +64,11 @@ public class MongoProvider {
             }
         }
         return database;
+    }
+
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+        getMongo();
+
     }
 }

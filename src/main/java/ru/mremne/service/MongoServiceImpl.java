@@ -1,13 +1,13 @@
 package ru.mremne.service;
 
 import org.bson.types.ObjectId;
+import org.jvnet.hk2.annotations.Service;
 import org.mongodb.morphia.query.Criteria;
 import org.mongodb.morphia.query.Query;
 import ru.mremne.model.mongo.dao.Product;
 import ru.mremne.model.mongo.dao.User;
 
 import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
 
 import static ru.mremne.model.mongo.dao.ProductDAO.getProductDAO;
 import static ru.mremne.model.mongo.dao.UserDAO.getUserDAO;
@@ -17,7 +17,7 @@ import static ru.mremne.model.mongo.dao.UserDAO.getUserDAO;
  * date: 23.04.15
  * time: 14:54.
  */
-@Resource
+@Service
 @ManagedBean
 public class MongoServiceImpl implements MongoService {
     @Override
@@ -65,5 +65,12 @@ public class MongoServiceImpl implements MongoService {
     public User getUserById(String id) {
         User user=getUserDAO().findOne("_id",id);
         return user;
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+        User user=getUserDAO().findOne("login",login);
+        return user;
+
     }
 }

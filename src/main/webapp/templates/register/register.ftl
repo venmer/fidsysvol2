@@ -3,7 +3,7 @@
         <div class="form-group">
             <label for="name">Introduce yourself</label>
             <input type="text" class="form-control" id="name" name="name"
-                   placeholder="Please, enter your real name">
+                   placeholder="Please, enter your real name" required>
         </div>
         <div class="form-group" id="register-login-box">
             <label for="login">Login</label>

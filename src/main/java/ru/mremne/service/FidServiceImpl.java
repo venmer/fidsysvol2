@@ -1,6 +1,7 @@
 package ru.mremne.service;
 
 import org.apache.log4j.Logger;
+import org.jvnet.hk2.annotations.Service;
 import org.neo4j.helpers.collection.IteratorUtil;
 import ru.mremne.config.ServerConfig;
 import ru.mremne.executor.CypherExecutor;
@@ -9,8 +10,9 @@ import ru.mremne.model.identification.Labels;
 import ru.mremne.model.identification.Relationships;
 
 import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.neo4j.helpers.collection.MapUtil.map;
 
@@ -19,7 +21,7 @@ import static org.neo4j.helpers.collection.MapUtil.map;
  * date: 20.12.14
  * time: 21:30.
  */
-@Resource
+@Service
 @ManagedBean
 public class FidServiceImpl implements FidService {
     private final CypherExecutor cypher=createCypherExecutor();

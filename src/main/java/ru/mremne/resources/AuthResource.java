@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.mvc.Template;
 import ru.mremne.model.mongo.dao.User;
 import ru.mremne.service.MongoService;
+import ru.mremne.view.ViewUserData;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,9 @@ public class AuthResource {
                           @FormParam("email") String email,
                           @FormParam("name") String name,
                           @FormParam("password") String password) throws IOException {
+        if(mongoService.getUserByLogin(login)!=null){
+            response.sendRedirect("/auth/register/error");
+        }
         User user=new User();
         user.setEmail(email);
         user.setLogin(login);
@@ -63,8 +67,7 @@ public class AuthResource {
         if (user == null) {
             System.out.println("processLogin | name or password is wrong");
             response.sendRedirect( "/auth/signin/error" );
-
-            return "not find";
+            return "not found";
         }
         HttpSession session = request.getSession(true);
         session.setAttribute( USER_ID_ATTRIBUTE , user.getId() );
@@ -76,8 +79,8 @@ public class AuthResource {
     @GET
     @Path("/signin/error")
     @Template(name = "/templates/login/error.ftl")
-    public String showLoginError() {
-        return "error in signin";
+    public ViewUserData showLoginError() throws IOException {
+        return new ViewUserData();
     }
     @GET
     @Path("/signout")
@@ -86,6 +89,12 @@ public class AuthResource {
         session.removeAttribute( USER_ID_ATTRIBUTE );
         response.sendRedirect("/");
         return "";
+    }
+    @GET
+    @Path("/register/error")
+    @Template(name="/templates/register/exist.ftl")
+    public ViewUserData showRegisterError(){
+        return new ViewUserData();
     }
 
 }
