@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.mvc.Template;
 import ru.mremne.model.mongo.dao.User;
 import ru.mremne.service.MongoService;
-import ru.mremne.view.ViewUserData;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +62,7 @@ public class AuthResource {
         User user = mongoService.getUser(login, hash);
         if (user == null) {
             System.out.println("processLogin | name or password is wrong");
-            response.sendRedirect( "/users/signin/error" );
+            response.sendRedirect( "/auth/signin/error" );
 
             return "not find";
         }
@@ -73,15 +72,6 @@ public class AuthResource {
         String referer = request.getHeader( "referer" );
         response.sendRedirect( referer );
         return "ok!";
-    }
-    @GET
-    @Path("/all")
-    @Produces(MediaType.TEXT_HTML)
-    @Template(name = "/templates/users.ftl")
-    public ViewUserData showProducts() {
-        ViewUserData viewData=new ViewUserData();
-       // viewData.setUsers(mongoService.getAllUsers().asList());
-        return viewData;
     }
     @GET
     @Path("/signin/error")

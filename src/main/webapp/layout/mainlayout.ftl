@@ -34,12 +34,6 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="/products/all" id="allproducts">All products</a>
-                        </li>
-                        <li>
-                            <a href="/users/all" id="allusers">All users</a>
-                        </li>
                         <#if model.authUser??>
                         <li>
                             <a href="/profile" id="allusers">Profile</a>
