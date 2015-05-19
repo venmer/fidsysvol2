@@ -14,7 +14,7 @@
 </style>
     <!--
     <div class="col-md-12   ">
-    <div class="page-header">
+    <div class="web.page-header">
         <h2>FIDsys</h2>
     </div>
 <div class="panel-body" id="container"  >

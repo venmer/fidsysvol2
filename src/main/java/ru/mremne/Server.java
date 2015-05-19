@@ -3,7 +3,6 @@ package ru.mremne;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.mvc.freemarker.FreemarkerMvcFeature;
-import ru.mremne.executor.JdbcCypherExecutor;
 import ru.mremne.service.AuthUserProvider;
 import ru.mremne.service.MongoProvider;
 
@@ -26,7 +25,6 @@ public class Server extends ResourceConfig {
             public void configure(ResourceInfo resourceInfo, FeatureContext context) {
                 context.register(AuthUserProvider.class);
                 context.register(MongoProvider.class);
-                context.register(JdbcCypherExecutor.class);
             }
         });
         packages(Server.class.getPackage().getName());

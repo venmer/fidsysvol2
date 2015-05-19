@@ -139,7 +139,7 @@ public class IdentifyResource {
     @Path("/status/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response statusToResponse(@PathParam("id") @NotNull String id,@QueryParam("page") Integer page){
-       LOG.info("page:" + page);
+       LOG.info("web.page:" + page);
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));

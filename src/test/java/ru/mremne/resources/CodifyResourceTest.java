@@ -6,6 +6,7 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.mremne.config.ServerConfig;
 import ru.mremne.service.FidService;
 import ru.mremne.service.FidServiceImpl;
 
@@ -47,11 +48,12 @@ public class CodifyResourceTest extends JerseyTest {
         AbstractBinder binder=new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(FidService.class).to(FidServiceImpl.class);
+                bind(FidServiceImpl.class).to(FidService.class);
             }
         };
         ResourceConfig rc=new ResourceConfig(CodifyResource.class);
         rc.register(binder);
+        rc.register(ServerConfig.class);
         return rc;
     }
     @Test

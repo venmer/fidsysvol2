@@ -41,7 +41,7 @@ public class FidSysDemoResource {
     @Path("/desc")
     @Template(name="/templates/fidsysdemo/step_two.ftl")
     public String stepTwoPage(){
-        System.out.print("int try two page");
+        System.out.print("int try two web.page");
         return "ok";
     }
 }

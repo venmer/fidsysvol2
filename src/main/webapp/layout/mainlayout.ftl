@@ -13,8 +13,8 @@
     <link href="/public/css/superhero/bootstrap.min.css" rel="stylesheet">
     <!--JsFeat-->
     <link href="/public/css/main.css" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 web.elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the web.page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,11 +26,6 @@
             <div class="container">
                 <div class="navbar-header">
                     <a href="/" class="navbar-brand">FidSys</a>
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav">
@@ -58,10 +53,10 @@
     </ul>
     <ul class="nav navbar-nav navbar-right" >
                         <li>
-                            <a href="#" id="register-button" data-toggle="modal" data-target=".register-modal" >Register</a>
+                            <a href="#" id="register" data-toggle="modal" data-target=".register-modal" >Register</a>
                         </li>
                         <li>
-                            <a href="#" id="signin-button" data-toggle="modal" data-target=".signin-modal" >Sign in</a>
+                            <a href="#" id="signin" data-toggle="modal" data-target=".signin-modal" >Sign in</a>
                         </li>
     </#if>
                     </ul>
