@@ -23,40 +23,41 @@
     </head>
     <body>
         <nav class="navbar navbar-default  navbar-fixed-top padding" role="navigation">
-            <div class="container">
+            <div class="container main-menu">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand">FidSys</a>
+                    <a href="/" class="navbar-brand" id="index">FidSys</a>
                 </div>
-                <div class="navbar-collapse collapse" id="navbar-main">
-                    <ul class="nav navbar-nav">
-                        <#if model.authUser??>
+                <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <#if model.authUser??>
                         <li>
-                            <a href="/profile" id="allusers">Profile</a>
+                            <a href="/profile" id="profile">Profile</a>
                         </li>
-                        <li><a href="/try">Try FidSys!</a></li>
+                        <li><a href="/try" id="try-demo">Try FidSys!</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" >
 
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-               id="user-menu" aria-expanded="false">
-            ${model.authUser.login?html}
-                <span class="fa fa-user"></span>
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a id="user-profile" href="/profile">Profile</a></li>
-                <li><a id="user-signout" href="/auth/signout">Sign out</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               id="user-menu" aria-expanded="false">
+                            ${model.authUser.login?html}
+                                <span class="fa fa-user"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="user-profile" href="/profile">Profile</a></li>
+                                <li><a id="user-signout" href="/auth/signout">Sign out</a></li>
             </ul>
         </li>
     <#else >
     </ul>
     <ul class="nav navbar-nav navbar-right" >
                         <li>
-                            <a href="#" id="register" data-toggle="modal" data-target=".register-modal" >Register</a>
+                            <a href="#" id="user-register" data-toggle="modal"
+                               data-target=".register-modal">Register</a>
                         </li>
                         <li>
-                            <a href="#" id="signin" data-toggle="modal" data-target=".signin-modal" >Sign in</a>
+                            <a href="#" id="user-signin" data-toggle="modal" data-target=".signin-modal">Sign in</a>
                         </li>
     </#if>
                     </ul>

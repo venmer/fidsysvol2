@@ -1,50 +1,21 @@
 <#-- @ftlvariable name="model" type="ru.mremne.view.ViewUserData" -->
 <#import "../../layout/mainlayout.ftl" as layout />
 <@layout.layout title="FidSys.${model.authUser.login?html}" >
-<div class="row">
+<div class="row user-info">
     <div class="col-xs-12 col-md-8">
-        <div class="panel panel-default user-info">
-            <#if model.authUser??>
-            <form action="/user/save" method="post">
-            </#if>
+        <div class="panel panel-default ">
             <div class="panel-body">
                 <div class="col-xs-8" >
                     <div class="col-sm-10">
-                        <h2 class="details-view">${model.authUser.name?html}</h2>
-                        <div class="styled-input wide edit-view hidden">
-                            <input type="text"
-                                   class="form-control"
-                                   name="user-profile-name"
-                                   id="user-profile-name"
-                                   value="${model.authUser.name}" required >
-                            <label>Name</label>
-                            <span></span>
-                        </div>
-
-                        <div class="styled-input wide edit-view hidden">
-                            <input type="password"
-                                   class="form-control"
-                                   name="user-profile-password"
-                                   id="user-profile-password"
-                                   value="${model.authUser.password}" >
-                            <label>Password</label>
-                            <span></span>
-                        </div>
+                        <h2 class="details-view" id="profile-name">${model.authUser.name?html}</h2>
                     </div>
                 </div>
             </div>
-
             <#if model.authUser??>
                 <div class="panel-footer">
                     <div class="row">
-                        <div class="col-xs-6" >
-                            <div class="uploader edit-view hidden">
-                                <input  type="hidden" role="uploadcare-uploader"
-                                        data-images-only="true" name="user-profile-avatar"/>
-                            </div>
-                        </div>
+                        Some description
                     </div>
-
                 </div>
             </form>
             </#if>
@@ -62,13 +33,15 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-5 text-right">Login</label>
-                        <div class="col-sm-7">
+
+                        <div class="col-sm-7" id="profile-login">
                         ${model.authUser.login?html}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-5 text-right">Email</label>
-                        <div class="col-sm-7">
+
+                        <div class="col-sm-7" id="profile-email">
                         ${model.authUser.email}
                         </div>
                     </div>

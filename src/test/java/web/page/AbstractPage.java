@@ -13,9 +13,8 @@ import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
  */
 public abstract class AbstractPage {
     protected WebDriver webDriver;
-    protected String baseUrl="http://localhost:8081";
 
-    @FindBy(className = "navbar-main")
+    @FindBy(className = "main-menu")
     private Main main;
 
     public Main getMainMenu() {
@@ -27,8 +26,4 @@ public abstract class AbstractPage {
         PageFactory.initElements(new HtmlElementDecorator(driver), this);
     }
 
-    public IndexPage  openIndexPage() {
-        getMainMenu().openIndexPage();
-        return new IndexPage(webDriver);
-    }
 }
