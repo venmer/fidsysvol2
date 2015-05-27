@@ -1,5 +1,7 @@
 package ru.mremne.service;
 
+import ru.mremne.model.identification.Matching;
+
 /**
  * autor:maksim
  * date: 01.04.15
@@ -7,6 +9,7 @@ package ru.mremne.service;
  */
 public interface FidService {
     public boolean addAngles(Double[] angles);
-    public boolean checkAngles(Double[] angles);
+
+    public Matching checkAngles(Double[] angles);
 
 }

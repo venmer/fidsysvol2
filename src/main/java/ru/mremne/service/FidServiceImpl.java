@@ -7,6 +7,7 @@ import ru.mremne.config.ServerConfig;
 import ru.mremne.executor.CypherExecutor;
 import ru.mremne.executor.JdbcCypherExecutor;
 import ru.mremne.model.identification.Labels;
+import ru.mremne.model.identification.Matching;
 import ru.mremne.model.identification.Relationships;
 
 import javax.annotation.ManagedBean;
@@ -52,7 +53,7 @@ public class FidServiceImpl implements FidService {
         }
     }
     @Override
-    public synchronized boolean checkAngles(Double[] angles){
+    public synchronized Matching checkAngles(Double[] angles) {
         int levelExpected=angles.length-1;
         int levelActual=0;
         int tmpLevel=0;
@@ -82,15 +83,16 @@ public class FidServiceImpl implements FidService {
             }
         }else{
             LOG.error("nothing to search!!");
-            return false;
+            return new Matching(0, 0);
         }
-        LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
         LOG.info("max: "+Collections.max(identityList));
         levelActual=Collections.max(identityList);
+        LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
         if(Math.abs(levelExpected-levelActual)<=levelActual) {
             LOG.info("everything is ok!!");
-            return true;
         }
-        return false;
+        LOG.info("match level ex: " + levelExpected);
+        LOG.info("match level act: " + levelActual);
+        return new Matching(levelExpected, levelActual);
     }
 }

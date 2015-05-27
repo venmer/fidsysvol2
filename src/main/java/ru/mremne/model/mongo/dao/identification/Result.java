@@ -1,7 +1,6 @@
 package ru.mremne.model.mongo.dao.identification;
 
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 import ru.mremne.model.identification.IdResult;
 
 import java.util.Date;
@@ -13,22 +12,22 @@ import java.util.Date;
  */
 @Entity
 public class Result {
-    @Id
-    private String id;
+    private String userId;
     private Status status;
     private IdResult idResult;
     private long timestamp;
+    private float match;
     public Result() {
         timestamp = (new Date()).getTime();
         status = Status.RUNNING;
     }
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public IdResult getIdResult() {
@@ -54,8 +53,17 @@ public class Result {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    public float getMatch() {
+        return match;
+    }
+
+    public void setMatch(float match) {
+        this.match = match;
+    }
+
     @Override
     public String toString() {
-        return "{\"id\": "+id+", \"status\": \""+status+"\", \"result\": \""+ idResult +"\"}";
+        return "{\"id\": " + userId + ", \"status\": \"" + status + "\", \"result\": \"" + idResult + "\"}";
     }
 }

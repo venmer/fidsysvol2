@@ -12,11 +12,18 @@ import ru.mremne.model.mongo.dao.User;
  */
 public interface MongoService {
     public void addProduct(Product product);
+
     public Product getProductById(ObjectId id);
+
     public Query<Product> getAllProducts();
+
     public void saveUser(User user);
-    public User getUser(String name, String pass);
+
+    public User getUserByLoginAndPass(String name, String pass);
+
     public User getUserByLogin(String login);
+
     public User getUserById(String id);
+
     public Query<User> getAllUsers();
 }

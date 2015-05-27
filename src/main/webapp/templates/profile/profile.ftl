@@ -63,15 +63,17 @@
             <th>Result</th>
             <th>Status</th>
             <th>Time</th>
+            <th>Match</th>
             </thead>
             <tbody>
                 <#if layout.user.authUser.results??>
                     <#list layout.user.authUser.results as result>
                     <tr>
-                        <td>${result.id}</td>
+                        <td>${result.userId}</td>
                         <td>${result.idResult}</td>
                         <td>${result.status}</td>
-                        <td>${result.timestamp?number_to_date}</td>
+                        <td>${result.timestamp?number_to_datetime}</td>
+                        <td>${result.match?string["0.##"]}%</td>
                     </tr>
                     </#list>
                 <#else >

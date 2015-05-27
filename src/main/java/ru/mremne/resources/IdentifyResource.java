@@ -6,10 +6,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import ru.mremne.model.identification.Area;
-import ru.mremne.model.identification.IdResult;
-import ru.mremne.model.identification.Point;
-import ru.mremne.model.identification.ResultPoints;
+import ru.mremne.model.identification.*;
 import ru.mremne.model.mongo.dao.User;
 import ru.mremne.model.mongo.dao.identification.Result;
 import ru.mremne.model.mongo.dao.identification.Status;
@@ -28,6 +25,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static javax.ws.rs.core.Response.ok;
@@ -59,6 +57,7 @@ public class IdentifyResource {
             public void run() {
                 Result identiResult=new Result();
                 long currentResultTimeStamp=identiResult.getTimestamp();
+                LOG.info("time stamp: " + new Date(currentResultTimeStamp).toString());
                 identiResult.setStatus(Status.RUNNING);
                 identiResult.setIdResult(IdResult.PART);
                 LOG.info("new identify");
@@ -69,21 +68,19 @@ public class IdentifyResource {
                     LOG.info("id: "+idJson.asText());
                     identiResult.setId(idJson.asText());
                     JsonNode pointsJSON=inputJson.path("points");
-                 User user=mongoService.getUserById(idJson.asText());
-                    LOG.info("user: "+user);
-                   if(user==null) {
-                       LOG.info("user does't exist id: "+user);
-                       user=new User();
-                        user.setId(idJson.asText());
+                    User startUser = mongoService.getUserById(idJson.asText());
+                    LOG.info("user: " + startUser);
+                    if (startUser == null) {
+                        startUser = new User();
+                        startUser.setId(idJson.toString());
                    }
-                    LOG.info("list: " +user.getResults());
-                 if(user.getResults()==null)
-                     user.setResults(new ArrayList<Result>());
-                    user.getResults().add(identiResult);
-                    for(Result r:user.getResults())
+                    LOG.info("list: " + startUser.getResults());
+                    if (startUser.getResults() == null)
+                        startUser.setResults(new ArrayList<Result>());
+                    startUser.getResults().add(identiResult);
+                    for (Result r : startUser.getResults())
                     LOG.info("result data: " +r.toString());
-                    mongoService.saveUser(user);
-                 LOG.info(user);
+                    mongoService.saveUser(startUser);
                     LOG.info("points: " + pointsJSON.toString());
                     int k = -1;
                     List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
@@ -103,21 +100,29 @@ public class IdentifyResource {
 
                     identiResult.setId(idJson.toString());
                     identiResult.setStatus(Status.READY);
-                    boolean check=service.checkAngles(angles);
-                    if(check){
+                    Matching matching = service.checkAngles(angles);
+                    LOG.info("match level ex: " + matching.getExpectedLevel());
+                    LOG.info("match level act: " + matching.getActualLevel());
+                    if (matching.isOrigin()) {
+                        LOG.info("is ORIGIN");
                         identiResult.setIdResult(IdResult.ORIGIN);
                     }else{
+                        LOG.info("is FAKE");
                         identiResult.setIdResult(IdResult.UNKNOWN);
                     }
-                    LOG.info("saving status... ");
-                    for(Result r :user.getResults()){
+                    LOG.info("matching: " + matching.getMatching());
+                    identiResult.setMatch(matching.getMatching());
+                    LOG.info("identity result : " + identiResult.toString());
+                    User tarUser = mongoService.getUserById(startUser.getId());
+                    LOG.info("all results... " + tarUser.getResults().size());
+                    for (Result r : tarUser.getResults()) {
                         LOG.info("current result: "+r.toString());
-                        if(r.getTimestamp()==currentResultTimeStamp) {
-                            user.getResults().remove(r);
-                            user.getResults().add(identiResult);
+                        if (r.getTimestamp() == currentResultTimeStamp && r.getStatus() == Status.RUNNING) {
+                            tarUser.getResults().remove(r);
+                            tarUser.getResults().add(identiResult);
                         }
                     }
-                    mongoService.saveUser(user);
+                    mongoService.saveUser(tarUser);
                     LOG.info("status is save! ");
                   asyncResponse.resume(ok().build());
                 } catch (JsonMappingException e) {

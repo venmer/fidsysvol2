@@ -51,7 +51,7 @@ public class MongoServiceImpl implements MongoService {
     }
 
     @Override
-    public User getUser(String login,String pass) {
+    public User getUserByLoginAndPass(String login, String pass) {
         Query query= getUserDAO().createQuery();
         Criteria forLogin= (Criteria) query.criteria("login").equal(login);
         Criteria forPass= (Criteria) query.criteria("password").equal(pass.hashCode());
