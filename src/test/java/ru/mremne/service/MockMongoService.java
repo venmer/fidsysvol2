@@ -12,7 +12,7 @@ public class MockMongoService implements Factory<MongoService> {
     @Override
     public MongoService provide() {
         final MongoService mockedMongoService = Mockito.mock(MongoService.class);
-
+        Mockito.when(mockedMongoService.getUserById(Mockito.anyString()));
         return mockedMongoService;
     }
 

@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import ru.mremne.service.FidService;
 import ru.mremne.service.MockFidSysService;
+import ru.mremne.service.MockMongoService;
+import ru.mremne.service.MongoService;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -50,6 +52,7 @@ public class IdentifyResourceTest extends JerseyTest {
             @Override
             protected void configure() {
                 bindFactory(MockFidSysService.class).to(FidService.class);
+                bindFactory(MockMongoService.class).to(MongoService.class);
             }
         };
         rc.register(abstractBinder);

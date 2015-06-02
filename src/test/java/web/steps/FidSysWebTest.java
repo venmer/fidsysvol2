@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import ru.yandex.qatools.allure.annotations.Features;
 import ru.yandex.qatools.allure.annotations.Step;
 import web.page.ProfilePage;
@@ -36,8 +36,8 @@ public class FidSysWebTest {
 
     @Before
     public void createDriver() throws MalformedURLException {
-        System.setProperty("webdriver.chrome.driver", "/home/maksim/selenium/chromedriver");
-        driver = new ChromeDriver();
+        //   System.setProperty("webdriver.chrome.driver", "/home/maksim/selenium/chromedriver");
+        driver = new PhantomJSDriver();
         registerPage = new RegisterPage(driver);
         signInPage = new SignInPage(driver);
         profilePage = new ProfilePage(driver);
