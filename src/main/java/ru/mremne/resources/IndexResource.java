@@ -1,8 +1,6 @@
 package ru.mremne.resources;
 
 import org.glassfish.jersey.server.mvc.Template;
-import ru.mremne.model.mongo.dao.User;
-import ru.mremne.model.mongo.dao.identification.Result;
 import ru.mremne.view.ViewUserData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,8 +46,6 @@ public class IndexResource {
     @Template(name = "/templates/profile/profile.ftl")
     public ViewUserData userProfile() {
         ViewUserData viewData = getCurrentUserData();
-        for (Result r : ((User) securityContext.getUserPrincipal()).getResults())
-            System.out.println(r.toString());
         return viewData;
     }
 

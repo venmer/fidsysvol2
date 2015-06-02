@@ -5,7 +5,7 @@
     <div class="col-xs-12 col-md-8">
         <div class="panel panel-default ">
             <div class="panel-body">
-                <div class="col-xs-8" >
+                <div class="col-xs-8">
                     <div class="col-sm-10">
                         <h2 class="details-view" id="profile-name">${model.authUser.name?html}</h2>
                     </div>
@@ -17,7 +17,7 @@
                         Some description
                     </div>
                 </div>
-            </form>
+                </form>
             </#if>
         </div>
     </div>
@@ -57,31 +57,32 @@
             <h4>Results</h4>
         </div>
         <div class="panel-body">
-        <table class="table table-bordered" id="products">
-            <thead>
-            <th>Id</th>
-            <th>Result</th>
-            <th>Status</th>
-            <th>Time</th>
-            <th>Match</th>
-            </thead>
-            <tbody>
-                <#if layout.user.authUser.results??>
-                    <#list layout.user.authUser.results as result>
-                    <tr>
-                        <td>${result.userId}</td>
-                        <td>${result.idResult}</td>
-                        <td>${result.status}</td>
-                        <td>${result.timestamp?number_to_datetime}</td>
-                        <td>${result.match?string["0.##"]}%</td>
-                    </tr>
-                    </#list>
-                <#else >
-                <p>No results yet..</p>
-                </#if>
-            </tbody>
-        </table
-    </div>
+            <table class="table table-bordered">
+                <thead>
+                <th>Id</th>
+                <th>Result</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Match</th>
+                </thead>
+                <tbody>
+                    <#if layout.user.authUser.results??>
+                        <#list layout.user.authUser.results as result>
+                        <tr>
+                            <td>${result.userId}</td>
+                            <td>${result.idResult}</td>
+                            <td>${result.status}</td>
+                            <td>${result.timestamp?number_to_datetime}</td>
+                            <td>${result.match?string["0.##"]}%</td>
+                        </tr>
+                        </#list>
+                    <#else >
+                    <p>No results yet..</p>
+                    </#if>
+
+                </tbody>
+            </table
         </div>
+    </div>
 
 </@layout.layout>

@@ -20,47 +20,41 @@ import java.net.UnknownHostException;
  */
 @Provider
 public class MongoProvider implements ContainerRequestFilter {
-    private static final Logger LOG =Logger.getLogger(MongoProvider.class);
+    private static final Logger LOG = Logger.getLogger(MongoProvider.class);
     private static Morphia morphia = null;
     private static MongoClient mongo = null;
     private static String database = "";
-    private static ServerConfig serverConfig=ServerConfig.newInstance();
+    private static ServerConfig serverConfig = ServerConfig.newInstance();
 
-    public static Morphia getMorphia()
-    {
-        if (morphia == null)
-        {
+    public static Morphia getMorphia() {
+        if (morphia == null) {
             morphia = new Morphia();
             morphia.mapPackage(Product.class.getPackage().toString());
         }
         return morphia;
     }
 
-    public static MongoClient getMongo() throws UnknownHostException
-    {
-        if (mongo == null)
-        {
+    public static MongoClient getMongo() throws UnknownHostException {
+        if (mongo == null) {
             try {
                 mongo = new MongoClient(new MongoClientURI(System.getenv("MONGOLAB_URI")));
                 LOG.info("Mongo on Heroku");
             } catch (Exception e) {
                 LOG.info("Mongo on localhost");
-                mongo=new MongoClient(serverConfig.getMongoHost(),serverConfig.getMongoPort());
+                mongo = new MongoClient(serverConfig.getMongoHost(), serverConfig.getMongoPort());
             }
         }
         return mongo;
     }
 
-    public static String getDB()
-    {
-        if (database.equals(""))
-        {
+    public static String getDB() {
+        if (database.equals("")) {
             try {
                 database = (new MongoClientURI(System.getenv("MONGOLAB_URI"))).getDatabase();
                 LOG.info("MongoDB on Heroku");
             } catch (Exception e) {
                 LOG.info("MongoDB on localhost");
-                database=serverConfig.getMongoDataBase();
+                database = serverConfig.getMongoDataBase();
             }
         }
         return database;
@@ -69,6 +63,5 @@ public class MongoProvider implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         getMongo();
-
     }
 }

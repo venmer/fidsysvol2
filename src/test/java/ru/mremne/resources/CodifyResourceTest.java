@@ -6,9 +6,8 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.mremne.config.ServerConfig;
 import ru.mremne.service.FidService;
-import ru.mremne.service.FidServiceImpl;
+import ru.mremne.service.MockFidSysService;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -39,8 +38,8 @@ public class CodifyResourceTest extends JerseyTest {
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
                 {CodifyResourceTest.class.getResource("/coder/test1.json").getPath(),Response.ok().build()},
-                {CodifyResourceTest.class.getResource("/coder/test2.json").getPath(),Response.noContent().build()},
-                {CodifyResourceTest.class.getResource("/coder/test3.json").getPath(),Response.noContent().build()}
+                {CodifyResourceTest.class.getResource("/coder/test2.json").getPath(), Response.ok().build()},
+                {CodifyResourceTest.class.getResource("/coder/test3.json").getPath(), Response.ok().build()}
         });
     }
     @Override
@@ -48,12 +47,11 @@ public class CodifyResourceTest extends JerseyTest {
         AbstractBinder binder=new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(FidServiceImpl.class).to(FidService.class);
+                bindFactory(MockFidSysService.class).to(FidService.class);
             }
         };
         ResourceConfig rc=new ResourceConfig(CodifyResource.class);
         rc.register(binder);
-        rc.register(ServerConfig.class);
         return rc;
     }
     @Test
@@ -65,7 +63,6 @@ public class CodifyResourceTest extends JerseyTest {
         final Response actualResponce = target("/coder/codify")
                 .request()
                 .post(request);
-
-        assertThat(expectedResponse.getStatus(),is(actualResponce.getStatus()));
+        assertThat(expectedResponse.getStatus(), is(actualResponce.getStatus()));
     }
 }

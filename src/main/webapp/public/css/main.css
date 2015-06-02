@@ -1,24 +1,30 @@
 body {
     padding: 30px 0 0 0;
 }
-h1{
+
+h1 {
     color: #ffffff;
 }
+
 .table-fixed thead {
     width: 97%;
 }
+
 .table-fixed tbody {
     height: 230px;
     overflow-y: auto;
     width: 100%;
 }
+
 .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
     display: block;
 }
-.table-fixed tbody td, .table-fixed thead > tr> th {
+
+.table-fixed tbody td, .table-fixed thead > tr > th {
     float: left;
     border-bottom-width: 0;
 }
+
 #wrap {
     min-height: 100%;
     height: auto;
@@ -32,5 +38,4 @@ h1{
 #footer {
     height: 60px;
 }
-
 
