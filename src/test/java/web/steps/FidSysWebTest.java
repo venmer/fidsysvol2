@@ -2,6 +2,7 @@ package web.steps;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertThat;
  * date: 19.05.15
  * time: 18:09.
  */
+@Ignore
 @Features("FidSys welcome page")
 public class FidSysWebTest {
     private WebDriver driver;
