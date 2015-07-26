@@ -91,6 +91,9 @@ public class IdentifyResource {
                         ++k;
                         resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
                     }
+                    //too mush points
+                    if(resultPoints.getPointList().size()>=9)
+                        asyncResponse.resume(Response.status(Response.Status.BAD_REQUEST).build());
                     List<Point> poin=new ArrayList<>();
                     for(Area a:resultPoints.getPointList()){
                         System.out.println("Is this right? : "+a.getResultPoint() );
