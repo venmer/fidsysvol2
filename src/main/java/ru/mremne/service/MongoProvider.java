@@ -9,7 +9,6 @@ import ru.mremne.model.mongo.dao.Product;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -18,7 +17,6 @@ import java.net.UnknownHostException;
  * date: 23.04.15
  * time: 12:55.
  */
-@Provider
 public class MongoProvider implements ContainerRequestFilter {
     private static final Logger LOG = Logger.getLogger(MongoProvider.class);
     private static Morphia morphia = null;
