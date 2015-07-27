@@ -151,7 +151,7 @@ public class IdentifyResource {
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
-        String output = mongoService.getUserById(id).getResults().toString();
+        String output = mongoService.getUserById("\""+id+"\"").getResults().toString();
         if(output!=null) {
             LOG.info("map output" + output);
             String resultStr = "{\"results\": " + output + "}";
