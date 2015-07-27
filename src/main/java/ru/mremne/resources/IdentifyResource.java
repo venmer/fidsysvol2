@@ -145,14 +145,14 @@ public class IdentifyResource {
 
     @GET
     @Path("/status/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes("application/json")
     public Response statusToResponse(@PathParam("id") @NotNull String id,@QueryParam("page") Integer page){
        LOG.info("web.page:" + page);
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
         String output = mongoService.getUserById(id).getResults().toString();
-        if(output!=null && (page!= null && page<5)) {
+        if(output!=null) {
             LOG.info("map output" + output);
             String resultStr = "{\"results\": " + output + "}";
             LOG.info(resultStr);
