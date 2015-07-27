@@ -63,7 +63,7 @@ public class MongoServiceImpl implements MongoService {
 
     @Override
     public User getUserById(String id) {
-        User user=getUserDAO().findOne("_id",id);
+        User user=getUserDAO().findOne("_id","\""+id+"\"");
         return user;
     }
 
