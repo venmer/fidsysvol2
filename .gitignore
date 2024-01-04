@@ -8,7 +8,7 @@ pom.xml.next
 release.properties
 
 # IDE files
-.idea
+.idea/
 .project
 .settings
 nbproject
