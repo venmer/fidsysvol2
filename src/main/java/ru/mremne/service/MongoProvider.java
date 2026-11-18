@@ -27,7 +27,7 @@ public class MongoProvider implements ContainerRequestFilter {
     public static Morphia getMorphia() {
         if (morphia == null) {
             morphia = new Morphia();
-            morphia.mapPackage(Product.class.getPackage().toString());
+            morphia.mapPackage(Product.class.getPackage().getName());
         }
         return morphia;
     }

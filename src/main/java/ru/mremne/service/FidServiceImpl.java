@@ -11,11 +11,7 @@ import ru.mremne.model.identification.Matching;
 import ru.mremne.model.identification.Relationships;
 
 import javax.annotation.ManagedBean;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-import static org.neo4j.helpers.collection.MapUtil.map;
 
 /**
  * @author maksim
@@ -39,10 +35,10 @@ public class FidServiceImpl implements FidService {
         if(angles.length!=0){
             int level=0;
             for(int i=0;i<angles.length-1;i++){
-                cypher.query("MATCH (n:"+ Labels.INTERVALS +"{value: "+angles[i]+" })," +
-                        "(m:"+Labels.INTERVALS +"{value: "+angles[i+1]+"}) " +
-                        "CREATE UNIQUE (n)-[:"+ Relationships.LEVEL+"{level: "+level+" }]->(m) " +
-                        "",map("1",null));
+                cypher.query("MERGE (n:"+ Labels.INTERVALS +" {value: "+angles[i]+"}) " +
+                        "MERGE (m:"+Labels.INTERVALS +" {value: "+angles[i+1]+"}) " +
+                        "MERGE (n)-[:"+ Relationships.LEVEL+" {level: "+level+"}]->(m)",
+                        Collections.<String, Object>emptyMap());
                 level++;
             }
             LOG.info("all angles is checked");
@@ -54,43 +50,33 @@ public class FidServiceImpl implements FidService {
     }
     @Override
     public synchronized Matching checkAngles(Double[] angles) {
-        int levelExpected=angles.length-1;
-        int levelActual=0;
-        int tmpLevel=0;
         LOG.info("checking angles...");
-        List<Integer> identityList=new ArrayList<>();
-        String identyString;
-        if(angles.length!=0){
-            for(int i=0;i<angles.length-1;i++){
-                identyString=(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
-                        "MATCH n-[r:"+Relationships.LEVEL+"{level:"+tmpLevel+"}]->c\n" +
-                        "WHERE HAS(n.value) AND HAS(c.value) " +
-                        "AND n.value>(" + (angles[i] - CONSTR) + ") AND n.value<(" + (angles[i] + CONSTR) + ")\n" +
-                        "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
-                        "RETURN n, r,c", map("1", i))).toString());
-                LOG.info("identy"+identyString);
-                if(!identyString.equals("[]")){
-                     levelActual++;
-                }else{
-                    identityList.add(levelActual);
-                    levelActual=0;
-                }
-                tmpLevel++;
-            }
-            LOG.info("map.size =" + identityList.size());
-            for(Integer i:identityList){
-                LOG.info("levels: "+    i.toString());
-            }
-        }else{
+        if(angles == null || angles.length <= 1){
             LOG.error("nothing to search!!");
             return new Matching(0, 0);
         }
-        LOG.info("max: "+Collections.max(identityList));
-        levelActual=Collections.max(identityList);
-        LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
-        if(Math.abs(levelExpected-levelActual)<=levelActual) {
-            LOG.info("everything is ok!!");
+        int levelExpected=angles.length-1;
+        int levelActual=0;
+        int currentRun=0;
+        String identyString;
+        for(int i=0;i<angles.length-1;i++){
+            identyString=(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
+                    "MATCH n-[r:"+Relationships.LEVEL+"{level:"+i+"}]->c\n" +
+                    "WHERE HAS(n.value) AND HAS(c.value) " +
+                    "AND n.value>(" + (angles[i] - CONSTR) + ") AND n.value<(" + (angles[i] + CONSTR) + ")\n" +
+                    "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
+                    "RETURN n, r,c", Collections.<String, Object>emptyMap())).toString());
+            LOG.info("identy"+identyString);
+            if(!identyString.equals("[]")){
+                currentRun++;
+                if(currentRun > levelActual){
+                    levelActual = currentRun;
+                }
+            }else{
+                currentRun = 0;
+            }
         }
+        LOG.info("expected level was : " + levelExpected + " ,but actual is : " + levelActual);
         LOG.info("match level ex: " + levelExpected);
         LOG.info("match level act: " + levelActual);
         return new Matching(levelExpected, levelActual);

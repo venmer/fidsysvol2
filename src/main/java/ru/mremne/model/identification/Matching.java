@@ -13,7 +13,7 @@ public class Matching {
     public Matching(float expectedLevel, float actualLevel) {
         this.expectedLevel = expectedLevel;
         this.actualLevel = actualLevel;
-        this.matching = (actualLevel / expectedLevel) * 100;
+        this.matching = expectedLevel != 0 ? (actualLevel / expectedLevel) * 100 : 0;
     }
 
     public boolean isOrigin() {

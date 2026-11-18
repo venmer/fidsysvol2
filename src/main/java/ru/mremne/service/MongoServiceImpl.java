@@ -28,8 +28,7 @@ public class MongoServiceImpl implements MongoService {
 
     @Override
     public Product getProductById(ObjectId id) {
-
-        return null;
+        return getProductDAO().get(id);
     }
 
     @Override
@@ -56,7 +55,6 @@ public class MongoServiceImpl implements MongoService {
         Criteria forLogin= (Criteria) query.criteria("login").equal(login);
         Criteria forPass= (Criteria) query.criteria("password").equal(pass.hashCode());
         query.and(forLogin,forPass);
-        System.out.println("query: " + pass);
         User user=getUserDAO().findOne(query);
         return user;
     }

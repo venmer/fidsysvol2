@@ -47,6 +47,7 @@ public class AuthResource {
                           @FormParam("password") String password) throws IOException {
         if (mongoService.getUserByLogin(login) != null) {
             response.sendRedirect("/auth/register/error");
+            return "";
         }
         User user = new User();
         user.setEmail(email);
@@ -74,9 +75,29 @@ public class AuthResource {
         HttpSession session = request.getSession(true);
         session.setAttribute(USER_ID_ATTRIBUTE, user.getId());
 
-        String referer = request.getHeader("referer");
-        response.sendRedirect(referer);
+        response.sendRedirect(resolveRedirectUrl());
         return "ok!";
+    }
+
+    private String resolveRedirectUrl() {
+        String referer = request.getHeader("referer");
+        if (referer == null || referer.isEmpty()) {
+            return "/";
+        }
+        try {
+            java.net.URI uri = new java.net.URI(referer);
+            if (!uri.isAbsolute() && uri.getHost() == null
+                    && referer.startsWith("/") && !referer.startsWith("//")) {
+                return referer;
+            }
+            String host = uri.getHost();
+            if (host != null && host.equalsIgnoreCase(request.getServerName())) {
+                return uri.getPath() != null && !uri.getPath().isEmpty() ? uri.getPath() : "/";
+            }
+        } catch (Exception e) {
+            LOG.warn("invalid referer: " + referer);
+        }
+        return "/";
     }
 
     @GET

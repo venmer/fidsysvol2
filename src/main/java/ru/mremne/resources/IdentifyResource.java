@@ -26,7 +26,9 @@ import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
@@ -41,7 +43,7 @@ import static ru.mremne.model.identification.FidUtils.getAngleValue;
 @Path("/identifier")
 @Produces(MediaType.APPLICATION_JSON)
 public class IdentifyResource {
-    private static final Logger LOG =Logger.getLogger(IndexResource.class);
+    private static final Logger LOG =Logger.getLogger(IdentifyResource.class);
     @Inject
     private FidService service;
     @Inject
@@ -65,43 +67,58 @@ public class IdentifyResource {
                 try{
                     JsonNode inputJson=mapper.readTree(input);
                     JsonNode idJson=inputJson.path("id");
-                    LOG.info("id: "+idJson.asText());
-                    identiResult.setId(idJson.asText());
+                    String userId=idJson.asText();
+                    LOG.info("id: "+userId);
+                    if (userId == null || userId.isEmpty()) {
+                        asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                        return;
+                    }
+                    identiResult.setId(userId);
                     JsonNode pointsJSON=inputJson.path("points");
-                    User startUser = mongoService.getUserById(idJson.asText());
-                    LOG.info("user: " + startUser);
-                    if (startUser == null) {
-                        startUser = new User();
-                        startUser.setId(idJson.toString());
-                   }
-                    LOG.info("list: " + startUser.getResults());
-                    if (startUser.getResults() == null)
-                        startUser.setResults(new ArrayList<Result>());
-                    startUser.getResults().add(identiResult);
-                    for (Result r : startUser.getResults())
-                    LOG.info("result data: " +r.toString());
-                    mongoService.saveUser(startUser);
-                    LOG.info("points: " + pointsJSON.toString());
+
                     int k = -1;
-                    List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
+                    List<Integer> dotsX = new ArrayList<Integer>(), dotsY = new ArrayList<Integer>();
                     ResultPoints resultPoints=new ResultPoints();
                     for (JsonNode point : pointsJSON) {
-                        dotsX.add(point.get("x").asInt());
-                        dotsY.add(point.get("y").asInt());
+                        JsonNode x = point.get("x");
+                        JsonNode y = point.get("y");
+                        if (x == null || y == null) {
+                            asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                            return;
+                        }
+                        dotsX.add(x.asInt());
+                        dotsY.add(y.asInt());
                         ++k;
                         resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
                     }
                     //too mush points
-                    if(resultPoints.getPointList().size()>=9)
+                    if(resultPoints.getPointList().size()>=9 || resultPoints.getPointList().isEmpty()) {
                         asyncResponse.resume(Response.status(Response.Status.BAD_REQUEST).build());
-                    List<Point> poin=new ArrayList<>();
+                        return;
+                    }
+                    List<Point> poin=new ArrayList<Point>();
                     for(Area a:resultPoints.getPointList()){
-                        System.out.println("Is this right? : "+a.getResultPoint() );
+                        LOG.info("Is this right? : "+a.getResultPoint() );
                         poin.add(a.getResultPoint());
                     }
                     Double[] angles=getAngleValue(poin);
+                    if (angles.length == 0) {
+                        asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                        return;
+                    }
 
-                    identiResult.setId(idJson.toString());
+                    User startUser = mongoService.getUserById(userId);
+                    LOG.info("user: " + startUser);
+                    if (startUser == null) {
+                        startUser = new User();
+                        startUser.setId(userId);
+                    }
+                    if (startUser.getResults() == null)
+                        startUser.setResults(new ArrayList<Result>());
+                    startUser.getResults().add(identiResult);
+                    mongoService.saveUser(startUser);
+                    LOG.info("points: " + pointsJSON.toString());
+
                     identiResult.setStatus(Status.READY);
                     Matching matching = service.checkAngles(angles);
                     LOG.info("match level ex: " + matching.getExpectedLevel());
@@ -116,18 +133,28 @@ public class IdentifyResource {
                     LOG.info("matching: " + matching.getMatching());
                     identiResult.setMatch(matching.getMatching());
                     LOG.info("identity result : " + identiResult.toString());
+
                     User tarUser = mongoService.getUserById(startUser.getId());
-                    LOG.info("all results... " + tarUser.getResults().size());
-                    for (Result r : tarUser.getResults()) {
+                    if (tarUser == null) {
+                        tarUser = startUser;
+                    }
+                    List<Result> results = tarUser.getResults();
+                    if (results == null) {
+                        results = new ArrayList<Result>();
+                        tarUser.setResults(results);
+                    }
+                    LOG.info("all results... " + results.size());
+                    for (int i = 0; i < results.size(); i++) {
+                        Result r = results.get(i);
                         LOG.info("current result: "+r.toString());
                         if (r.getTimestamp() == currentResultTimeStamp && r.getStatus() == Status.RUNNING) {
-                            tarUser.getResults().remove(r);
-                            tarUser.getResults().add(identiResult);
+                            results.set(i, identiResult);
+                            break;
                         }
                     }
                     mongoService.saveUser(tarUser);
                     LOG.info("status is save! ");
-                  asyncResponse.resume(ok().build());
+                    asyncResponse.resume(ok().build());
                 } catch (JsonMappingException e) {
                     LOG.error("json mapping problem");
                     asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
@@ -137,6 +164,9 @@ public class IdentifyResource {
                 } catch (IOException e) {
                     LOG.error("IO exception");
                     asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                } catch (Exception e) {
+                    LOG.error("identify failed", e);
+                    asyncResponse.resume(status(Response.Status.INTERNAL_SERVER_ERROR).build());
                 }
             }
         }).start();
@@ -145,21 +175,21 @@ public class IdentifyResource {
 
     @GET
     @Path("/status/{id}")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response statusToResponse(@PathParam("id") @NotNull String id,@QueryParam("page") Integer page){
        LOG.info("web.page:" + page);
         LOG.info("----------------------------in status-------------------------------");
         LOG.info("status id: "+id);
         LOG.info("valid id: " + ObjectId.isValid(id));
-        String output = mongoService.getUserById("\""+id+"\"").getResults().toString();
-        if(output!=null) {
-            LOG.info("map output" + output);
-            String resultStr = "{\"results\": " + output + "}";
-            LOG.info(resultStr);
-            return ok(resultStr).build();
-        }else{
-            return ok().build();
+        User user = mongoService.getUserById(id);
+        List<Result> results = user != null ? user.getResults() : null;
+        if (results == null) {
+            results = new ArrayList<Result>();
         }
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("results", results);
+        LOG.info("map output" + body);
+        return ok(body).build();
     }
 
 }

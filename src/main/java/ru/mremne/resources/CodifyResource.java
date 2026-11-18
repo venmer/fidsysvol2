@@ -56,21 +56,33 @@ public class CodifyResource {
                     List<Integer> dotsX = new ArrayList<>(), dotsY = new ArrayList<>();
                     ResultPoints resultPoints = new ResultPoints();
                     for (JsonNode point : pointsJSON) {
-                        dotsX.add(point.get("x").asInt());
-                        dotsY.add(point.get("y").asInt());
+                        JsonNode x = point.get("x");
+                        JsonNode y = point.get("y");
+                        if (x == null || y == null) {
+                            asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                            return;
+                        }
+                        dotsX.add(x.asInt());
+                        dotsY.add(y.asInt());
                         ++k;
                         resultPoints.putInResultPoints(dotsX.get(k), dotsY.get(k));
                     }
                     //too mush points
-                    if(resultPoints.getPointList().size()>=9)
+                    if(resultPoints.getPointList().size()>=9 || resultPoints.getPointList().isEmpty()) {
                         asyncResponse.resume(Response.status(Response.Status.BAD_REQUEST).build());
-                    List<Point> poin = new ArrayList<>();
+                        return;
+                    }
+                    List<Point> poin = new ArrayList<Point>();
                     for (Area a : resultPoints.getPointList()) {
-                        System.out.println("Is this right? : " + a.getResultPoint());
+                        LOG.info("Is this right? : " + a.getResultPoint());
                         poin.add(a.getResultPoint());
 
                     }
                     Double[] angles = getAngleValue(poin);
+                    if (angles.length == 0) {
+                        asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                        return;
+                    }
                     service.addAngles(angles);
                     asyncResponse.resume(ok().build());
                 } catch (JsonMappingException e) {
@@ -82,6 +94,9 @@ public class CodifyResource {
                 } catch (IOException e) {
                     LOG.error("IO exception");
                     asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
+                } catch (Exception e) {
+                    LOG.error("codify failed", e);
+                    asyncResponse.resume(status(Response.Status.INTERNAL_SERVER_ERROR).build());
                 }
             }
         }).start();

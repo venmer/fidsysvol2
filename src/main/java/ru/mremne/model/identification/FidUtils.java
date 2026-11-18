@@ -41,11 +41,18 @@ public class FidUtils {
                 vectorA=vectors.get(i);
                 vectorB=vectors.get(j);
                 if(i!=j && vectorA.compareTo(vectorB)==0){
-                    d = (vectorA.getX() * vectorB.getX() + vectorA.getX() * vectorB.getX()) /
-                            (sqrt(pow(vectorA.getX(),2) * pow(vectorA.getY(),2))
-                                    * sqrt(pow(vectorB.getX(),2) + pow(vectorB.getY(),2)));
-                    angles.add(roundDouble(180 * (acos(d) / PI),1));
-                    LOG.info("angle: "+roundDouble(180 * (acos(d) / PI),1));
+                    double dot = vectorA.getX() * vectorB.getX() + vectorA.getY() * vectorB.getY();
+                    double normA = sqrt(pow(vectorA.getX(),2) + pow(vectorA.getY(),2));
+                    double normB = sqrt(pow(vectorB.getX(),2) + pow(vectorB.getY(),2));
+                    if (normA == 0 || normB == 0) {
+                        continue;
+                    }
+                    d = dot / (normA * normB);
+                    if (d > 1) d = 1;
+                    if (d < -1) d = -1;
+                    double angle = roundDouble(180 * (acos(d) / PI),1);
+                    angles.add(angle);
+                    LOG.info("angle: "+angle);
                     tmpcount++;
                 }else{
                     LOG.info("vectorA{"+vectorA.getX()+";"+vectorA.getY()+"] == vectorB["+vectorB.getX()+";"+vectorB.getY()+"]");

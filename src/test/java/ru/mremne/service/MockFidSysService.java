@@ -26,13 +26,13 @@ public class MockFidSysService implements Factory<FidService> {
                     }
                 });
         Mockito.when(mockedFidService.checkAngles(Mockito.<Double[]>any()))
-                .thenAnswer(new Answer<Boolean>() {
+                .thenAnswer(new Answer<ru.mremne.model.identification.Matching>() {
                     @Override
-                    public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
+                    public ru.mremne.model.identification.Matching answer(InvocationOnMock invocationOnMock) throws Throwable {
                         Double[] angles = (Double[]) invocationOnMock.getArguments()[0];
                         if (angles.length != 0)
-                            return true;
-                        else return false;
+                            return new ru.mremne.model.identification.Matching(angles.length - 1, angles.length - 1);
+                        else return new ru.mremne.model.identification.Matching(0, 0);
                     }
                 });
         return mockedFidService;

@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   neo4j:
-    image: neo4j:3.5
+    image: neo4j:community
     container_name: fidsys-neo4j
     environment:
       - NEO4J_AUTH=none
