@@ -14,7 +14,7 @@ FROM eclipse-temurin:8-jre
 WORKDIR /app
 
 COPY --from=build /build/target/spticad.war /app/spticad.war
-COPY --from=build /build/target/jetty-runner.jar /app/jetty-runner.jar
+COPY --from=build /build/target/dependency/jetty-runner.jar /app/jetty-runner.jar
 
 EXPOSE 8080
 

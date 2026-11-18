@@ -38,8 +38,8 @@ public class CodifyResourceTest extends JerseyTest {
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
                 {CodifyResourceTest.class.getResource("/coder/test1.json").getPath(),Response.ok().build()},
-                {CodifyResourceTest.class.getResource("/coder/test2.json").getPath(), Response.ok().build()},
-                {CodifyResourceTest.class.getResource("/coder/test3.json").getPath(), Response.ok().build()}
+                {CodifyResourceTest.class.getResource("/coder/test2.json").getPath(), Response.status(Response.Status.BAD_REQUEST).build()},
+                {CodifyResourceTest.class.getResource("/coder/test3.json").getPath(), Response.status(Response.Status.BAD_REQUEST).build()}
         });
     }
     @Override

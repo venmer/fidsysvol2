@@ -1,10 +1,8 @@
 package ru.mremne.resources;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import ru.mremne.model.identification.Area;
 import ru.mremne.model.identification.Point;
 import ru.mremne.model.identification.ResultPoints;
@@ -85,14 +83,8 @@ public class CodifyResource {
                     }
                     service.addAngles(angles);
                     asyncResponse.resume(ok().build());
-                } catch (JsonMappingException e) {
-                    LOG.error("json mapping exception");
-                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
-                } catch (JsonGenerationException e) {
-                    LOG.error("json generation exception");
-                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (IOException e) {
-                    LOG.error("IO exception");
+                    LOG.error("json or IO problem", e);
                     asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (Exception e) {
                     LOG.error("codify failed", e);

@@ -1,11 +1,9 @@
 package ru.mremne.resources;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import ru.mremne.model.identification.*;
 import ru.mremne.model.mongo.dao.User;
 import ru.mremne.model.mongo.dao.identification.Result;
@@ -155,14 +153,8 @@ public class IdentifyResource {
                     mongoService.saveUser(tarUser);
                     LOG.info("status is save! ");
                     asyncResponse.resume(ok().build());
-                } catch (JsonMappingException e) {
-                    LOG.error("json mapping problem");
-                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
-                } catch (JsonGenerationException e) {
-                    LOG.error("json generation problem");
-                    asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (IOException e) {
-                    LOG.error("IO exception");
+                    LOG.error("json or IO problem", e);
                     asyncResponse.resume(status(Response.Status.BAD_REQUEST).build());
                 } catch (Exception e) {
                     LOG.error("identify failed", e);
