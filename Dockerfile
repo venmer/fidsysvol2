@@ -1,5 +1,5 @@
 # ---- build stage ----
-FROM maven:3.6.3-jdk-8 AS build
+FROM maven:3.9.9-eclipse-temurin-8 AS build
 
 WORKDIR /build
 

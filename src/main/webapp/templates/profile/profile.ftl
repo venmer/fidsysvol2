@@ -1,6 +1,11 @@
 <#-- @ftlvariable name="model" type="ru.mremne.view.ViewUserData" -->
 <#import "../../layout/mainlayout.ftl" as layout />
-<@layout.layout title="FidSys.${model.authUser.login?html}" >
+<#assign pageTitle = "FidSys">
+<#if model.authUser??>
+    <#assign pageTitle = "FidSys." + model.authUser.login>
+</#if>
+<@layout.layout title=pageTitle>
+<#if model.authUser??>
 <div class="row user-info">
     <div class="col-xs-12 col-md-8">
         <div class="panel panel-default ">
@@ -11,14 +16,11 @@
                     </div>
                 </div>
             </div>
-            <#if model.authUser??>
-                <div class="panel-footer">
-                    <div class="row">
-                        Some description
-                    </div>
+            <div class="panel-footer">
+                <div class="row">
+                    Some description
                 </div>
-                </form>
-            </#if>
+            </div>
         </div>
     </div>
 
@@ -42,7 +44,7 @@
                         <label class="col-sm-5 text-right">Email</label>
 
                         <div class="col-sm-7" id="profile-email">
-                        ${model.authUser.email}
+                        ${model.authUser.email!""?html}
                         </div>
                     </div>
                 </form>
@@ -66,14 +68,14 @@
                 <th>Match</th>
                 </thead>
                 <tbody>
-                    <#if layout.user.authUser.results??>
-                        <#list layout.user.authUser.results as result>
+                    <#if model.authUser.results??>
+                        <#list model.authUser.results as result>
                         <tr>
-                            <td>${result.userId}</td>
-                            <td>${result.idResult}</td>
-                            <td>${result.status}</td>
-                            <td>${result.timestamp?number_to_datetime}</td>
-                            <td>${result.match?string["0.##"]}%</td>
+                            <td>${result.userId!""}</td>
+                            <td>${result.idResult!""}</td>
+                            <td>${result.status!""}</td>
+                            <td>${(result.timestamp?number_to_datetime)!""}</td>
+                            <td>${(result.match?string["0.##"])!""}%</td>
                         </tr>
                         </#list>
                     <#else >
@@ -81,8 +83,13 @@
                     </#if>
 
                 </tbody>
-            </table
+            </table>
         </div>
     </div>
-
+</div>
+<#else>
+<div class="alert alert-warning">
+    Please <a href="#" data-toggle="modal" data-target=".signin-modal">sign in</a> to view your profile.
+</div>
+</#if>
 </@layout.layout>

@@ -21,18 +21,19 @@ FIDsys — веб-система идентификации fiducial-меток 
 
 ## Технологии
 
-- Java 7, Maven (WAR)
+- Java 8 (исходный код `source/target 1.7`), Maven (WAR)
 - Jersey 2 (JAX-RS), Freemarker MVC, Jackson
-- Neo4j 2.0 (хранение эталонных графов, доступ через `neo4j-jdbc`)
+- Neo4j 4.4 (хранение эталонных графов, доступ через `neo4j-jdbc-http`)
 - MongoDB + Morphia (пользователи и результаты проверок)
-- Jetty (запуск и деплой), Log4j
+- Jetty 8 (запуск и деплой), Log4j
 - Тесты: JUnit, Jersey Test Framework, Mockito, Selenium/PhantomJS, Allure
 
 ## Требования
 
-- JDK 7+
+- JDK 8 (Temurin 8)
 - Maven 3
 - Запущенные MongoDB (`localhost:27017`) и Neo4j (`localhost:7474`)
+- Docker и Docker Compose — опционально
 
 ## Конфигурация
 
@@ -54,6 +55,7 @@ neo4j.port=7474
 ## Сборка и запуск
 
 ```bash
+export JAVA_HOME="$HOME/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home"
 mvn clean package          # собрать WAR (target/spticad.war)
 mvn clean jetty:run        # запустить локально
 ```
@@ -67,12 +69,15 @@ mvn clean jetty:run        # запустить локально
 
 ```bash
 docker compose up --build      # приложение + MongoDB + Neo4j
+# либо, если установлен только Compose v1:
+docker-compose up --build
 ```
 
 Приложение будет доступно на `http://localhost:8080`. В контейнере используется
 профиль `docker` (`src/main/resources/docker.properties`), в котором БД адресуются
 по именам сервисов `mongo` и `neo4j`. Данные БД хранятся в томах `mongo-data`
-и `neo4j-data`.
+и `neo4j-data`. Neo4j закреплён на версии `4.4` — она совместима с HTTP-драйвером
+`neo4j-jdbc-http` и имеет образ под `arm64`.
 
 ## HTTP API
 
@@ -80,6 +85,7 @@ docker compose up --build      # приложение + MongoDB + Neo4j
 |-------|------|----------|
 | `GET` | `/` | Главная страница |
 | `GET` | `/profile` | Профиль пользователя |
+| `GET` | `/results` | Страница с результатами проверок |
 | `GET` | `/try`, `/try/desc` | Демо-страница работы с камерой |
 | `POST` | `/auth/register` | Регистрация (`login`, `email`, `name`, `password`) |
 | `POST` | `/auth/signin` | Вход (`signin-login`, `signin-pass`) |

@@ -24,9 +24,20 @@ public class JdbcCypherExecutor implements CypherExecutor {
     @Override
     public Iterator<Map<String, Object>> query(String query, Map<String, Object> params) {
         try {
+            if (conn == null) {
+                throw new RuntimeException("can't connect to neo4j");
+            }
             final PreparedStatement statement = conn.prepareStatement(query);
             setParameters(statement, params);
-            final ResultSet result = statement.executeQuery();
+            if (!statement.execute()) {
+                statement.close();
+                return Collections.<Map<String, Object>>emptyList().iterator();
+            }
+            final ResultSet result = statement.getResultSet();
+            if (result == null) {
+                statement.close();
+                return Collections.<Map<String, Object>>emptyList().iterator();
+            }
             return new Iterator<Map<String, Object>>() {
 
                 boolean hasNext = result.next();

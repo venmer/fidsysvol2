@@ -60,9 +60,9 @@ public class FidServiceImpl implements FidService {
         int currentRun=0;
         String identyString;
         for(int i=0;i<angles.length-1;i++){
-            identyString=(IteratorUtil.asCollection(cypher.query("START n = node(*)\n" +
-                    "MATCH n-[r:"+Relationships.LEVEL+"{level:"+i+"}]->c\n" +
-                    "WHERE HAS(n.value) AND HAS(c.value) " +
+            identyString=(IteratorUtil.asCollection(cypher.query(
+                    "MATCH (n)-[r:"+Relationships.LEVEL+"{level:"+i+"}]->(c)\n" +
+                    "WHERE n.value IS NOT NULL AND c.value IS NOT NULL " +
                     "AND n.value>(" + (angles[i] - CONSTR) + ") AND n.value<(" + (angles[i] + CONSTR) + ")\n" +
                     "AND c.value>(" + (angles[i + 1] - CONSTR) + ") AND c.value<(" + (angles[i + 1] + CONSTR) + ")\n" +
                     "RETURN n, r,c", Collections.<String, Object>emptyMap())).toString());
