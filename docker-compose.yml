@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    container_name: fidsys-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+      - neo4j
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:3.6
+    container_name: fidsys-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+  neo4j:
+    image: neo4j:3.5
+    container_name: fidsys-neo4j
+    environment:
+      - NEO4J_AUTH=none
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
+  neo4j-data:
